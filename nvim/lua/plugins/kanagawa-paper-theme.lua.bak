@@ -1,0 +1,36 @@
+return{
+    "sho-87/kanagawa-paper.nvim",
+    lazy = false, -- Load the colorscheme immediately when Neovim starts
+    priority = 1000, -- Ensure it loads before other plugins
+    config = function()
+      -- Configure kanagawa-paper.nvim with your desired settings
+      require('kanagawa-paper').setup({
+        undercurl = true,             -- Enable undercurls
+        transparent = true,           -- Disable transparent background
+        gutter = false,               -- Disable custom gutter colors
+        dimInactive = true,           -- Dim inactive windows (disabled when transparent is true)
+        terminalColors = true,        -- Define terminal colors
+        commentStyle = { italic = true },
+        functionStyle = { italic = false },
+        keywordStyle = { italic = false, bold = false },
+        statementStyle = { italic = false, bold = false },
+        typeStyle = { italic = false },
+        colors = {
+          theme = {},                 -- Override default theme colors
+          palette = {},               -- Override default palette colors
+        },
+        overrides = function(colors)  -- Override highlight groups if needed
+          -- Example overrides for highlight groups
+          return {
+            String = { fg = colors.palette.carpYellow, italic = true },
+            NormalFloat = { bg = "none" },  -- Transparent background for floating windows
+            FloatBorder = { bg = "none" },
+            LazyNormal = { bg = colors.theme.ui.bg_m3, fg = colors.theme.ui.fg_dim },
+          }
+        end,
+      })
+
+      -- Load the colorscheme
+      vim.cmd("colorscheme kanagawa-paper")
+    end,
+  }

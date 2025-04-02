@@ -1,0 +1,23 @@
+% toggle between matching bookends
+
+dt, = delete till `,`
+
+"0p = register, 0, paste (latest yank, regardless of subsequent commands)
+
+ggdG = Nuclear Delete
+
+gg=G = Format entire document
+
+=% = Format till next matching pair
+
+vip = visualize a paragraph
+
+xp = swap two characters
+
+. = replay last action
+
+viw = visualize a word
+
+va" = visualize everthing inside the quotes (including the quotes)
+
+vi" = visualize everthing inside the quotes 

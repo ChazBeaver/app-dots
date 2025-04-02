@@ -1,0 +1,2 @@
+# Ignore file with local/personal address within the configuration
+nvim/lua/plugins/vimwiki.lua
