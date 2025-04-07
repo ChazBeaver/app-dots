@@ -1,40 +1,38 @@
 # app-dotfiles
 
-Terminal and CLI tool configurations including Neovim, Yazi, Zsh, Git, and Starship.
+Portable configuration files for CLI applications I use across multiple platforms. This includes editors, terminals, shells, and utilities like Neovim, Git, Zsh, and more.
 
 ## 📂 Structure
 
-- `active/` – Dotfiles currently in use (symlinked using `stow`)
-- `inactive/` – Archived or unused dotfiles (not symlinked)
-- `justfile` – Task runner for setup, backup, restore, and management
+- `active/` – Dotfiles currently in use, symlinked via `stow`
+- `justfile` – Task runner for managing dotfiles
 
 ## 🧰 Requirements
 
 - [just](https://github.com/casey/just)
 - [GNU stow](https://www.gnu.org/software/stow/)
 
-## 📦 Active Dotfiles
+## 📦 Managed Dotfiles
 
-These are expected to be inside the `active/` directory:
+These are managed under the `active/` directory:
 
-- `bash/ → ~/.bashrc`
 - `zsh/ → ~/.zshrc`
-- `git/ → ~/.gitconfig`
-- `starship/ → ~/.config/starship.toml`
+- `gitconfig/ → ~/.gitconfig`
 - `nvim/ → ~/.config/nvim`
-- `yazi/ → ~/.config/yazi`
+- *(Optional: starship, yazi, bash, etc.)*
 
 ## 🚀 Usage
 
 ```bash
-just stow      # Symlink configs from active/ to the appropriate locations
-just unstow    # Remove symlinks created by stow
-just backup    # Save current system configs to ~/backups
-just restore   # Restore backed-up configs from ~/backups
+just stow      # Symlink dotfiles from active/ to the appropriate locations
+just unstow    # Remove those symlinks
+just check     # Verify that symlinks are correctly in place
+just status    # Verify that expected files/directories exist
 ```
 
-##🧪 Notes
 
- - Only configs in active/ are stowed.
+## 🧪 Notes
 
- - Use inactive/ to store alternative configs without deleting them.
+- Only configs in active/ are symlinked.
+
+- This repo is intended to be used across multiple environments, not tied to any particular OS or desktop environment.

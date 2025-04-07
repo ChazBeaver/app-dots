@@ -16,6 +16,11 @@ unstow:
 	stow -D -t $HOME/.config nvim
 
 check:
-	ls -l ~/.zshrc
-	ls -l ~/.gitconfig
-	ls -l ~/.config/nvim/init.lua
+	test -L ~/.zshrc && echo "✔ ~/.zshrc is symlinked" || echo "✘ ~/.zshrc is NOT symlinked"
+	test -L ~/.gitconfig && echo "✔ ~/.gitconfig is symlinked" || echo "✘ ~/.gitconfig is NOT symlinked"
+	test -L ~/.config/nvim && echo "✔ ~/.config/nvim is symlinked" || echo "✘ ~/.config/nvim is NOT symlinked"
+
+status:
+	test -e ~/.zshrc && echo "✔ ~/.zshrc exists" || echo "✘ ~/.zshrc is missing"
+	test -e ~/.gitconfig && echo "✔ ~/.gitconfig exists" || echo "✘ ~/.gitconfig is missing"
+	test -e ~/.config/nvim && echo "✔ ~/.config/nvim exists" || echo "✘ ~/.config/nvim is missing"
