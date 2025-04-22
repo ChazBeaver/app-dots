@@ -1,4 +1,0 @@
-README.md
-justfile
-^inactive/$
-.gitignore

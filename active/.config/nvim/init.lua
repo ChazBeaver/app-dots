@@ -14,6 +14,9 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+-- Enable True Color Support
+vim.opt.termguicolors = true
+
 require("lazy").setup("plugins")
 require("vim-options")
 require("remaps")

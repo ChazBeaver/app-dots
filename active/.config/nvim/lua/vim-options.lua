@@ -5,9 +5,9 @@ vim.scriptencoding = "utf-8"
  
 -- Map <leader>
 vim.g.mapleader = " " -- Make sure to set `mapleader` before lazy so your mappings are correct
- 
--- Return Keymap
-vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
+--  
+-- -- Return Keymap
+-- vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
  
 -- Editor Options
 o.number = true
