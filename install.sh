@@ -111,3 +111,7 @@ if [ -d "$ACTIVE_DIR/HOME" ]; then
     fi
   done
 fi
+
+echo "✅ Finished installing all active dotfiles."
+
+echo -e "\n⚡ If you just installed or updated your .zshrc, run: \033[1;32msource ~/.zshrc\033[0m to apply changes!\n"
