@@ -1,4 +1,10 @@
 # Ignore file with local/personal address within the configuration
 
 active/.config/nvim/lua/plugins/vimwiki.lua
+active/.config/nvim/lua/plugins/lualine.lua
+active/.config/nvim/lua/plugins/rose-pine-theme.lua
+active/.config/nvim/lua/plugins/rose-pine-theme.lua.bak
+active/.config/nvim/lua/plugins/kanagawa-theme.lua
+active/.config/nvim/lua/plugins/kanagawa-theme.lua.bak
 active/zsh/.zsh_history
+active/.config/nvim/lazy-lock.json
