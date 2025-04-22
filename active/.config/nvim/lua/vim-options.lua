@@ -28,8 +28,8 @@ o.ttimeoutlen = 0
 o.wildmenu = true
 o.showcmd = true
 o.showmatch = true
-o.inccomand = "split"
-o.splitbelow = "splitright"vim.cmd("set number")
+-- o.inccomand = "split"
+-- o.splitbelow = "splitright"vim.cmd("set number")
 -- vim.cmd("set mouse=a")
 -- vim.cmd("syntax enable")
 -- vim.cmd("set showcmd")
