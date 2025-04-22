@@ -68,48 +68,36 @@ cat <<'EOF'
 
 EOF
 
-# ------------------------
-# Install active/ items
-# ------------------------
-
 echo "🔍 Scanning active/ for files and folders to link..."
 
-# 1. Handle .config folder specially
+# ------------------------
+# 1. Handle .config
+# ------------------------
+
 if [ -d "$ACTIVE_DIR/.config" ]; then
-  echo "📂 Found .config directory, processing..."
+  echo "📂 Linking items inside .config..."
   find "$ACTIVE_DIR/.config" -mindepth 1 -maxdepth 1 | while read -r item; do
+    source_path="$item"
     relative_path=".config/$(basename "$item")"
-    source_path="$ACTIVE_DIR/$relative_path"
     target_path="$HOME/$relative_path"
 
     link_item "$source_path" "$target_path"
   done
 fi
 
-# 2. Handle everything else (not .config)
-find "$ACTIVE_DIR" -mindepth 1 -maxdepth 1 ! -name '.config' | while read -r top_item; do
-  item_name="$(basename "$top_item")"
+# ------------------------
+# 2. Handle HOME
+# ------------------------
 
-  if [ -d "$top_item" ]; then
-    echo "📂 Processing directory $item_name..."
-
-    # For each item inside that top-level directory
-    find "$top_item" -mindepth 1 -maxdepth 1 | while read -r inside_item; do
-      inside_name="$(basename "$inside_item")"
-      source_path="$inside_item"
-      target_path="$HOME/$inside_name"
-
-      link_item "$source_path" "$target_path"
-    done
-
-  elif [ -f "$top_item" ]; then
-    echo "📄 Processing file $item_name..."
-    source_path="$top_item"
-    target_path="$HOME/$item_name"
+if [ -d "$ACTIVE_DIR/HOME" ]; then
+  echo "🏠 Linking items inside HOME..."
+  find "$ACTIVE_DIR/HOME" -mindepth 1 -maxdepth 1 | while read -r item; do
+    source_path="$item"
+    target_path="$HOME/$(basename "$item")"
 
     link_item "$source_path" "$target_path"
-  fi
-done
+  done
+fi
 
 echo "✅ Finished installing all active dotfiles."
 

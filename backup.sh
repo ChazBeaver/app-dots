@@ -41,7 +41,7 @@ backup_item() {
 }
 
 # ------------------------
-# Handle .config items
+# 1. Handle .config
 # ------------------------
 
 if [ -d "$ACTIVE_DIR/.config" ]; then
@@ -54,28 +54,15 @@ if [ -d "$ACTIVE_DIR/.config" ]; then
 fi
 
 # ------------------------
-# Handle everything else (outside .config)
+# 2. Handle HOME
 # ------------------------
 
-find "$ACTIVE_DIR" -mindepth 1 -maxdepth 1 ! -name '.config' | while read -r top_item; do
-  item_name="$(basename "$top_item")"
-
-  if [ -d "$top_item" ]; then
-    echo "📂 Processing directory $item_name..."
-
-    find "$top_item" -mindepth 1 -maxdepth 1 | while read -r inside_item; do
-      inside_name="$(basename "$inside_item")"
-      target_path="$HOME/$inside_name"
-
-      backup_item "$target_path"
-    done
-
-  elif [ -f "$top_item" ]; then
-    echo "📄 Processing file $item_name..."
-    target_path="$HOME/$item_name"
+if [ -d "$ACTIVE_DIR/HOME" ]; then
+  find "$ACTIVE_DIR/HOME" -mindepth 1 -maxdepth 1 | while read -r item; do
+    target_path="$HOME/$(basename "$item")"
 
     backup_item "$target_path"
-  fi
-done
+  done
+fi
 
 echo "✅ Backup complete. Safe to run install.sh now."
