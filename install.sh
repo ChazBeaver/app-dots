@@ -96,3 +96,5 @@ find "$ACTIVE_DIR" -mindepth 1 -maxdepth 1 ! -name '.config' | while read -r ite
 done
 
 echo "✅ Finished installing all active dotfiles."
+
+echo -e "\n⚡ If you just installed or updated your .zshrc, run: \033[1;32msource ~/.zshrc\033[0m to apply changes!\n"
