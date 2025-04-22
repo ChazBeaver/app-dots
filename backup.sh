@@ -59,9 +59,20 @@ fi
 
 if [ -d "$ACTIVE_DIR/HOME" ]; then
   find "$ACTIVE_DIR/HOME" -mindepth 1 -maxdepth 1 | while read -r item; do
-    target_path="$HOME/$(basename "$item")"
+    if [ -f "$item" ]; then
+      # If it's a file, backup directly
+      target_path="$HOME/$(basename "$item")"
 
-    backup_item "$target_path"
+      backup_item "$target_path"
+
+    elif [ -d "$item" ]; then
+      # If it's a directory, unpack and backup each item inside
+      find "$item" -mindepth 1 -maxdepth 1 | while read -r subitem; do
+        target_path="$HOME/$(basename "$subitem")"
+
+        backup_item "$target_path"
+      done
+    fi
   done
 fi
 

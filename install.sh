@@ -92,13 +92,22 @@ fi
 if [ -d "$ACTIVE_DIR/HOME" ]; then
   echo "🏠 Linking items inside HOME..."
   find "$ACTIVE_DIR/HOME" -mindepth 1 -maxdepth 1 | while read -r item; do
-    source_path="$item"
-    target_path="$HOME/$(basename "$item")"
+    if [ -f "$item" ]; then
+      # If it's a file, symlink directly to $HOME
+      source_path="$item"
+      target_path="$HOME/$(basename "$item")"
 
-    link_item "$source_path" "$target_path"
+      link_item "$source_path" "$target_path"
+
+    elif [ -d "$item" ]; then
+      # If it's a directory, unpack it
+      echo "📂 Unpacking directory $(basename "$item")..."
+      find "$item" -mindepth 1 -maxdepth 1 | while read -r subitem; do
+        source_path="$subitem"
+        target_path="$HOME/$(basename "$subitem")"
+
+        link_item "$source_path" "$target_path"
+      done
+    fi
   done
 fi
-
-echo "✅ Finished installing all active dotfiles."
-
-echo -e "\n⚡ If you just installed or updated your .zshrc, run: \033[1;32msource ~/.zshrc\033[0m to apply changes!\n"
