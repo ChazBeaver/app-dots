@@ -1,3 +1,4 @@
 # Ignore file with local/personal address within the configuration
 
 active/.config/nvim/lua/plugins/vimwiki.lua
+active/zsh/.zsh_history

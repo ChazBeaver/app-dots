@@ -72,9 +72,9 @@ EOF
 # Install active/ items
 # ------------------------
 
-echo "🔍 Scanning active/ for top-level files and folders to link..."
+echo "🔍 Scanning active/ for files and folders to link..."
 
-# First, handle .config if present
+# 1. Handle .config folder specially
 if [ -d "$ACTIVE_DIR/.config" ]; then
   echo "📂 Found .config directory, processing..."
   find "$ACTIVE_DIR/.config" -mindepth 1 -maxdepth 1 | while read -r item; do
@@ -86,13 +86,29 @@ if [ -d "$ACTIVE_DIR/.config" ]; then
   done
 fi
 
-# Now handle everything else (outside .config)
-find "$ACTIVE_DIR" -mindepth 1 -maxdepth 1 ! -name '.config' | while read -r item; do
-  relative_path="$(basename "$item")"
-  source_path="$item"
-  target_path="$HOME/$relative_path"
+# 2. Handle everything else (not .config)
+find "$ACTIVE_DIR" -mindepth 1 -maxdepth 1 ! -name '.config' | while read -r top_item; do
+  item_name="$(basename "$top_item")"
 
-  link_item "$source_path" "$target_path"
+  if [ -d "$top_item" ]; then
+    echo "📂 Processing directory $item_name..."
+
+    # For each item inside that top-level directory
+    find "$top_item" -mindepth 1 -maxdepth 1 | while read -r inside_item; do
+      inside_name="$(basename "$inside_item")"
+      source_path="$inside_item"
+      target_path="$HOME/$inside_name"
+
+      link_item "$source_path" "$target_path"
+    done
+
+  elif [ -f "$top_item" ]; then
+    echo "📄 Processing file $item_name..."
+    source_path="$top_item"
+    target_path="$HOME/$item_name"
+
+    link_item "$source_path" "$target_path"
+  fi
 done
 
 echo "✅ Finished installing all active dotfiles."
