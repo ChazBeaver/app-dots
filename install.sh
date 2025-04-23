@@ -12,6 +12,7 @@ ACTIVE_DIR="$SCRIPT_DIR/active"
 
 VAR_NAME="APP_DOTS_DIR"
 
+# --- Verify this project is at some level with in the $HOME dir ---
 if [ -z "${APP_DOTS_DIR:-}" ]; then
   if [[ "$SCRIPT_DIR" == "$HOME"* ]]; then
     export APP_DOTS_DIR="$SCRIPT_DIR"
@@ -21,11 +22,19 @@ if [ -z "${APP_DOTS_DIR:-}" ]; then
   fi
 fi
 
+# --- Persist to ~/.dotfiles-env.sh if missing ---
 ENV_FILE="$HOME/.dotfiles-env.sh"
 mkdir -p "$(dirname "$ENV_FILE")"
+
 if ! grep -q "$VAR_NAME=" "$ENV_FILE" 2>/dev/null; then
   echo "export $VAR_NAME=\"$SCRIPT_DIR\"" >> "$ENV_FILE"
   echo "Added $VAR_NAME to $ENV_FILE."
+fi
+
+# --- Add alias to .dotfiles-env.sh if not already present ---
+if ! grep -q 'alias appdots=' "$ENV_FILE" 2>/dev/null; then
+  echo 'alias appdots="cd \$APP_DOTS_DIR"' >> "$ENV_FILE"
+  echo "Added alias 'appdots' to $ENV_FILE."
 fi
 
 source "$ENV_FILE"

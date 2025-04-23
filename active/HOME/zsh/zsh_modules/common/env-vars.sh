@@ -12,5 +12,4 @@ if [ -f "$DOTFILES_ENV" ]; then
   # echo "✅ Loaded environment variables from $DOTFILES_ENV"
 fi
 
-echo $EDITOR
-echo $VISUAL
+export EDITOR=nvim

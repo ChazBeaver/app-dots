@@ -12,8 +12,8 @@ fi
 # ============================================================================
 
 DOTFILES_DIRS=(
-  "$HOME/Projects/app-dots"
-  # "$HOME/Projects/hypr-dots"
+  # "$HOME/Projects/app-dots"
+  "$HOME/Projects/hypr-dots"
 )
 
 for dir in "${DOTFILES_DIRS[@]}"; do
