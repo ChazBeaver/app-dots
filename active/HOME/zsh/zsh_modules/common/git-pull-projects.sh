@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+alias appdots="cd \$HOME/Projects/app-dots"
+alias hyprdots="cd \$HOME/Projects/hypr-dots"
+
 set -euo pipefail
 IFS=$'\n\t'
 
@@ -8,8 +11,6 @@ IFS=$'\n\t'
 # Pulls the latest changes using `git pull --rebase`
 # ============================================================================
 
-alias appdots = "cd $HOME/Projects/app-dots"
-alias hyprdots = "cd $HOME/Projects/hypr-dots"
 
 DOTFILES_DIRS=(
   "$HOME/Projects/app-dots"
