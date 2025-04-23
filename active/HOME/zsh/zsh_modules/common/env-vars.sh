@@ -11,3 +11,6 @@ if [ -f "$DOTFILES_ENV" ]; then
   # Optional: uncomment the next line if you want a visual confirmation
   # echo "✅ Loaded environment variables from $DOTFILES_ENV"
 fi
+
+echo $EDITOR
+echo $VISUAL
