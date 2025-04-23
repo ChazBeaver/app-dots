@@ -41,6 +41,25 @@ The script only links top-level files and folders — no deep recursion, no surp
 
 ---
 
+## 🔄 Automatic Git Pull Behavior
+
+This system includes a `git-pull-projects.sh` helper script that automatically runs `git pull --rebase` on your dotfiles repos every time a new terminal session starts.
+
+This behavior is **enabled by default** by sourcing the script inside `.zshrc`.
+
+### 🧘 Disable Auto Git Pull
+
+If you **don't want Git pulling every time you open your terminal**, you can:
+
+- **Remove or comment out** the `git-pull-projects.sh` script from the following folders:
+  - `zsh_modules/common/`
+  - `zsh_modules/linux/`
+  - `zsh_modules/macos/`
+
+I have this enabled for myself as I develop between systems
+
+---
+
 ## ✨ Coming Soon
 
 - Optional backups for conflicting files.
