@@ -16,7 +16,7 @@ No dependencies, no extra tools — just fast, clean installs.
 | Neovim     | `.config/nvim/` |
 | Starship   | `starship.toml` |
 | Yazi       | `.config/yazi/` |
-| Zsh        | `.zshrc`, `.zsh_history` |
+| Zsh        | `.zshrc` |
 
 ---
 
