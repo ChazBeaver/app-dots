@@ -20,7 +20,7 @@ No dependencies, no extra tools — just fast, clean installs.
 
 ---
 
-📦 Backup Before Install
+## 📦 Backup Before Install
 
 Before running the `install.sh` script, it's **highly recommended** to run the `backup.sh` script.
 
