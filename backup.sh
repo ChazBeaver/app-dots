@@ -1,12 +1,6 @@
 #!/usr/bin/env bash
-
 set -euo pipefail
 IFS=$'\n\t'
-
-# ============================================================================
-# Backup Script for app-dots
-# Moves existing files/folders aside with a .bak suffix before install
-# ============================================================================
 
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]:-${(%):-%N}}")" &>/dev/null && pwd)"
 ACTIVE_DIR="$SCRIPT_DIR/active"
@@ -20,60 +14,62 @@ cat << 'EOF'
 
 EOF
 
-echo "🔍 Scanning for existing files that need to be backed up..."
+detect_os() {
+  case "$(uname -s)" in
+    Darwin) echo "macos" ;;
+    Linux) echo "linux" ;;
+    *) echo "unknown" ;;
+  esac
+}
+OS=$(detect_os)
 
-# ------------------------
-# Backup Function
-# ------------------------
+echo -e "\n📦 Backing up dotfiles before installation...\n"
 
 backup_item() {
-  local target_path="$1"
-
-  if [ -e "$target_path" ] && [ ! -L "$target_path" ]; then
-    local backup_path="${target_path}.bak"
-    if [ -e "$backup_path" ]; then
-      echo "⚠️  Backup already exists for $target_path -> Skipping."
+  local path="$1"
+  if [ -e "$path" ] && [ ! -L "$path" ]; then
+    if [ -e "$path.bak" ]; then
+      echo "⚠️  Backup already exists: $path.bak (skipped)"
     else
-      mv "$target_path" "$backup_path"
-      echo "📦 Moved $target_path -> $backup_path"
+      mv "$path" "$path.bak"
+      echo "🗂  Backed up: $path → $path.bak"
     fi
   fi
 }
 
-# ------------------------
-# 1. Handle .config
-# ------------------------
+backup_home_scope() {
+  local scope="$1"
+  [ -d "$scope" ] || return
 
-if [ -d "$ACTIVE_DIR/.config" ]; then
-  find "$ACTIVE_DIR/.config" -mindepth 1 -maxdepth 1 | while read -r item; do
-    relative_path=".config/$(basename "$item")"
-    target_path="$HOME/$relative_path"
+  find "$scope" -mindepth 1 -maxdepth 1 | while read -r subdir; do
+    [ -d "$subdir" ] || continue
 
-    backup_item "$target_path"
+    find "$subdir" -mindepth 1 -maxdepth 1 | while read -r item; do
+      name="$(basename "$item")"
+      backup_item "$HOME/$name"
+    done
   done
-fi
+}
 
-# ------------------------
-# 2. Handle HOME
-# ------------------------
+backup_config_scope() {
+  local scope="$1"
+  [ -d "$scope" ] || return
 
-if [ -d "$ACTIVE_DIR/HOME" ]; then
-  find "$ACTIVE_DIR/HOME" -mindepth 1 -maxdepth 1 | while read -r item; do
-    if [ -f "$item" ]; then
-      # If it's a file, backup directly
-      target_path="$HOME/$(basename "$item")"
-
-      backup_item "$target_path"
-
-    elif [ -d "$item" ]; then
-      # If it's a directory, unpack and backup each item inside
-      find "$item" -mindepth 1 -maxdepth 1 | while read -r subitem; do
-        target_path="$HOME/$(basename "$subitem")"
-
-        backup_item "$target_path"
-      done
-    fi
+  find "$scope" -mindepth 1 -maxdepth 1 -type d | while read -r dir; do
+    name="$(basename "$dir")"
+    backup_item "$HOME/.config/$name"
   done
-fi
+}
 
-echo "✅ Backup complete. Safe to run install.sh now."
+backup_scope() {
+  local scope_dir="$1"
+  echo "🔍 Scanning: $scope_dir"
+  backup_home_scope "$scope_dir/HOME"
+  backup_config_scope "$scope_dir/.config"
+}
+
+# Back up shared and OS-specific targets
+backup_scope "$ACTIVE_DIR/shared"
+backup_scope "$ACTIVE_DIR/$OS"
+
+echo -e "\n✅ Backup complete. You’re ready to install."
