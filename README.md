@@ -25,6 +25,7 @@ No dependencies, no extra tools — just fast, clean installs.
 The install script will:
 
 - Set the `APP_DOTS_DIR` environment variable (saved in `~/.dotfiles-env.sh`).
+- Create an alias `appdots` to `cd` you to wherever you installed the app-dots project
 - Symlink configs from `active/` into `$HOME` or `$HOME/.config/` based on structure.
 - Skip anything already correctly linked.
 
@@ -43,7 +44,7 @@ The script only links top-level files and folders — no deep recursion, no surp
 
 ## 🔄 Automatic Git Pull Behavior
 
-This system includes a `git-pull-projects.sh` helper script that automatically runs `git pull --rebase` on your dotfiles repos every time a new terminal session starts.
+This system includes a `appdots-pull.sh` and a `hyprdots-pull.sh` helper script that automatically runs `git pull --rebase` on your app-dots and hypr-dots repos every time a new terminal session starts. Continue reading to find out how to disable this feature.
 
 This behavior is **enabled by default** by sourcing the script inside `.zshrc`.
 
@@ -51,20 +52,12 @@ This behavior is **enabled by default** by sourcing the script inside `.zshrc`.
 
 If you **don't want Git pulling every time you open your terminal**, you can:
 
-- **Remove or comment out** the `git-pull-projects.sh` script from the following folders:
-  - `zsh_modules/common/`
-  - `zsh_modules/linux/`
-  - `zsh_modules/macos/`
+- **Remove or comment out** (rename the filetype to .sh.bak) the following:
+
+  - `appdots-pull.sh` script from the active/shared/HOME/zsh/zsh_modules/shared folder:
+  - `hyprdots-pull.sh` script from the active/shared/HOME/zsh/zsh_modules/linux folder:
 
 I have this enabled for myself as I develop between systems
-
----
-
-## ✨ Coming Soon
-
-- Optional backups for conflicting files.
-- Install summary (e.g., number of links created, skipped).
-- Combined bootstrap script for multi-repo installs (app-dots + hypr-dots).
 
 ---
 
