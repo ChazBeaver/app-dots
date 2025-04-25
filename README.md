@@ -54,10 +54,18 @@ If you **don't want Git pulling every time you open your terminal**, you can:
 
 - **Remove or comment out** (rename the filetype to .sh.bak) the following:
 
-  - `appdots-pull.sh` script from the active/shared/HOME/zsh/zsh_modules/shared folder:
-  - `hyprdots-pull.sh` script from the active/shared/HOME/zsh/zsh_modules/linux folder:
+ - `appdots-pull.sh` script from the active/shared/HOME/zsh/zsh_modules/shared folder:
+ - `hyprdots-pull.sh` script from the active/shared/HOME/zsh/zsh_modules/linux folder:
 
 I have this enabled for myself as I develop between systems
+
+---
+
+✨ Coming Soon
+
+ - Colorscheme selector to match multiple apps to the same colorscheme
+ - Additional fzf selection for common use cases i.e. colorscheme selection, latest files, project dirs, etc.
+ - Brewfile and more content for MacOS installs
 
 ---
 
