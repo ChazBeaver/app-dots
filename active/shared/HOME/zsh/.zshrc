@@ -29,3 +29,10 @@ if [ -d "$OS_DIR" ]; then
     [ -r "$file" ] && source "$file"
   done
 fi
+
+# --- Load additional macOS-specific scripts from custom location ---
+if [ "$OS_NAME" = "macos" ] && [ -d "$HOME/Projects/work/zsh" ]; then
+  for file in "$HOME/Projects/work/zsh"/*.sh; do
+    [ -r "$file" ] && source "$file"
+  done
+fi
