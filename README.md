@@ -20,6 +20,32 @@ No dependencies, no extra tools — just fast, clean installs.
 
 ---
 
+📦 Backup Before Install
+
+Before running the `install.sh` script, it's **highly recommended** to run the `backup.sh` script.
+
+This will:
+
+ - Backup existing files in your `$HOME` or `$HOME/.config/` that would otherwise be overwritten by symlinks.
+ - Rename any conflicting files or directories by appending `.bak` (e.g., `.zshrc` → `.zshrc.bak`).
+ - Ensure a clean environment for `install.sh` to safely symlink files from the `active/` directory.
+
+This extra step keeps your previous configs safe and avoids symlink issues during installation.
+
+Run it with:
+
+```bash
+./backup.sh
+```
+
+Then proceed with:
+
+```bash
+./install.sh
+```
+
+---
+
 ## 🚀 Install
 
 The install script will:
