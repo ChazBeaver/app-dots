@@ -6,10 +6,10 @@
 BASE_DIR="$HOME/zsh_modules"
 
 # --- Source everything inside common/ ---
-COMMON_DIR="$BASE_DIR/common"
+SHARED_DIR="$BASE_DIR/shared"
 
-if [ -d "$COMMON_DIR" ]; then
-  for file in "$COMMON_DIR"/*.sh; do
+if [ -d "$SHARED_DIR" ]; then
+  for file in "$SHARED_DIR"/*.sh; do
     [ -r "$file" ] && source "$file"
   done
 fi
