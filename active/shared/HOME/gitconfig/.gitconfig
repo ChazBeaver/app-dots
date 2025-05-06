@@ -1,6 +1,8 @@
 [user]
     email = username@gmail.com
     name = User Name
+[include]
+  path = ~/.gitconfig.local
 [color]
     ui = true
 [core]
@@ -72,7 +74,5 @@
 
 [gui]
 	recentrepo = C:/Users/username/Documents/GitLab
-[credential]
-	helper = manager
 [init]
 	defaultBranch = main
