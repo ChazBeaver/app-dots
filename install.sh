@@ -26,7 +26,7 @@ cat <<'EOF'
 | | | || |   | |         | |/ /\ \_/ / | | /\__/ /
 \_| |_/\_|   \_|         |___/  \___/  \_/ \____/ 
                                                   
-            Installing App-Dots
+              Installing App-Dots
 
 EOF
 

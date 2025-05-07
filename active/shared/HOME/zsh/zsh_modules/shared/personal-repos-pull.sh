@@ -14,6 +14,7 @@ fi
 DOTFILES_DIRS=(
   "$HOME/Projects/app-dots"
   # "$HOME/Projects/hypr-dots"
+  "$HOME/Projects/wiki-notes"
 )
 
 for dir in "${DOTFILES_DIRS[@]}"; do
@@ -25,4 +26,4 @@ for dir in "${DOTFILES_DIRS[@]}"; do
   fi
 done
 
-echo "✅ All dotfiles repos updated."
+echo "✅ All personal repos updated."
