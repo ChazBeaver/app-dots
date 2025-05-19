@@ -21,4 +21,4 @@ alias y='yazi'
 alias vimdiff='nvim -d'
 alias tree='tree -C'
 # alias fzf='fzf --layout=reverse --height=80%'
-
+alias k='kubectl'
