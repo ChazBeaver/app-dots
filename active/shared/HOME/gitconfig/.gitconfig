@@ -1,8 +1,12 @@
 [user]
-    email = username@gmail.com
-    name = User Name
-[include]
-  path = ~/.gitconfig.local
+  name = User Name
+  email = username@gmail.com
+[includeIf "gitdir:~/Projects/work/"]
+  path = ~/.gitconfig.work
+[includeIf "gitdir:~/Projects/app-dots/"]
+  path = ~/.gitconfig.personal
+[includeIf "gitdir:~/Projects/wiki-notes/"]
+  path = ~/.gitconfig.personal
 [color]
     ui = true
 [core]
