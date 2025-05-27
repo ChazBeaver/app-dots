@@ -79,7 +79,12 @@ vim.keymap.set("n", "N", "Nzzzv")
 vim.keymap.set("n", "<leader><Tab>", "<C-^>",
 { desc = "Switch to previous buffer" })
  
- 
+-- Source ~/.zshrc file 
+vim.keymap.set("n", "<leader>fz", function()
+  vim.cmd("!source ~/.zshrc")
+end, { desc = "Source ~/.zshrc", silent = true })
+
+
 -- ############################################################################
 --                         Begin of markdown section
 -- ############################################################################
