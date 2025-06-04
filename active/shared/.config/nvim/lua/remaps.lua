@@ -84,6 +84,27 @@ vim.keymap.set("n", "<leader>fz", function()
   vim.cmd("!source ~/.zshrc")
 end, { desc = "Source ~/.zshrc", silent = true })
 
+-- Make file exacutable
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "netrw",
+  callback = function()
+    vim.keymap.set("n", "<leader>sh", function()
+      local filename = vim.fn.getline("."):match("%S+$")
+      local dir = vim.b.netrw_curdir
+      if filename and dir then
+        local fullpath = dir .. "/" .. filename
+        local ok = os.execute("chmod +x " .. vim.fn.shellescape(fullpath))
+        if ok == 0 then
+          print("Made executable: " .. fullpath)
+        else
+          print("Failed to chmod: " .. fullpath)
+        end
+      else
+        print("Could not determine file path")
+      end
+    end, { buffer = true, desc = "Make file executable" })
+  end,
+})
 
 -- ############################################################################
 --                         Begin of markdown section
