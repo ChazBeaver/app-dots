@@ -1,4 +1,4 @@
-# ~/.config/nvim/colors/lotus.sh
+# ~/.config/nvim/colors/black-lotus.sh
 
 color01=#d7474b  # keyword (lotusRed2)
 color02=#6e915f  # string (lotusGreen2)
@@ -10,7 +10,8 @@ color06=#e98a00  # type (lotusOrange2)
 color07=#43436c  # code block background (lotusInk2)
 color08=#545464  # heading 6 / muted (lotusInk1)
 color09=#716e61  # comments (lotusGray2)
-color10=#1f1d2e  # background (Surface)
+color10=#000000  # background BLACK LOTUS
+# color10=#1f1d2e  # background (Surface)
 color11=#e82424  # diagnostic error (lotusRed3)
 color12=#f6c177  # diagnostic warn (gold)
 

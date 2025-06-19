@@ -12,7 +12,8 @@ color06=#5a5a70  # type (muted indigo)
 color07=#121212  # code block background
 color08=#3a3a3a  # heading 6 / grey
 color09=#6b6b6b  # comments (lighter)
-color10=#0a0a0a  # background
+color10=#000000  # background
+# color10=#0a0a0a  # background
 color11=#7a4a4a  # diagnostic error
 color12=#b0a96c  # diagnostic warn (desaturated gold)
 

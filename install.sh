@@ -16,7 +16,7 @@ detect_os() {
 }
 OS=$(detect_os)
 
-# Banner
+#eBanner
 cat <<'EOF'
 
   ___  ____________      ______ _____ _____ _____ 

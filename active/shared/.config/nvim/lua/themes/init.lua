@@ -1,5 +1,5 @@
 -- ~/.config/nvim/lua/themes/init.lua
--- Loads default theme and provides :Colortheme command
+-- Loads default theme and provides :Theme command
 
 local loader = require("themes.loader")
 local apply = require("themes.apply")
@@ -10,8 +10,8 @@ local colors = loader.parse(default_name)
 apply.apply(colors)
 vim.g.colors_name = default_name
 
--- Define :Colortheme <name> command
-vim.api.nvim_create_user_command("Colortheme", function(opts)
+-- Define :Theme <name> command
+vim.api.nvim_create_user_command("Theme", function(opts)
   local name = opts.args
   local colors = loader.parse(name)
   if not next(colors) then return end

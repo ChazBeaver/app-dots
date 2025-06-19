@@ -10,7 +10,7 @@ color06=#31748f  # type (Pine)
 color07=#403d52  # code block / mid-emphasis
 color08=#6e6a86  # heading 6 / muted
 color09=#908caa  # comment / subtle
-color10=#191724  # background (Base)
+color10=#000000  # background (Base)
 color11=#eb6f92  # error underline
 color12=#f6c177  # warn underline
 

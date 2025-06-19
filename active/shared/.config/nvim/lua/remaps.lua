@@ -26,6 +26,11 @@ vim.keymap.set("n", "<leader>EH", [[:Explore ~/.<CR>]],
 { desc = "Explore Home Root Directory" })
  
 -- FUN KEYMAPS
+
+-- Theme Selector nvim/lua/themes/picker.lua
+vim.keymap.set("n", "<leader>tt", function()
+  require("themes.picker").open()
+end, { desc = "Pick a theme with preview (Telescope)" })
  
 -- Launch Lazy Menu
 vim.keymap.set("n", "<leader>l", vim.cmd.Lazy,

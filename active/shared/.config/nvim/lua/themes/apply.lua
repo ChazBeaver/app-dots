@@ -84,6 +84,65 @@ M.apply = function(colors)
   set(0, "lualine_a_normal", fg_bg("color10", "color01"))
   set(0, "lualine_b_normal", fg_bg("color14", "color17"))
   set(0, "lualine_c_normal", fg_bg("color14", "color10"))
+
+  -- Bash highlights
+  set(0, "shSetOption", fg("color01"))         -- -euo pipefail
+  set(0, "shSpecial", fg("color03"))           -- $$, $?, etc.
+  set(0, "shCommandSub", fg("color04"))        -- $(...)
+  set(0, "shDerefWordError", fg("color11"))    -- undefined vars
+  set(0, "shCmdSubRegion", fg("color05"))      -- inner part of $(...)
+  set(0, "shDerefSimple", fg("color06"))       -- $HOME, $PATH, etc.
+
+  -- Lua punctuation & calls
+  set(0, "luaFuncCall", fg("color04"))         -- require()
+  set(0, "luaTable", fg("color05"))            -- tables
+  set(0, "luaParen", fg("color09"))            -- ()
+  set(0, "luaBraces", fg("color09"))           -- {}
+  set(0, "luaComma", fg("color09"))            -- ,
+  set(0, "luaDot", fg("color09"))              -- .
+  set(0, "luaColon", fg("color09"))            -- :
+
+  -- Delimiters for general syntax (e.g. (), {}, ., ,, :)
+  set(0, "Delimiter", fg("color09"))
+
+  -- Treesitter highlight groups for Lua, Bash, and others
+  set(0, "@function.call", fg("color04"))           -- require()
+  set(0, "@function.builtin", fg("color01"))        -- built-ins like `print`
+  set(0, "@variable", fg("color05"))                -- local var, global var
+  set(0, "@keyword", fg("color01"))                 -- if, end, local
+  set(0, "@string", fg("color02"))                  -- normal strings
+  set(0, "@string.special.path", fg("color06"))     -- paths like $HOME or /bin/bash
+  set(0, "@type", fg("color03"))                    -- table, string, etc.
+  set(0, "@number", fg("color03"))                  -- 42, 3.14
+  set(0, "@punctuation.delimiter", fg("color09"))   -- , . ; :
+  set(0, "@punctuation.bracket", fg("color09"))     -- ( ) [ ] { }
+  set(0, "@punctuation.special", fg("color09"))     -- #, $, etc.
+  set(0, "@boolean", fg("color03"))
+  set(0, "@variable", fg("color05"))             -- local var, global var
+  set(0, "@constant", fg("color03"))             -- SCREAMING_SNAKE_CASE, numbers, etc.
+
+  -- Fallback for Non-Treesitter Files
+  set(0, "luaFuncCall", fg("color04"))
+  set(0, "luaBraces", fg("color09"))
+  set(0, "luaComma", fg("color09"))
+  set(0, "luaDot", fg("color09"))
+  set(0, "luaColon", fg("color09"))
+
+  vim.cmd [[
+    highlight link @punctuation.bracket Delimiter
+    highlight link @constructor Delimiter
+  ]]
+
+  vim.cmd [[
+    highlight link @punctuation.delimiter Delimiter
+    highlight link @punctuation.special Delimiter
+  ]]
+
+  vim.cmd [[
+    highlight link @variable Identifier
+    highlight link @constant Constant
+  ]]
+
 end
 
 return M
