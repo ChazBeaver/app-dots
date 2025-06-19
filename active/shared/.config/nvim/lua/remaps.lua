@@ -106,10 +106,29 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
+-- -- Show highlight group type under cursor
+-- vim.keymap.set("n", "<leader>pt", function()
+--   vim.cmd('echo synIDattr(synID(line("."), col("."), 1), "name")')
+-- end, { desc = "Show highlight group type under cursor" })
+
 -- Show highlight group type under cursor
 vim.keymap.set("n", "<leader>pt", function()
-  vim.cmd('echo synIDattr(synID(line("."), col("."), 1), "name")')
-end, { desc = "Show highlight group type under cursor" })
+  local line = vim.fn.line(".")
+  local col = vim.fn.col(".")
+  local id = vim.fn.synID(line, col, 1)
+  local trans_id = vim.fn.synIDtrans(id)
+
+  local name     = vim.fn.synIDattr(id, "name")
+  local trans    = vim.fn.synIDattr(trans_id, "name")
+  local hl       = vim.fn.synIDattr(trans_id, "fg#")
+
+  if name == "" then
+    vim.notify("No syntax group found under cursor.", vim.log.levels.WARN)
+    return
+  end
+
+  vim.notify("Group: " .. name .. "\nTrans: " .. trans .. "\nFG: " .. hl, vim.log.levels.INFO)
+end, { desc = "Show highlight group under cursor" })
 
 
 -- ############################################################################
