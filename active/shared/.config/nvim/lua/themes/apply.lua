@@ -24,7 +24,7 @@ M.apply = function(colors)
   -- :echo synIDattr(synID(line("."), col("."), 1), "name")
 
   -- Special
-  set(0, "netrwExe", fg("color24"))
+  set(0, "netrwExe", fg("color06"))
 
   -- Core UI
   set(0, "Normal", fg_bg("color14", "color10"))
