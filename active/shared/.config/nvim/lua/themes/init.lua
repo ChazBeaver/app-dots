@@ -5,7 +5,7 @@ local loader = require("themes.loader")
 local apply = require("themes.apply")
 
 -- Load default theme on startup
-local default_name = "kanagawa"
+local default_name = "kanagawa-dragon"
 local colors = loader.parse(default_name)
 apply.apply(colors)
 vim.g.colors_name = default_name
