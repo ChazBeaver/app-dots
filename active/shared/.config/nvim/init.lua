@@ -1,5 +1,6 @@
 -- Map <leader>
 vim.g.mapleader = " " -- Make sure to set `mapleader` before lazy so your mappings are correct
+vim.g.maplocalleader = " "
  
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
@@ -17,6 +18,7 @@ vim.opt.rtp:prepend(lazypath)
 -- Enable True Color Support
 vim.opt.termguicolors = true
 
+require("themes")           -- loads default theme and :Colortheme
 require("lazy").setup("plugins")
 require("vim-options")
 require("remaps")

@@ -106,6 +106,12 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
+-- Show highlight group type under cursor
+vim.keymap.set("n", "<leader>pt", function()
+  vim.cmd('echo synIDattr(synID(line("."), col("."), 1), "name")')
+end, { desc = "Show highlight group type under cursor" })
+
+
 -- ############################################################################
 --                         Begin of markdown section
 -- ############################################################################
