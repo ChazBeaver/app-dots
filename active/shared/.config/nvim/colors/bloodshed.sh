@@ -1,11 +1,11 @@
 # ~/.config/nvim/colors/bloodshed.sh
 
-color01=#7F5656  # keyword (ice water)
-color02=#8C2523  # string (cold lagoon)
-color03=#E20000  # number (frozen aqua)
-color04=#C3AA80  # function (muted violet)
-color05=#8a8a8a  # identifier (darkened mid-light grey)
-color06=#F6852E  # type (frost white)
+color01=#7F5656  # keyword (weathered rose)
+color02=#8C2523  # string (deep crimson)
+color03=#E20000  # number (signal red)
+color04=#C3A276  # function (burnished bronze)
+color05=#8a8a8a  # identifier (tempered gray)
+color06=#F6852E  # type (ember orange)
 
 color07=#121212  # code block background
 color08=#3a3a3a  # heading 6 / grey

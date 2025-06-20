@@ -7,7 +7,7 @@ local apply = require("themes.apply")
 -- Read the active theme from file
 local theme_file = vim.fn.stdpath("config") .. "/colors/active"
 local file = io.open(theme_file, "r")
-local default_name = file and file:read("*l") or "realtree-edge"
+local default_name = file and file:read("*l") or "realtree"
 if file then file:close() end
 
 -- Load default theme on startup

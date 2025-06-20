@@ -1,22 +1,18 @@
-# ~/.config/nvim/colors/monogrey-dark.sh
+# ~/.config/nvim/colors/predator.sh
 
-color01=#2383B0  # keyword (slightly brighter faded red)
-# color02=#A66D00  # string (less green, more blue)
-# color02=#008D68  # string (less green, more blue)
-color02=#0093A8  # string (less green, more blue)
-color03=#23DAFF  # number (brighter blue-grey)
-# color03=#4DDAFF  # number (brighter blue-grey)
-color04=#7174AC  # function (muted violet)
-color05=#8a8a8a  # identifier (darkened mid-light grey)
-color06=#00B8A8  # type (muted indigo)
+color01=#667C4B  # keyword (weathered rose)
+color02=#8C2523  # string (deep crimson)
+color03=#FFFFFF  # number (signal red)
+color04=#AFC199  # function (burnished bronze)
+color05=#8a8a8a  # identifier (tempered gray)
+color06=#F6852E  # type (ember orange)
 
 color07=#121212  # code block background
 color08=#3a3a3a  # heading 6 / grey
 color09=#6b6b6b  # comments (lighter)
 color10=#000000  # background
-# color10=#0a0a0a  # background
-color11=#7a4a4a  # diagnostic error
-color12=#b0a96c  # diagnostic warn (desaturated gold)
+color11=#F44336  # diagnostic error 
+color12=#B98D00  # diagnostic warn (desaturated gold)
 
 color13=#161616  # cursorline
 color14=#9e9e9e  # foreground / text (darker)

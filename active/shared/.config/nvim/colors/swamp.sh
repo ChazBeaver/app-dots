@@ -11,7 +11,6 @@ color07=#2B3328  # code block background (DiffAdd bg)
 color08=#34383C  # heading 6 / gray-violet (StatusLine bg)
 color09=#6b6b6b  # comments (lighter)
 color10=#000000  # background (Normal / NormalFloat)
-# color10=#202020  # background (Normal / NormalFloat)
 color11=#C34143  # diagnostic error (Error / DiffDelete)
 color12=#FFFEDB  # diagnostic warn (Title / ErrorMsg / WarningMsg)
 
