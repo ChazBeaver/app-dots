@@ -6,3 +6,4 @@ active/shared/.config/nvim/lua/plugins/kanagawa-theme.lua
 active/shared/.config/nvim/lazy-lock.json
 active/shared/HOME/zsh/zsh_modules/macos/work.sh
 .gitconfig.local
+active/shared/.config/nvim/colors/active
