@@ -4,7 +4,6 @@ color01=#e25da0  # keyword        (glowing pink lotus)
 color02=#fcae83  # string         (peachy-pink lotus petals)
 color03=#f0b969  # number         (golden lotus light)
 color04=#81f1ff  # function       (misty cyan blue)
-# color04=#88bff1  # function       (misty cyan blue)
 color05=#cfa2f2  # identifier     (lotus edge purple)
 color06=#f97f60  # type           (sunset coral)
 

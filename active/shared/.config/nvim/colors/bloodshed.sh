@@ -1,4 +1,4 @@
-# ~/.config/nvim/colors/coldsteel.sh
+# ~/.config/nvim/colors/bloodshed.sh
 
 color01=#7F5656  # keyword (ice water)
 color02=#8C2523  # string (cold lagoon)
