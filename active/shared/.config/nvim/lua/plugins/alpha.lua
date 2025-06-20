@@ -1,4 +1,4 @@
---- @type LazyPluginSpec
+-- @type LazyPluginSpec
 return {
     "goolord/alpha-nvim",
     event = "VimEnter",
