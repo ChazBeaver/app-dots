@@ -1,20 +1,16 @@
-# ~/.config/nvim/colors/monogrey-dark.sh
+# ~/.config/nvim/colors/coldsteel.sh
 
-color01=#2383B0  # keyword (slightly brighter faded red)
-# color02=#A66D00  # string (less green, more blue)
-# color02=#008D68  # string (less green, more blue)
-color02=#0093A8  # string (less green, more blue)
-color03=#23DAFF  # number (brighter blue-grey)
-# color03=#4DDAFF  # number (brighter blue-grey)
-color04=#7174AC  # function (muted violet)
+color01=#2383B0  # keyword (ice water)
+color02=#009BA8  # string (cold lagoon)
+color03=#21C8ED  # number (frozen aqua)
+color04=#887A9E  # function (muted violet)
 color05=#8a8a8a  # identifier (darkened mid-light grey)
-color06=#00B8A8  # type (muted indigo)
+color06=#B0EAF2  # type (frost white)
 
 color07=#121212  # code block background
 color08=#3a3a3a  # heading 6 / grey
 color09=#6b6b6b  # comments (lighter)
 color10=#000000  # background
-# color10=#0a0a0a  # background
 color11=#7a4a4a  # diagnostic error
 color12=#b0a96c  # diagnostic warn (desaturated gold)
 

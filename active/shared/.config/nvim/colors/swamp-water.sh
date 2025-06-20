@@ -1,15 +1,15 @@
 # twilight.sh — adapted from cosec-twilight.nvim Neovim highlight colors
 
-color01=#cccccc  # keyword        (Statement)
+color01=#D6D6D6  # keyword        (Statement)
 color02=#A2A970  # string         (String)
-color03=#6f7b68  # number         (Number / Boolean)
-color04=#AA9AAC  # function       (Function / Structure)
-color05=#8B9698  # identifier     (Identifier / PreProc / Todo)
+color03=#6A865F  # number         (Number / Boolean)
+color04=#B496B6  # function       (Function / Structure)
+color05=#8BADA6  # identifier     (Identifier / PreProc / Todo)
 color06=#DEBF7C  # type           (Operator)
 
 color07=#2B3328  # code block background (DiffAdd bg)
 color08=#34383C  # heading 6 / gray-violet (StatusLine bg)
-color09=#6f7b68  # comments (Comment / TSComment / Float / Number)
+color09=#6b6b6b  # comments (lighter)
 color10=#000000  # background (Normal / NormalFloat)
 # color10=#202020  # background (Normal / NormalFloat)
 color11=#C34143  # diagnostic error (Error / DiffDelete)
