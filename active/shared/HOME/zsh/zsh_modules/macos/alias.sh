@@ -9,3 +9,8 @@ edit-ghostty() {
 edit-starship() {
     vim $HOME/.config/starship.toml
 }
+
+alias la="eza -lah --icons --grid --group-directories-first"
+alias ll="eza -la --icons --grid --group-directories-first"
+alias ls="eza --icons"
+alias tree="eza --tree"

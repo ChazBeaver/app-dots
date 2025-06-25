@@ -13,7 +13,7 @@ format = "\$directory\$git_branch\$git_status\$fill\$lua\$python\$nodejs\$kubern
 palette = "temp"
 
 [directory]
-format = "[$path ](\$style)"
+format = "[\$path ](\$style)"
 style = "bold fg:matte_blue"
 truncate_to_repo = false
 truncation_length = 3

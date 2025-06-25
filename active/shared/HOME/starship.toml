@@ -1,5 +1,8 @@
+# Starship config generated for theme: swamp
+
 format = "$directory$git_branch$git_status$fill$lua$python$nodejs$kubernetes$aws$docker_context$golang$terraform$jobs$cmd_duration$line_break$character\n"
 palette = "temp"
+
 [directory]
 format = "[$path ]($style)"
 style = "bold fg:matte_blue"
@@ -21,16 +24,15 @@ format = "([$all_status$ahead_behind]($style) )"
 style = "fg:matte_green"
 
 [palettes.temp]
-blue = "#5B94CD"
-dark_blue = "#5E81AC"
-gray = "#434C5E"
-green = "#91CA61"
-matte_blue = "#8DADCD"
-matte_green = "#A3BE8C"
-orange = "#D08870"
-purple = "#B48EAD"
-red = "#BF616A"
-tan = "#F4DC9A"
-teal = "#3ACDE7"
-yellow = "#EBCB8B"
-
+blue = "#B496B6"
+dark_blue = "#FFFEDB"
+gray = "#000000"
+green = "#A2A970"
+matte_blue = "#B496B6"
+matte_green = "#A2A970"
+orange = "#6A865F"
+purple = "#8BADA6"
+red = "#D6D6D6"
+tan = "#DEBF7C"
+teal = "#6A865F"
+yellow = "#8BADA6"
