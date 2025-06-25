@@ -20,7 +20,7 @@ bold_font auto
 italic_font auto
 bold_italic_font auto
 
-background_opacity 0.9
+background_opacity 1.0
 confirm_os_window_close 0
 linux_display_server auto
 
@@ -44,12 +44,12 @@ allow_remote_control yes
 hide_window_decorations titlebar-only
 
 cursor_shape block
-cursor_block_thickness 1.5
 cursor_beam_thickness 1.5
 cursor_underline_thickness 2.0
 cursor_blink_interval -1
 cursor_stop_blinking_after 15.0
 cursor_trail 3
+shell_integration no-cursor
 EOF
 
 # Write theme palette file
