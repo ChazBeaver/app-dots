@@ -1,31 +1,28 @@
-# Realtree Lotus Theme — woodland inspired, orange punctuation
+# realtree.sh — Generated from centralized color system
 
-color01=#9c5a3c  # keyword        (earthy bark brown)
-color02=#6a825f  # string         (mossy green)
-color03=#c0a759  # number         (dry grass gold)
-color04=#7e8686  # function       (weathered granite)
-color05=#5f7362  # identifier     (muted olive)
-color06=#cc6d00  # type           (burnt orange / punctuation color)
-
-color07=#2e2e2a  # code block background (shaded forest floor)
-color08=#4a4a3f  # muted text     (lichen-covered stone)
-color09=#696658  # comments       (soft bark gray)
-color10=#000000  # background     (SOLID black) 
-# color10=#181815  # background     (deep shadowed bark)
-color11=#ba4a3d  # diagnostic error (dried blood red)
-color12=#e6b95f  # diagnostic warn  (desaturated gold)
-
-color13=#33322d  # cursorline     (light dirt overlay)
-color14=#c7c0b2  # foreground     (dry birch bark)
-color15=#898475  # dim inactive   (faded branch)
-color16=#504c45  # visual selection (highlighted leaf litter)
-color17=#282722  # statusline active (tree shadow)
-color18=#4e8c70  # heading alt 1  (pine needle green)
-color19=#5d5766  # heading alt 2  (overcast slate)
-color20=#766b50  # heading alt 3  (dead twig brown)
-color21=#976b60  # heading alt 4  (light clay pink)
-color22=#6f894e  # heading alt 5  (evergreen leaf)
-color23=#b07f5a  # heading alt 6  (weathered cedar)
-color24=#cc6d00  # cursor         (burnt orange)
-color25=#1f1d1a  # statusline inactive (very dark brown)
-color26=#e4ddc2  # heading foreground (pale parchment)
+color01=#9c5a3c
+color02=#6a825f
+color03=#c0a759
+color04=#7e8686
+color05=#5f7362
+color06=#cc6d00
+color07=#2e2e2a
+color08=#4a4a3f
+color09=#696658
+color10=#000000
+color11=#ba4a3d
+color12=#e6b95f
+color13=#33322d
+color14=#c7c0b2
+color15=#898475
+color16=#504c45
+color17=#282722
+color18=#4e8c70
+color19=#5d5766
+color20=#766b50
+color21=#976b60
+color22=#6f894e
+color23=#b07f5a
+color24=#cc6d00
+color25=#1f1d1a
+color26=#e4ddc2

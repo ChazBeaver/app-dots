@@ -1,30 +1,28 @@
-# ~/.config/nvim/colors/kanagawa-dragon.sh
+# kanagawa-dragon.sh — Generated from centralized color system
 
-color01=#c4746e  # keyword (dragonRed)
-color02=#87a987  # string (dragonGreen)
-color03=#c4b28a  # number (dragonYellow)
-color04=#a292a3  # function (dragonPink)
-color05=#8ea4a2  # identifier (dragonAqua)
-color06=#b98d7b  # type (dragonOrange2)
-
-color07=#282727  # code block background (dragonBlack4)
-color08=#625e5a  # heading 6 / muted (dragonBlack6)
-color09=#737c73  # comments (dragonAsh)
-color10=#0d0c0c  # background (dragonBlack0)
-color11=#E82424  # diagnostic error (samuraiRed)
-color12=#FF9E3B  # diagnostic warn (roninYellow)
-
-color13=#1D1C19  # cursorline (dragonBlack2)
-color14=#c5c9c5  # foreground (dragonWhite)
-color15=#393836  # dim inactive (dragonBlack5)
-color16=#12120f  # visual selection (dragonBlack1)
-color17=#181616  # statusline active (dragonBlack3)
-color18=#8ba4b0  # heading alt 1 (dragonBlue2)
-color19=#8992a7  # heading alt 2 (dragonViolet)
-color20=#949fb5  # heading alt 3 (dragonTeal)
-color21=#b6927b  # heading alt 4 (dragonOrange)
-color22=#8a9a7b  # heading alt 5 (dragonGreen2)
-color23=#a6a69c  # heading alt 6 (dragonGray)
-color24=#FF5D62  # cursor (peachRed)
-color25=#1D1C19  # statusline inactive (dragonBlack2)
-color26=#c5c9c5  # heading foreground (dragonWhite)
+color01=#c4746e
+color02=#87a987
+color03=#c4b28a
+color04=#a292a3
+color05=#8ea4a2
+color06=#b98d7b
+color07=#282727
+color08=#625e5a
+color09=#737c73
+color10=#0d0c0c
+color11=#E82424
+color12=#FF9E3B
+color13=#1D1C19
+color14=#c5c9c5
+color15=#393836
+color16=#12120f
+color17=#181616
+color18=#8ba4b0
+color19=#8992a7
+color20=#949fb5
+color21=#b6927b
+color22=#8a9a7b
+color23=#a6a69c
+color24=#FF5D62
+color25=#1D1C19
+color26=#c5c9c5
