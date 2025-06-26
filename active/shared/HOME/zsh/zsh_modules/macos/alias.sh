@@ -10,7 +10,11 @@ edit-starship() {
     vim $HOME/.config/starship.toml
 }
 
-alias la="eza -lah --icons --grid --group-directories-first"
-alias ll="eza -la --icons --grid --group-directories-first"
-alias ls="eza --icons"
+kill-kitty() {
+  osascript -e 'quit app "kitty"'
+}
+alias kk="kill-kitty"
+
+alias la="eza -lahG --icons --grid --group-directories-first"
+alias ls="eza -lah --icons --group-directories-first"
 alias tree="eza --tree"
