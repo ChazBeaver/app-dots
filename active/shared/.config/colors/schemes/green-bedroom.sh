@@ -8,7 +8,7 @@ color06=#f1f7ff  # type (window light)
 color07=#0e1b17  # code block background (deep green shadow)
 color08=#1f2f2b  # heading 6 / softened jade
 color09=#60776a  # comments (potted leaf tone)
-color10=#0b120e  # background (dark plant base)
+color10=#000000  # background (dark plant base)
 color11=#d37474  # diagnostic error (soft brick)
 color12=#b8a74d  # diagnostic warn (sun-soaked gold)
 

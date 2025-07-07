@@ -8,7 +8,7 @@ color06=#f3f3e0  # type (sun haze)
 color07=#101711  # code block background (mountain shadow)
 color08=#1c291c  # heading 6 / hill shadow
 color09=#515e50  # comments (mossy path)
-color10=#0a100a  # background (forest floor)
+color10=#000000  # background (forest floor)
 color11=#b87777  # diagnostic error (earth rust)
 color12=#c3ad5f  # diagnostic warn (high plain gold)
 

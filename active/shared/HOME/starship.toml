@@ -1,4 +1,4 @@
-# Starship config generated for theme: swamp
+# Starship config generated for theme: kanagawa-dragon
 
 format = "$directory$git_branch$git_status$fill$lua$python$nodejs$kubernetes$aws$docker_context$golang$terraform$jobs$cmd_duration$line_break$character\n"
 palette = "temp"
@@ -24,15 +24,15 @@ format = "([$all_status$ahead_behind]($style) )"
 style = "fg:matte_green"
 
 [palettes.temp]
-blue = "#B496B6"
-dark_blue = "#FFFEDB"
-gray = "#000000"
-green = "#A2A970"
-matte_blue = "#B496B6"
-matte_green = "#A2A970"
-orange = "#6A865F"
-purple = "#8BADA6"
-red = "#D6D6D6"
-tan = "#DEBF7C"
-teal = "#6A865F"
-yellow = "#8BADA6"
+blue = "#a292a3"
+dark_blue = "#FF9E3B"
+gray = "#0d0c0c"
+green = "#87a987"
+matte_blue = "#a292a3"
+matte_green = "#87a987"
+orange = "#c4b28a"
+purple = "#8ea4a2"
+red = "#c4746e"
+tan = "#b98d7b"
+teal = "#c4b28a"
+yellow = "#8ea4a2"
