@@ -1,4 +1,4 @@
-# Starship config generated for theme: kanagawa-dragon
+# Starship config generated for theme: realtree
 
 format = "$directory$git_branch$git_status$fill$lua$python$nodejs$kubernetes$aws$docker_context$golang$terraform$jobs$cmd_duration$line_break$character\n"
 palette = "temp"
@@ -24,15 +24,15 @@ format = "([$all_status$ahead_behind]($style) )"
 style = "fg:matte_green"
 
 [palettes.temp]
-blue = "#a292a3"
-dark_blue = "#FF9E3B"
-gray = "#0d0c0c"
-green = "#87a987"
-matte_blue = "#a292a3"
-matte_green = "#87a987"
-orange = "#c4b28a"
-purple = "#8ea4a2"
-red = "#c4746e"
-tan = "#b98d7b"
-teal = "#c4b28a"
-yellow = "#8ea4a2"
+blue = "#7e8686"
+dark_blue = "#e6b95f"
+gray = "#000000"
+green = "#6a825f"
+matte_blue = "#7e8686"
+matte_green = "#6a825f"
+orange = "#c0a759"
+purple = "#5f7362"
+red = "#9c5a3c"
+tan = "#cc6d00"
+teal = "#c0a759"
+yellow = "#5f7362"

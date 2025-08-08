@@ -62,7 +62,7 @@ vim.keymap.set("n", "<leader>yfp",
 )
 
 -- Copy the name of the file being worked on currently
-vim.keymap.set("n", "<leader>fn", function()
+vim.keymap.set("n", "<leader>yfn", function()
   vim.fn.setreg("+", vim.fn.expand("%:t"))
   print("Copied: " .. vim.fn.expand("%:t"))
 end, { desc = "Copy file name to clipboard" })

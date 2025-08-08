@@ -54,3 +54,42 @@ stashpull() {
 
   echo "✅ Done: pulled latest and reapplied your changes."
 }
+
+# Git Merge Main into Feature-Branch
+mm() {
+  # Get the current branch
+  local branch
+  branch=$(git symbolic-ref --short HEAD 2>/dev/null)
+
+  if [ -z "$branch" ]; then
+    echo "❌ Not on a Git branch or not in a Git repository."
+    return 1
+  fi
+
+  echo "📍 Current branch: $branch"
+
+  # Fetch latest from origin
+  echo "🔄 Fetching latest changes from origin..."
+  git fetch origin || return 1
+
+  # Merge main into the current branch
+  echo "📦 Merging origin/main into $branch..."
+  git merge origin/main
+
+  echo "✅ Merge complete. '$branch' now includes 'origin/main'."
+}
+
+# Git Push Origin Upstream
+gp() {
+  # Get the current branch name
+  local branch
+  branch=$(git symbolic-ref --short HEAD 2>/dev/null)
+
+  if [ -z "$branch" ]; then
+    echo "❌ Not on a Git branch or not a Git repository."
+    return 1
+  fi
+
+  echo "🚀 Pushing '$branch' to origin with upstream tracking..."
+  git push -u origin "$branch"
+}
