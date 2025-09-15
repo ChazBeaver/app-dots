@@ -1,30 +1,28 @@
-# halloween-dark.sh — orange, violet, and haunted night on black
+# halloween-dark.sh — Generated from centralized color system
 
-color01=#dd7733  # keyword - pumpkin orange
-color02=#88a060  # string - dead grass green
-color03=#e0a050  # number - burnt gold
-color04=#8c5dc4  # function - spooky purple
-color05=#aaaaaa  # identifier - fog gray
-color06=#c2671f  # type - deeper orange
-
-color07=#1a1a1a  # code block background
-color08=#393939  # heading 6 / gray
-color09=#5a5a5a  # comments
-color10=#000000  # background
-color11=#ff4444  # diagnostic error (bloody red)
-color12=#e69c4f  # diagnostic warn (muted harvest orange)
-
-color13=#1f1f1f  # cursorline
-color14=#f0f0f0  # foreground / text
-color15=#2a2a2a  # dim inactive
-color16=#2d2d2d  # visual selection
-color17=#121212  # statusline active
-color18=#505050  # heading alt 1
-color19=#646464  # heading alt 2
-color20=#777777  # heading alt 3
-color21=#8c5dc4  # heading alt 4 (purple)
-color22=#88a060  # heading alt 5 (green)
-color23=#dd7733  # heading alt 6 (orange)
-color24=#ffae42  # cursor (candy corn orange)
-color25=#191919  # statusline inactive
-color26=#f9f9f9  # heading foreground
+color01=#dd7733   # Keyword / Statement / Function.builtin
+color02=#88a060   # String / Git Add
+color03=#e0a050   # Number / Constant / Type / Boolean
+color04=#8c5dc4   # Function / Function.call / Directory / shCommandSub
+color05=#aaaaaa   # Identifier / Variable / Git Change
+color06=#c2671f   # Type / Special string paths / Executable / Symbolic links
+color07=#1a1a1a   # Code block background (rarely used directly)
+color08=#393939   # Heading 6 / subtle UI (not currently used)
+color09=#5a5a5a   # Comments / LineNr / NonText / Delimiters / Punctuation
+color10=#000000   # Background / StatusLine accent / lualine A fg
+color11=#ff4444   # Error / Git Delete / shError
+color12=#e69c4f   # Warning
+color13=#1f1f1f   # CursorLine
+color14=#f0f0f0   # Foreground / Default text / Selected menu item / StatusLine fg
+color15=#2a2a2a   # Unused (reserved for future use)
+color16=#2d2d2d   # Highlight Color (Visual selection / Menu selected bg / Telescope selection bg)
+color17=#121212   # StatusLine / Completion Menu / LSP reference background / Telescope border
+color18=#505050   # Heading 1 (unused directly)
+color19=#646464   # Heading 2 (unused directly)
+color20=#777777   # Heading 3 (unused directly)
+color21=#8c5dc4   # Heading 4 (unused directly)
+color22=#88a060   # Unused (reserved)
+color23=#dd7733   # Unused (reserved)
+color24=#ffae42   # Unused (reserved)
+color25=#191919   # Non-active split borders / Telescope results border
+color26=#f9f9f9   # Unused (reserved)
