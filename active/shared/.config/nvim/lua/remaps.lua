@@ -52,6 +52,10 @@ vim.keymap.set("v", "<leader>n", [[:norm ]],
 vim.keymap.set("n", "<leader>ya", [[ggVG"+y]],
   { desc = "Copy entire file to clipboard" })
 
+-- Highlight the entire file
+vim.keymap.set("n", "<leader>va", [[ggVG]],
+  { desc = "Highlight the entire file" })
+
 -- Copy filepath to clipboard
 vim.keymap.set("n", "<leader>yfp",
   function()
