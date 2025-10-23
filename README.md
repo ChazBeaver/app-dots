@@ -92,6 +92,7 @@ I have this enabled for myself as I develop between systems
  - Colorscheme selector to match multiple apps to the same colorscheme
  - Additional fzf selection for common use cases i.e. colorscheme selection, latest files, project dirs, etc.
  - Brewfile and more content for MacOS installs
+ - Custom Spellcheck System for Neovim with on/off toggle
 
 ---
 
