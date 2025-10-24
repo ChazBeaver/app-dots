@@ -1,5 +1,6 @@
 # Checkout & Update branch from Origin
-update-branch() {
+ub() {
+  # Update-Branch
   local branch="$1"
   git checkout "$branch" && git pull origin "$branch"
 }
