@@ -14,8 +14,8 @@ mkcd() {
 # Search History using FZF
 hf() {
   local cmd
-  cmd=$(sed -E 's/^[^;]*;//' ~/.zsh_history | fzf --tac) || return
-  print -z "$cmd"
+  cmd=$(fc -lnr 1 | fzf --tac) || return
+  print -z -- "$cmd"
 }
 
 # Select Theme for Zsh, Neovim, Kitty, Starship, and Btop
