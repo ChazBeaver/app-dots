@@ -19,14 +19,14 @@ OS=$(detect_os)
 #eBanner
 cat <<'EOF'
 
-  ___  ____________      ______ _____ _____ _____ 
- / _ \ | ___ \ ___ \     |  _  \  _  |_   _/  ___|
-/ /_\ \| |_/ / |_/ /_____| | | | | | | | | \ `--. 
-|  _  ||  __/|  __/______| | | | | | | | |  `--. \
-| | | || |   | |         | |/ /\ \_/ / | | /\__/ /
-\_| |_/\_|   \_|         |___/  \___/  \_/ \____/ 
+  ___  ____________ ______ _____ _____ _____ 
+ / _ \ | ___ \ ___ \|  _  \  _  |_   _/  ___|
+/ /_\ \| |_/ / |_/ /| | | | | | | | | \ `--. 
+|  _  ||  __/|  __/ | | | | | | | | |  `--. \
+| | | || |   | |    | |/ /\ \_/ / | | /\__/ /
+\_| |_/\_|   \_|    |___/  \___/  \_/ \____/ 
                                                   
-              Installing App-Dots
+              Installing Appdots
 
 EOF
 
@@ -36,7 +36,7 @@ if [ -z "${APP_DOTS_DIR:-}" ]; then
     export APP_DOTS_DIR="$SCRIPT_DIR"
     echo "Set APP_DOTS_DIR to $SCRIPT_DIR"
   else
-    echo "Warning: app-dots not inside home directory. Please set APP_DOTS_DIR manually."
+    echo "Warning: appdots not inside home directory. Please set APP_DOTS_DIR manually."
   fi
 fi
 
