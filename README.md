@@ -51,7 +51,7 @@ Then proceed with:
 The install script will:
 
 - Set the `APP_DOTS_DIR` environment variable (saved in `~/.dotfiles-env.sh`).
-- Create an alias `appdots` to `cd` you to wherever you installed the app-dots project
+- Create an alias `appdots` to `cd` you to wherever you installed the appdots project
 - Symlink configs from `active/` into `$HOME` or `$HOME/.config/` based on structure.
 - Skip anything already correctly linked.
 
@@ -70,7 +70,7 @@ The script only links top-level files and folders — no deep recursion, no surp
 
 ## 🔄 Automatic Git Pull Behavior
 
-This system includes a `appdots-pull.sh` and a `hyprdots-pull.sh` helper script that automatically runs `git pull --rebase` on your app-dots and hypr-dots repos every time a new terminal session starts. Continue reading to find out how to disable this feature.
+This system includes a `appdots-pull.sh` and a `hyprdots-pull.sh` helper script that automatically runs `git pull --rebase` on your appdots and hypr-dots repos every time a new terminal session starts. Continue reading to find out how to disable this feature.
 
 This behavior is **enabled by default** by sourcing the script inside `.zshrc`.
 
