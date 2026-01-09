@@ -1,5 +1,5 @@
 edit-zmodules() {
-    vim "~/Projects/app-dots/active/shared/HOME/zsh/zsh_modules/"
+    vim "~/Projects/appdots/active/shared/HOME/zsh/zsh_modules/"
 }
 
 edit-zshrc() {

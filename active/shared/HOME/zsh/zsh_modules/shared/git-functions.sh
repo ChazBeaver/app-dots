@@ -52,7 +52,7 @@ mm() {
 }
 
 # Git Push Origin Upstream
-gp() {
+gpush() {
   # Get the current branch name
   local branch
   branch=$(git symbolic-ref --short HEAD 2>/dev/null)
@@ -64,4 +64,12 @@ gp() {
 
   echo "🚀 Pushing '$branch' to origin with upstream tracking..."
   git push -u origin "$branch"
+}
+
+# RUN AFTER MERGING MAIN INTO BRANCH
+# Compare changes made in current branch to main branch
+# see which files are unique to current branch compared to main
+
+branchvsmain() {
+  git diff --name-status origin/main...HEAD
 }
