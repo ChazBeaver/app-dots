@@ -8,3 +8,5 @@ active/shared/HOME/zsh/zsh_modules/macos/work.sh
 .gitconfig.local
 active/shared/.config/nvim/colors/active
 active/shared/.config/kitty/themes
+active/shared/.config/kitty/kitty.conf
+active/shared/.config/nvim/lua/plugins/vimwiki.lua.bak
