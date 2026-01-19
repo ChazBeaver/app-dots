@@ -3,9 +3,9 @@
   email = username@email.com
 [includeIf "gitdir:~/Projects/work/"]
   path = ~/.gitconfig.work
-[includeIf "gitdir:~/Projects/app-dots/"]
+[includeIf "gitdir:~/Projects/appdots/"]
   path = ~/.gitconfig.personal
-[includeIf "gitdir:~/Projects/wiki-notes/"]
+[includeIf "gitdir:~/Projects/wikinotes/"]
   path = ~/.gitconfig.personal
 [color]
     ui = true
