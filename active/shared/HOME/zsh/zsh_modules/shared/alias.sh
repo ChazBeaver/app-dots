@@ -12,6 +12,7 @@ alias doc='cd ~/Documents'
 alias pro='cd ~/Projects'
 alias pic='cd ~/Pictures'
 alias dow='cd ~/Downloads'
+alias bak='cd ~/Backups'
 # Actions
 alias chx='chmod +x'
 alias chax='chmod a+x'
