@@ -113,44 +113,32 @@ glb() {
 #   $(gsb)
 gsb() {
   local repo="${1:-$PWD}"
-  local selection cmd
+  local selection cmd local_branch
 
-  # Avoid alias collisions (zsh)
   unalias gsb 2>/dev/null
 
-  if ! command -v fzf >/dev/null 2>&1; then
-    echo "fzf not found in PATH" >&2
-    return 1
-  fi
-
-  if ! git -C "$repo" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
-    echo "Not a git repo: $repo" >&2
-    return 1
-  fi
+  command -v fzf >/dev/null 2>&1 || { echo "fzf not found in PATH" >&2; return 1; }
+  git -C "$repo" rev-parse --is-inside-work-tree >/dev/null 2>&1 || { echo "Not a git repo: $repo" >&2; return 1; }
 
   selection="$(
     {
-      # local branches
       git -C "$repo" branch --format='%(refname:short)'
-
-      # remote branches (origin/*), excluding origin/HEAD
       git -C "$repo" branch -r --format='%(refname:short)' \
         | grep -E '^origin/' \
         | grep -vE '^origin/HEAD$'
-    } | awk '!seen[$0]++' \
+    } | awk 'NF && !seen[$0]++' \
       | fzf --prompt="branch> "
-  )" || return 0  # cancel = no output, no error
+  )" || return
 
-  [[ -z "$selection" ]] && return 0
+  [[ -z "$selection" ]] && return
 
-  # If user picked a remote branch origin/foo, print a command that creates local foo tracking origin/foo
   if [[ "$selection" == origin/* ]]; then
-    local local_branch="${selection#origin/}"
+    local_branch="${selection#origin/}"
     cmd="git -C \"$repo\" switch -c \"$local_branch\" --track \"$selection\""
   else
     cmd="git -C \"$repo\" switch \"$selection\""
   fi
 
-  printf '%s\n' "$cmd"
+  print -z -- "$cmd"
 }
 
