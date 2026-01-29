@@ -73,14 +73,14 @@ gbh() {
 gb* helpers:
 
   gbh             Show this help.
-  gbl [repo]      Print local + origin/* branches for a repo.
-  gbs [repo]      Pick a branch via fzf and INSERT a safe 'git switch ...' command into your prompt (does not run).
-  gbu <branch>    Checkout <branch> and pull latest from origin/<branch>.
-  gbp             Fetch + prune remote-tracking refs; show local branches with upstream gone.
-  gbr [base]      Branch report (read-only): shows Active, Merged, Upstream-gone, and Stale (by date) categories.
-  gbd [base]      Pick "dead" local branches (Merged into base OR Upstream gone) via fzf (multi-select)
-                 and INSERT a delete command into your prompt (does not run).
-  gbsu            List local branches sorted by last commit date (helps spot stale/unused branches).
+  gbl [repo]      LIST local + origin/* branches for a repo.
+  gbs [repo]      SWITCH to branch for a repo
+  gbu <branch>    UPDATE branch -> ex: gbu main
+  gbp             PRUNE remote-tracking refs (after Fetch); show local branches with upstream gone.
+  gbr [base]      REPORT (read-only): shows Active, Merged, Upstream-gone, and Stale (by date) categories.
+  gbd [base]      DELETE -> Pick "dead" local branches (Merged into base OR Upstream gone) via fzf (multi-select)
+                    - and INSERT a delete command into your prompt (does not run).
+  gbsu            STALE and UNUSED branches
 
 Categories:
   - Active (not merged): keep
