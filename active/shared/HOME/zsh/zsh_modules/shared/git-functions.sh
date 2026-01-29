@@ -1,10 +1,3 @@
-# Checkout & Update branch from Origin
-ub() {
-  # Update-Branch
-  local branch="$1"
-  git checkout "$branch" && git pull origin "$branch"
-}
-
 # Git stash current work, pull updates, stash pop work back in place
 stashpull() {
   local message="stashing to pull latest"
@@ -74,25 +67,26 @@ branchvsmain() {
   git diff --name-status origin/main...HEAD
 }
 
-# List branches for a repo (current dir by default)
-# Usage:
-#   gbl
-#   gbl /path/to/repo
 # ---------- gbh: quick help ----------
 gbh() {
   cat <<'EOF'
 gb* helpers:
 
-  gbh           Show this help.
-  gbl [repo]    Print local + origin/* branches for a repo.
-  gbs [repo]    Pick a branch via fzf and INSERT a safe 'git switch ...' command into your prompt (does not run).
-  gbr [base]    Branch report: fetch/prune, show active (not merged), merged (delete candidates), and upstream-gone branches.
-  gbd [base]    Pick "dead" local branches (merged into base OR upstream gone) via fzf (multi-select)
-               and INSERT a delete command into your prompt (does not run).
+  gbh             Show this help.
+  gbl [repo]      Print local + origin/* branches for a repo.
+  gbs [repo]      Pick a branch via fzf and INSERT a safe 'git switch ...' command into your prompt (does not run).
+  gbu <branch>    Checkout <branch> and pull latest from origin/<branch>.
+  gbp             Fetch + prune remote-tracking refs; show local branches with upstream gone.
+  gbr [base]      Branch report (read-only): shows Active, Merged, Upstream-gone, and Stale (by date) categories.
+  gbd [base]      Pick "dead" local branches (Merged into base OR Upstream gone) via fzf (multi-select)
+                 and INSERT a delete command into your prompt (does not run).
+  gbsu            List local branches sorted by last commit date (helps spot stale/unused branches).
 
-Notes:
-  - "merged" = safe candidates: already merged into base branch.
-  - "upstream gone" = your local branch tracks a remote branch that no longer exists (after prune).
+Categories:
+  - Active (not merged): keep
+  - Merged into base: usually safe delete (git branch -d)
+  - Upstream gone: remote branch deleted; local may be safe delete (often git branch -D)
+  - Stale (old): not necessarily safe delete; review manually
 EOF
 }
 
@@ -115,7 +109,14 @@ _gb_base() {
   git branch --show-current 2>/dev/null
 }
 
-# ---------- gbl (your function) ----------
+# ---------- gbu: Checkout & Update branch from Origin ----------
+gbu() {
+  local branch="$1"
+  [[ -z "$branch" ]] && { echo "Usage: gbu <branch>" >&2; return 1; }
+  git checkout "$branch" && git pull origin "$branch"
+}
+
+# ---------- gbl ----------
 gbl() {
   local repo="${1:-$PWD}"
 
@@ -135,7 +136,7 @@ gbl() {
     | sed 's/^/  /'
 }
 
-# ---------- gbs (your function; fixed unalias target) ----------
+# ---------- gbs ----------
 gbs() {
   local repo="${1:-$PWD}"
   local selection cmd local_branch
@@ -152,7 +153,7 @@ gbs() {
         | grep -E '^origin/' \
         | grep -vE '^origin/HEAD$'
     } | awk 'NF && !seen[$0]++' \
-      | fzf --prompt="branch> "
+      | fzf --prompt="switch> "
   )" || return
 
   [[ -z "$selection" ]] && return
@@ -167,32 +168,59 @@ gbs() {
   print -z -- "$cmd"
 }
 
-# ---------- gbr: report branch status ----------
+# ---------- gbp: prune remote-tracking branches (safe hygiene) ----------
+gbp() {
+  git rev-parse --is-inside-work-tree >/dev/null 2>&1 || { echo "Not a git repo" >&2; return 1; }
+
+  echo "== fetch/prune =="
+  git fetch --all --prune || return 1
+
+  echo
+  echo "== upstream gone (local branches tracking deleted remote) =="
+  git branch -vv | awk '/: gone]/{print $1}'
+
+  echo
+  echo "Tip: run 'gbd' to select and stage delete commands for dead branches."
+}
+
+# ---------- gbsu: list local branches by last commit date (stale review) ----------
+gbsu() {
+  git rev-parse --is-inside-work-tree >/dev/null 2>&1 || { echo "Not a git repo" >&2; return 1; }
+
+  git for-each-ref --sort=committerdate refs/heads/ \
+    --format='%(committerdate:short)  %(refname:short)'
+}
+
+# ---------- gbr: report branch status (read-only; better categories) ----------
 gbr() {
   local base
   base="$(_gb_base "$1")"
 
   git rev-parse --is-inside-work-tree >/dev/null 2>&1 || { echo "Not a git repo" >&2; return 1; }
 
-  echo "== fetch/prune =="
+  echo "== fetch/prune (safe) =="
   git fetch --all --prune --quiet || return 1
 
   echo
-  echo "== active local (not merged into ${base}) =="
+  echo "== Active local (NOT merged into ${base}) =="
   git branch --no-merged "$base" 2>/dev/null | sed 's/^* //'
 
   echo
-  echo "== merged local (delete candidates) =="
+  echo "== Merged local (delete candidates) =="
   git branch --merged "$base" 2>/dev/null \
     | sed 's/^* //' \
     | grep -vE "^(${base}|main|master|develop)$"
 
   echo
-  echo "== upstream gone (tracks deleted remote) =="
+  echo "== Upstream gone (tracks deleted remote) =="
   git branch -vv | awk '/: gone]/{print $1}'
+
+  echo
+  echo "== Stale review (oldest -> newest by last commit) =="
+  gbsu
 }
 
-# ---------- gbd: fzf pick dead branches -> insert delete cmd ----------
+# ---------- gbd: pick dead branches -> insert delete cmd (does not execute) ----------
 gbd() {
   local base selection merged_list gone_list cmd
 
@@ -201,7 +229,6 @@ gbd() {
   git rev-parse --is-inside-work-tree >/dev/null 2>&1 || { echo "Not a git repo" >&2; return 1; }
 
   base="$(_gb_base "$1")"
-
   git fetch --all --prune --quiet || return 1
 
   merged_list="$(
