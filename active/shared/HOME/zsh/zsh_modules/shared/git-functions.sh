@@ -80,7 +80,6 @@ gb* helpers:
   gbr [base]      REPORT (read-only): shows Active, Merged, Upstream-gone, and Stale (by date) categories.
   gbd [base]      DELETE -> Pick "dead" local branches (Merged into base OR Upstream gone) via fzf (multi-select)
                     - and INSERT a delete command into your prompt (does not run).
-  gbsu            STALE and UNUSED branches
 
 Categories:
   - Active (not merged): keep
@@ -183,14 +182,6 @@ gbp() {
   echo "Tip: run 'gbd' to select and stage delete commands for dead branches."
 }
 
-# ---------- gbsu: list local branches by last commit date (stale review) ----------
-gbsu() {
-  git rev-parse --is-inside-work-tree >/dev/null 2>&1 || { echo "Not a git repo" >&2; return 1; }
-
-  git for-each-ref --sort=committerdate refs/heads/ \
-    --format='%(committerdate:short)  %(refname:short)'
-}
-
 # ---------- gbr: report branch status (read-only; better categories) ----------
 gbr() {
   local base
@@ -214,10 +205,6 @@ gbr() {
   echo
   echo "== Upstream gone (tracks deleted remote) =="
   git branch -vv | awk '/: gone]/{print $1}'
-
-  echo
-  echo "== Stale review (oldest -> newest by last commit) =="
-  gbsu
 }
 
 # ---------- gbd: pick dead branches -> insert delete cmd (does not execute) ----------
