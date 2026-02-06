@@ -21,7 +21,7 @@ fd() {
     dir=$(find ${1:-.} -type d 2> /dev/null | fzf --preview 'tree -C {} | head -100' +m) && cd "$dir"
 }
 # FZF file with preview; jump to edit
-ef() {
+fe() {
     local file
     file=$(find ${1:-.} -type f 2> /dev/null | fzf --preview 'bat --style=numbers --color=always {} || cat {}' +m) && [ -n "$file" ] && nvim "$file"
 }
