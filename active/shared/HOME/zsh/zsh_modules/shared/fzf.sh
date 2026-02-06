@@ -17,8 +17,21 @@ export FZF_DEFAULT_OPTS="
 
 # FZF Directory with Tree Preview and jump to it # manually added; fixthis; TODO
 fd() {
-    local dir
-    dir=$(find ${1:-.} -type d 2> /dev/null | fzf --preview 'tree -C {} | head -100' +m) && cd "$dir"
+  local root="${1:-$HOME}"
+  [[ "$1" == "--all" ]] && root="/"
+
+  local max="${FD_MAX_RESULTS:-150000}"
+  local dir
+
+  dir="$(
+    command find "$root" \
+      \( -path /proc -o -path /sys -o -path /dev -o -path /run \) -prune -o \
+      -type d -print 2>/dev/null \
+    | head -n "$max" \
+    | fzf --preview 'tree -C -L 2 {} 2>/dev/null | head -200' +m
+  )" || return
+
+  cd -- "$dir"
 }
 # FZF file with preview; jump to edit
 fe() {
