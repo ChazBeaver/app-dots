@@ -81,6 +81,12 @@ gb* helpers:
   gbd [base]      DELETE -> Pick "dead" local branches (Merged into base OR Upstream gone) via fzf (multi-select)
                     - and INSERT a delete command into your prompt (does not run).
 
+  --EXTRA--
+  
+  Restore a file from another branch:
+    git restore --source=main -- path/to/file
+
+
 Categories:
   - Active (not merged): keep
   - Merged into base: usually safe delete (git branch -d)
