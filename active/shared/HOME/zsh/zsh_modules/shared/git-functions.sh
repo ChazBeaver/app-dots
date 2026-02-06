@@ -86,6 +86,12 @@ gb* helpers:
   Restore a file from another branch:
     git restore --source=main -- path/to/file
 
+  Diff two files quickly
+    git diff main -- path/to/file
+
+  Diff from inside NeoVim
+    :DiffviewOpen main
+
 
 Categories:
   - Active (not merged): keep
