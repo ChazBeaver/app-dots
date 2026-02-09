@@ -14,18 +14,17 @@ detect_os() {
     *) echo "unknown" ;;
   esac
 }
-OS=$(detect_os)
+OS="$(detect_os)"
 
-#eBanner
 cat <<'EOF'
 
-  ___  ____________ ______ _____ _____ _____ 
+  ___  ____________ ______ _____ _____ _____
  / _ \ | ___ \ ___ \|  _  \  _  |_   _/  ___|
-/ /_\ \| |_/ / |_/ /| | | | | | | | | \ `--. 
+/ /_\ \| |_/ / |_/ /| | | | | | | | | \ `--.
 |  _  ||  __/|  __/ | | | | | | | | |  `--. \
 | | | || |   | |    | |/ /\ \_/ / | | /\__/ /
-\_| |_/\_|   \_|    |___/  \___/  \_/ \____/ 
-                                                  
+\_| |_/\_|   \_|    |___/  \___/  \_/ \____/
+
               Installing Appdots
 
 EOF
@@ -43,111 +42,112 @@ fi
 mkdir -p "$(dirname "$ENV_FILE")"
 grep -q "$VAR_NAME=" "$ENV_FILE" 2>/dev/null || echo "export $VAR_NAME=\"$SCRIPT_DIR\"" >> "$ENV_FILE"
 grep -q 'alias appdots=' "$ENV_FILE" 2>/dev/null || echo 'alias appdots="cd \$APP_DOTS_DIR"' >> "$ENV_FILE"
-source "$ENV_FILE"
+# shellcheck disable=SC1090
+source "$ENV_FILE" || true
 
-# Symlink helper
 link_item() {
   local source="$1"
   local target="$2"
 
+  # If target exists…
   if [ -e "$target" ] || [ -L "$target" ]; then
-    if [ "$(readlink "$target" || true)" = "$source" ]; then
+    # If it's already the correct symlink, done.
+    if [ -L "$target" ] && [ "$(readlink "$target" 2>/dev/null || true)" = "$source" ]; then
       echo "✅ Already linked: $target"
-    else
-      echo "⚠️  Skipped existing: $target"
+      return 0
     fi
-  else
-    mkdir -p "$(dirname "$target")"
-    ln -s "$source" "$target"
-    echo "🔗 Linked: $source → $target"
+
+    # If it's some other symlink, remove it and relink.
+    if [ -L "$target" ]; then
+      rm -f "$target"
+      echo "♻️  Replacing symlink: $target"
+    else
+      # It's a real file/dir. Remove it so we can symlink.
+      rm -rf "$target"
+      echo "🧹 Removed existing file/dir: $target"
+    fi
   fi
+
+  mkdir -p "$(dirname "$target")"
+  ln -s "$source" "$target"
+  echo "🔗 Linked: $source → $target"
 }
 
-# Install HOME/ - unpack contents directly into $HOME
+# HOME/ rules:
+# - If top-level entry is a dotfile/dotdir (name begins with .), link it to ~/<name>
+# - If top-level entry is a non-dot directory (e.g., bash/, gitconfig/), link its immediate contents into ~/
 install_home_scope() {
   local home_path="$1"
-  [ -d "$home_path" ] || return
+  [ -d "$home_path" ] || return 0
 
-  echo "📁 Installing HOME contents from: $home_path"
-  find "$home_path" -mindepth 1 -maxdepth 1 | while read -r subdir; do
-    [ -d "$subdir" ] || continue
+  echo "🏠 Installing HOME from: $home_path"
 
-    find "$subdir" -mindepth 1 -maxdepth 1 | while read -r item; do
-      name="$(basename "$item")"
-      target="$HOME/$name"
-      link_item "$item" "$target"
-    done
+  find "$home_path" -mindepth 1 -maxdepth 1 | while read -r entry; do
+    local base
+    base="$(basename "$entry")"
+
+    if [ -d "$entry" ] && [[ "$base" != .* ]]; then
+      # category/container dir: link its children into $HOME (1-level deep)
+      find "$entry" -mindepth 1 -maxdepth 1 | while read -r item; do
+        local name
+        name="$(basename "$item")"
+        link_item "$item" "$HOME/$name"
+      done
+    else
+      # actual home item (dotfile, dotdir, or regular file you intentionally want at ~/)
+      link_item "$entry" "$HOME/$base"
+    fi
   done
 }
 
-# Install .config/ - symlink each top-level directory directly
+# .config/ -> mirror into ~/.config (1:1, supports dirs and files like starship.toml)
 install_config_scope() {
   local config_path="$1"
-  [ -d "$config_path" ] || return
+  [ -d "$config_path" ] || return 0
 
-  echo "📁 Installing .config contents from: $config_path"
-  find "$config_path" -mindepth 1 -maxdepth 1 -type d | while read -r dir; do
-    name="$(basename "$dir")"
-    target="$HOME/.config/$name"
-    link_item "$dir" "$target"
+  echo "⚙️  Installing .config from: $config_path"
+  find "$config_path" -mindepth 1 -maxdepth 1 | while read -r item; do
+    local name
+    name="$(basename "$item")"
+    link_item "$item" "$HOME/.config/$name"
+  done
+}
+
+# macOS library/ -> mirror into ~/Library (1:1 at top-level, e.g. Preferences/)
+install_macos_library_scope() {
+  local lib_path="$1"
+  [ -d "$lib_path" ] || return 0
+  [ "$OS" = "macos" ] || return 0
+
+  echo " Installing Library from: $lib_path"
+  find "$lib_path" -mindepth 1 -maxdepth 1 | while read -r item; do
+    local name
+    name="$(basename "$item")"
+    link_item "$item" "$HOME/Library/$name"
   done
 }
 
 install_scope() {
   local scope_dir="$1"
-  echo "🔍 Processing: $scope_dir"
+  [ -d "$scope_dir" ] || return 0
+
+  echo "🔍 Processing scope: $scope_dir"
   install_home_scope "$scope_dir/HOME"
   install_config_scope "$scope_dir/.config"
+  install_macos_library_scope "$scope_dir/library"
 }
 
-# Shared and OS-specific
 echo "🔍 Linking shared dotfiles..."
 install_scope "$ACTIVE_DIR/shared"
 
 echo "🔍 Linking $OS-specific dotfiles..."
 install_scope "$ACTIVE_DIR/$OS"
 
-################################################
-#         --- Linux Section ---
-################################################
-
-# no Linux specific files to link at the moment
-
-################################################
-#         --- MacOS Section ---
-################################################
-
-# Macos install notice
-macos_post_install_notice() {
-  echo -e "\n📣 macOS detected — post-install notice:"
-  echo "⚠️  If any apps like Rectangle aren't recognizing config changes:"
-  echo "   → Try restarting the app."
-  echo "   → Or run: \033[1;33mkillall cfprefsd\033[0m to reset the preferences cache."
-  echo "   This is especially needed when modifying ~/Library/Preferences/.plist files."
-}
-
-# macOS-specific Library folders to link
 if [ "$OS" = "macos" ]; then
-  echo "📦 Linking macOS Library subdirectories..."
-
-  for SUBDIR in "Application Support" "Preferences" "Containers" "Logs" "Caches"; do
-    LIB_PATH="$ACTIVE_DIR/macos/library/$SUBDIR"
-    DEST_PATH="$HOME/Library/$SUBDIR"
-
-    if [ -d "$LIB_PATH" ]; then
-      echo "🔗 Linking items from '$SUBDIR' (1-level deep)"
-      find "$LIB_PATH" -mindepth 1 -maxdepth 1 | while read -r item; do
-        rel="${item#$LIB_PATH/}"
-        target="$DEST_PATH/$rel"
-        link_item "$item" "$target"
-      done
-    fi
-  done
-fi
-
-if [ "$OS" = "macos" ]; then
-  macos_post_install_notice
+  echo -e "\n📣 macOS post-install notice:"
+  echo "⚠️  If apps (e.g., Rectangle) don't recognize plist changes:"
+  echo "   → Restart the app, or run: killall cfprefsd"
 fi
 
 echo -e "\n✅ Done."
-echo -e "⚡ You may want to \033[1;32msource ~/.zshrc\033[0m if updated.\n"
+echo -e "⚡ You may want to source ~/.zshrc if updated.\n"

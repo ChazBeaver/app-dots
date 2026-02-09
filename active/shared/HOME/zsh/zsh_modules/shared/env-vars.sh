@@ -13,5 +13,5 @@ if [ -f "$DOTFILES_ENV" ]; then
 fi
 
 export EDITOR=nvim
-
+export VISUAL=nvim
 export TERM=xterm-256color
