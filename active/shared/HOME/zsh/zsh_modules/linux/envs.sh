@@ -1,1 +1,1 @@
-export KITTY_CONFIG_DIRECTORY="$HOME/.config/kitty"
+# export KITTY_CONFIG_DIRECTORY="$HOME/.config/kitty"

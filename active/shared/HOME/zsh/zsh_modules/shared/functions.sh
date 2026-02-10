@@ -1,5 +1,5 @@
 edit-zmodules() {
-    vim "~/Projects/appdots/active/shared/HOME/zsh/zsh_modules/"
+    vim "~/Projects/home/appdots/active/shared/HOME/zsh/zsh_modules/"
 }
 
 edit-zshrc() {
@@ -18,15 +18,15 @@ hf() {
   print -z -- "$cmd"
 }
 
-# Select Theme for Zsh, Neovim, Kitty, Starship, and Btop
-tt() {
-  local script="$APP_DOTS_DIR/active/shared/.config/colors/pick-theme.sh"
-  if [[ -x "$script" ]]; then
-    bash "$script"
-  else
-    echo "❌ pick-theme.sh not found or not executable at: $script"
-  fi
-}
+# # Select Theme for Zsh, Neovim, Kitty, Starship, and Btop
+# tt() {
+#   local script="$APP_DOTS_DIR/active/shared/.config/colors/pick-theme.sh"
+#   if [[ -x "$script" ]]; then
+#     bash "$script"
+#   else
+#     echo "❌ pick-theme.sh not found or not executable at: $script"
+#   fi
+# }
 
 # Print a list of Colors for testing
 printcolors() {
