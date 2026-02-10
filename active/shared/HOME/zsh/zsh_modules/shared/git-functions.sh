@@ -44,9 +44,12 @@ mm() {
   echo "✅ Merge complete. '$branch' now includes 'origin/main'."
 }
 
-# Git Push Origin Upstream
+# =========================
+# Git Push/Pull helpers
+# =========================
+
+# Git Push Origin Upstream (unchanged)
 gpush() {
-  # Get the current branch name
   local branch
   branch=$(git symbolic-ref --short HEAD 2>/dev/null)
 
@@ -59,13 +62,25 @@ gpush() {
   git push -u origin "$branch"
 }
 
-# RUN AFTER MERGING MAIN INTO BRANCH
-# Compare changes made in current branch to main branch
-# see which files are unique to current branch compared to main
+# Git Pull Origin (same spirit as gpush)
+# - pulls origin/<current-branch>
+# - does NOT set upstream (pull doesn't need -u; upstream is set by gpush)
+gpull() {
+  local branch
+  branch=$(git symbolic-ref --short HEAD 2>/dev/null)
 
-branchvsmain() {
-  git diff --name-status origin/main...HEAD
+  if [ -z "$branch" ]; then
+    echo "❌ Not on a Git branch or not a Git repository."
+    return 1
+  fi
+
+  echo "⬇️  Pulling 'origin/$branch' into '$branch'..."
+  git pull origin "$branch"
 }
+
+# =========================
+# gb* helpers
+# =========================
 
 # ---------- gbh: quick help ----------
 gbh() {
@@ -74,22 +89,23 @@ gb* helpers:
 
   gbh             Show this help.
   gbl [repo]      LIST local + origin/* branches for a repo.
-  gbs [repo]      SWITCH to branch for a repo
+  gbs [repo]      SWITCH to branch for a repo (fzf; inserts command).
   gbu <branch>    UPDATE branch -> ex: gbu main
   gbp             PRUNE remote-tracking refs (after Fetch); show local branches with upstream gone.
-  gbr [base]      REPORT (read-only): shows Active, Merged, Upstream-gone, and Stale (by date) categories.
+  gbr [base]      REPORT (read-only): Active, Merged, Upstream-gone categories.
   gbd [base]      DELETE -> Pick "dead" local branches (Merged into base OR Upstream gone) via fzf (multi-select)
                     - and INSERT a delete command into your prompt (does not run).
+  gbvm [base]     VIEW "branch vs main[base]" file diff (name-status) for current branch.
 
   --EXTRA--
-  
+
   Restore a file from another branch:
     git restore --source=main -- path/to/file
 
-  Diff two files quickly
+  Diff two files quickly:
     git diff main -- path/to/file
 
-  Diff from inside NeoVim
+  Diff from inside NeoVim:
     :DiffviewOpen main
 
 
@@ -177,6 +193,25 @@ gbs() {
   fi
 
   print -z -- "$cmd"
+}
+
+# ---------- gbvm: branch vs main (renamed from branchvsmain) ----------
+# Compare changes made in current branch to base (defaults to main/master)
+# Shows which files differ (name + status) between base..HEAD, using origin/<base> if present.
+gbvm() {
+  local base base_ref
+  git rev-parse --is-inside-work-tree >/dev/null 2>&1 || { echo "Not a git repo" >&2; return 1; }
+
+  base="$(_gb_base "$1")"
+
+  # Prefer origin/<base> when it exists; otherwise fall back to local <base>
+  if git show-ref --verify --quiet "refs/remotes/origin/${base}"; then
+    base_ref="origin/${base}"
+  else
+    base_ref="${base}"
+  fi
+
+  git diff --name-status "${base_ref}...HEAD"
 }
 
 # ---------- gbp: prune remote-tracking branches (safe hygiene) ----------
