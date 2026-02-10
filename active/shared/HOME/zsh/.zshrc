@@ -2,12 +2,16 @@
 # Load Zsh Configurations
 # ============================================================================
 
-# --- Set base directory ---
+# --- Load dotfiles env (sets APP_DOTS_DIR, aliases, etc.) ---
+ENV_FILE="$HOME/.dotfiles-env.sh"
+[ -r "$ENV_FILE" ] && source "$ENV_FILE"
+
+# --- Set base directory (installed location, not repo location) ---
+# appdots install links this into place: ~/zsh_modules -> $APP_DOTS_DIR/active/shared/HOME/zsh/zsh_modules
 BASE_DIR="$HOME/zsh_modules"
 
-# --- Source everything inside common/ ---
+# --- Source everything inside shared/ ---
 SHARED_DIR="$BASE_DIR/shared"
-
 if [ -d "$SHARED_DIR" ]; then
   for file in "$SHARED_DIR"/*.sh; do
     [ -r "$file" ] && source "$file"
@@ -23,7 +27,6 @@ esac
 
 # --- Source everything inside the OS-specific folder ---
 OS_DIR="$BASE_DIR/$OS_NAME"
-
 if [ -d "$OS_DIR" ]; then
   for file in "$OS_DIR"/*.sh; do
     [ -r "$file" ] && source "$file"

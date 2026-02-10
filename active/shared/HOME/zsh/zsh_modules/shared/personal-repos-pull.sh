@@ -12,9 +12,9 @@ fi
 # ============================================================================
 
 DOTFILES_DIRS=(
-  "$HOME/Projects/appdots"
+  "$HOME/Projects/home/appdots"
   # "$HOME/Projects/hyprdots"
-  "$HOME/Projects/wikinotes"
+  "$HOME/Projects/home/wikinotes"
 )
 
 for dir in "${DOTFILES_DIRS[@]}"; do
