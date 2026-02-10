@@ -5,10 +5,6 @@ alias here='open .'
 edit-ghostty() {
     vim $HOME/Library/Application\ Support/com.mitchellh.ghostty/config
 }
-# Edit Starship Config File
-edit-starship() {
-    vim $HOME/.config/starship.toml
-}
 
 kill-kitty() {
   osascript -e 'quit app "kitty"'

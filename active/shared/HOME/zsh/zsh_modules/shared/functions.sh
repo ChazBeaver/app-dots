@@ -22,10 +22,6 @@ home() {
   cd "$base/$choice" || return 1
 }
 
-edit-zmodules() {
-    vim "~/Projects/home/appdots/active/shared/HOME/zsh/zsh_modules/"
-}
-
 edit-zshrc() {
     vim $HOME/.zshrc
 }
