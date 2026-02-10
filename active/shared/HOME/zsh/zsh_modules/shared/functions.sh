@@ -1,3 +1,27 @@
+# ---------- home: fzf jump into ~/Projects/home (names only) ----------
+home() {
+  local base="$HOME/Projects/home"
+  local choice
+
+  [[ -d "$base" ]] || { echo "❌ Missing: $base"; return 1; }
+
+  # List directory *names* only
+  choice="$(
+    ls -1 "$base" 2>/dev/null \
+      | while read -r d; do
+          [[ -d "$base/$d" ]] && echo "$d"
+        done \
+      | sort \
+      | fzf \
+          --height 60% \
+          --reverse \
+          --prompt='home> ' \
+          --preview 'ls -la --color=always "$HOME/Projects/home/{}" | sed -n "1,120p"'
+  )" || return 0
+
+  cd "$base/$choice" || return 1
+}
+
 edit-zmodules() {
     vim "~/Projects/home/appdots/active/shared/HOME/zsh/zsh_modules/"
 }
