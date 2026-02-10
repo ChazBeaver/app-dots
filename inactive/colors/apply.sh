@@ -1,13 +1,19 @@
 #!/usr/bin/env bash
-set -e
+# colors/apply.sh
+set -euo pipefail
 
-COLOR_DIR="$HOME/.config/colors"
-SCHEME_DIR="$COLOR_DIR/schemes"
+# Resolve this script's directory reliably (works via symlink too)
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
+REPO_ROOT="$(cd -- "$SCRIPT_DIR/.." && pwd -P)"
 
-THEME="$1"
+COLOR_DIR="$SCRIPT_DIR"
+SCHEME_DIR="$REPO_ROOT/colors/schemes"
+GEN_DIR="$COLOR_DIR/generate"
+
+THEME="${1:-}"
 
 if [[ -z "$THEME" ]]; then
-  echo "❌ No theme provided. Usage: ./apply.sh <theme-name>"
+  echo "❌ No theme provided. Usage: $(basename "$0") <theme-name>"
   exit 1
 fi
 
@@ -20,7 +26,8 @@ fi
 echo "🎨 Applying theme: $THEME"
 export THEME
 
-# Load color variables
+# Load color variables from scheme
+# shellcheck source=/dev/null
 source "$SCHEME_FILE"
 
 # Fallbacks for missing colors
@@ -30,9 +37,13 @@ for i in $(seq -w 1 26); do
   export "$var"
 done
 
-# Apply to all apps
-for gen in "$COLOR_DIR"/generate/*.sh; do
-  source "$gen"
-done
+# Apply to ONLY kitty for now (others commented out)
+# for gen in "$GEN_DIR"/*.sh; do
+#   source "$gen"
+# done
 
-echo "✅ Theme '$THEME' applied to all supported applications."
+# Only run kitty generator
+# shellcheck source=/dev/null
+source "$GEN_DIR/kitty.sh"
+
+echo "✅ Theme '$THEME' applied (kitty only)."
