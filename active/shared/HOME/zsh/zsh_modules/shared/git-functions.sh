@@ -107,7 +107,7 @@ gb* helpers:
 
   Diff from inside NeoVim:
     :DiffviewOpen main
-
+    <leader>dm
 
 Categories:
   - Active (not merged): keep
