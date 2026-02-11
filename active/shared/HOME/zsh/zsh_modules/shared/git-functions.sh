@@ -96,6 +96,7 @@ gb* helpers:
   gbd [base]      DELETE -> Pick "dead" local branches (Merged into base OR Upstream gone) via fzf (multi-select)
                     - and INSERT a delete command into your prompt (does not run).
   gbvm [base]     VIEW "branch vs main[base]" file diff (name-status) for current branch.
+  gbls            LIST STALE branches (branches whose most recent commit is older than 30 days); exclude main and HEAD
 
   --EXTRA--
 
@@ -141,6 +142,31 @@ gbu() {
   local branch="$1"
   [[ -z "$branch" ]] && { echo "Usage: gbu <branch>" >&2; return 1; }
   git checkout "$branch" && git pull origin "$branch"
+}
+
+gbls() {
+  # List remote-tracking branches whose last commit is older than 30 days (macOS),
+  # excluding */HEAD and */main.
+  #
+  # Examples:
+  #   gbls
+  #   gbls | wc -l
+  #   gbls | pbcopy
+
+  local cutoff
+  cutoff="$(date -v-30d +%s)"
+
+  git for-each-ref --format='%(refname:short) %(committerdate:unix)' refs/remotes \
+  | while read -r branch ts; do
+      case "$branch" in
+        */HEAD|*/main) continue ;;
+      esac
+
+      if [ "$ts" -lt "$cutoff" ]; then
+        printf "%-45s %s\n" "$branch" "$(date -r "$ts")"
+      fi
+    done \
+  | sort
 }
 
 # ---------- gbl ----------
