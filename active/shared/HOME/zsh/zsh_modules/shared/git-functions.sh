@@ -153,6 +153,9 @@ gbls() {
   #   gbls | wc -l
   #   gbls | pbcopy
 
+  # Refresh remotes quietly first
+  git fetch --all --prune --quiet || return 1
+
   local cutoff
   cutoff="$(date -v-30d +%s)"
 
