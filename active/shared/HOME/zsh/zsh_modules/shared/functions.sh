@@ -38,6 +38,16 @@ hf() {
   print -z -- "$cmd"
 }
 
+Yazi launch and Change Directory when closed
+y() {
+  tmp="$(mktemp -t yazi-cwd.XXXXXX)"
+  yazi "$@" --cwd-file="$tmp"
+  if cwd="$(cat "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+    cd "$cwd"
+  fi
+  rm -f "$tmp"
+}
+
 # # Select Theme for Zsh, Neovim, Kitty, Starship, and Btop
 # tt() {
 #   local script="$APP_DOTS_DIR/active/shared/.config/colors/pick-theme.sh"

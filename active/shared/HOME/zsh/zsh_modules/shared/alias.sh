@@ -24,7 +24,6 @@ alias 777='chmod -R 777'
 # Applications
 alias v='nvim .'
 alias vim='nvim'
-alias y='yazi'
 alias vimdiff='nvim -d'
 alias tree='tree -C'
 # alias fzf='fzf --layout=reverse --height=80%'
