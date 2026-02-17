@@ -18,7 +18,8 @@ vim.opt.rtp:prepend(lazypath)
 -- Enable True Color Support
 vim.opt.termguicolors = true
 
-require("themes")           -- loads default theme and :Colortheme
+-- require("themes")           -- loads default theme and :Colortheme
 require("lazy").setup("plugins")
+require("omarchy_theme_apply").setup()
 require("vim-options")
 require("remaps")
