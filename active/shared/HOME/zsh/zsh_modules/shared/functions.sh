@@ -38,7 +38,7 @@ hf() {
   print -z -- "$cmd"
 }
 
-Yazi launch and Change Directory when closed
+# Yazi launch and Change Directory when closed
 y() {
   tmp="$(mktemp -t yazi-cwd.XXXXXX)"
   yazi "$@" --cwd-file="$tmp"
