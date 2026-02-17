@@ -24,12 +24,20 @@ local function parse_opts()
   return nil, nil
 end
 
-local function apply()
-  local cs, bg = parse_opts()
-  if bg and type(bg) == "string" then
+local function apply_background(bg)
+  if type(bg) ~= "string" then return end
+  bg = bg:lower()
+  -- Neovim only supports "dark" or "light"
+  if bg == "dark" or bg == "light" then
     vim.o.background = bg
   end
-  if cs and type(cs) == "string" then
+end
+
+local function apply()
+  local cs, bg = parse_opts()
+  apply_background(bg)
+
+  if type(cs) == "string" and cs ~= "" then
     pcall(vim.cmd.colorscheme, cs)
   end
 end
@@ -37,14 +45,12 @@ end
 function M.setup()
   last_mtime = mtime(theme_file)
 
-  -- apply once after startup
   vim.api.nvim_create_autocmd("VimEnter", {
     callback = function()
       apply()
     end,
   })
 
-  -- hot-swap when you return focus (Omarchy writes the file; this catches it)
   vim.api.nvim_create_autocmd("FocusGained", {
     callback = function()
       local cur = mtime(theme_file)
