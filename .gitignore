@@ -9,3 +9,4 @@ active/shared/.config/nvim/colors/active
 active/shared/.config/kitty/themes
 active/shared/.config/kitty/kitty.conf
 # active/shared/.config/nvim/lua/plugins/vimwiki.lua.bak
+active/linux/.config/nvim/lazy-lock.json
