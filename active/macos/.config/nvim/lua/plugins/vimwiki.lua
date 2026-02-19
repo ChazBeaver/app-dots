@@ -4,7 +4,7 @@ return {
     init = function ()
     vim.g.vimwiki_list = {
       {
-        path = '/home/chaz/Documents/Notes/vimwiki',
+        path = '/home/charles.beaver/Documents/Notes/vimwiki',
         syntax = 'markdown',
         ext = '.md',
       },
