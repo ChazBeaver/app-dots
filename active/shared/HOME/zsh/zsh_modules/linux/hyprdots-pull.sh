@@ -13,7 +13,7 @@ fi
 
 DOTFILES_DIRS=(
   # "$HOME/Projects/appdots"
-  "$HOME/Projects/hyprdots"
+  "$HOME/Projects/home/hyprdots"
 )
 
 for dir in "${DOTFILES_DIRS[@]}"; do
