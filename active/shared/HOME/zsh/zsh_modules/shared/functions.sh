@@ -24,23 +24,30 @@ home() {
 
 repo() {
   local dir="$PWD"
-
-  # Normalize path (remove trailing slash)
   dir="${dir%/}"
 
-  # Match ~/Projects/home/<repo>/...
-  if [[ "$dir" =~ ^$HOME/Projects/home/([^/]+) ]]; then
-    cd "$HOME/Projects/home/${BASH_REMATCH[1]}" || return 1
-    return
+  local base_home="$HOME/Projects/home/"
+  local base_work="$HOME/Projects/work/"
+
+  # If we're somewhere under ~/Projects/home/<repo>/...
+  if [[ "$dir" == "$base_home"* ]]; then
+    local rest="${dir#"$base_home"}"   # everything after .../home/
+    local top="${rest%%/*}"            # first path segment (repo name)
+    [[ -n "$top" ]] || { echo "Already at $base_home"; return 1; }
+    cd "$base_home$top" || return 1
+    return 0
   fi
 
-  # Match ~/Projects/work/<repo>/...
-  if [[ "$dir" =~ ^$HOME/Projects/work/([^/]+) ]]; then
-    cd "$HOME/Projects/work/${BASH_REMATCH[1]}" || return 1
-    return
+  # If we're somewhere under ~/Projects/work/<repo>/...
+  if [[ "$dir" == "$base_work"* ]]; then
+    local rest="${dir#"$base_work"}"   # everything after .../work/
+    local top="${rest%%/*}"            # first path segment (repo name)
+    [[ -n "$top" ]] || { echo "Already at $base_work"; return 1; }
+    cd "$base_work$top" || return 1
+    return 0
   fi
 
-  echo "Not inside a repo under ~/Projects/home or ~/Projects/work"
+  echo "Not inside ~/Projects/home or ~/Projects/work"
   return 1
 }
 
