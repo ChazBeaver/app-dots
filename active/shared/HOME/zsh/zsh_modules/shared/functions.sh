@@ -22,6 +22,28 @@ home() {
   cd "$base/$choice" || return 1
 }
 
+repo() {
+  local dir="$PWD"
+
+  # Normalize path (remove trailing slash)
+  dir="${dir%/}"
+
+  # Match ~/Projects/home/<repo>/...
+  if [[ "$dir" =~ ^$HOME/Projects/home/([^/]+) ]]; then
+    cd "$HOME/Projects/home/${BASH_REMATCH[1]}" || return 1
+    return
+  fi
+
+  # Match ~/Projects/work/<repo>/...
+  if [[ "$dir" =~ ^$HOME/Projects/work/([^/]+) ]]; then
+    cd "$HOME/Projects/work/${BASH_REMATCH[1]}" || return 1
+    return
+  fi
+
+  echo "Not inside a repo under ~/Projects/home or ~/Projects/work"
+  return 1
+}
+
 edit-zshrc() {
     vim $HOME/.zshrc
 }

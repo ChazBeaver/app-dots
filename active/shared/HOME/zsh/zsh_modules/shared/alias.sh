@@ -1,4 +1,5 @@
 # Chaz's imports from ~/.bashrc
+alias rr='repo'
 alias cl='clear'
 alias h='history | grep '
 # Directories
