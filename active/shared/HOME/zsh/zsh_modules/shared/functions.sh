@@ -22,7 +22,7 @@ home() {
   cd "$base/$choice" || return 1
 }
 
-repo() {
+reporoot() {
   local dir="$PWD"
   dir="${dir%/}"
 

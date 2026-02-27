@@ -1,5 +1,4 @@
 # Chaz's imports from ~/.bashrc
-alias rr='repo'
 alias cl='clear'
 alias h='history | grep '
 # Directories
@@ -29,3 +28,5 @@ alias vimdiff='nvim -d'
 alias tree='tree -C'
 # alias fzf='fzf --layout=reverse --height=80%'
 alias k='kubectl'
+# Personal
+alias rr='reporoot'
