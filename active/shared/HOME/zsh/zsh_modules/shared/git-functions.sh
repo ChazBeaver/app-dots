@@ -91,6 +91,7 @@ gb* helpers:
   gbl [repo]      LIST local + origin/* branches for a repo.
   gbs [repo]      SWITCH to branch for a repo (fzf; inserts command).
   gbu <branch>    UPDATE branch -> ex: gbu main
+  gbdiff [n]      LIST files changed from HEAD~n to HEAD (default n=1). ex: gbdiff 2
   gbp             PRUNE remote-tracking refs (after Fetch); show local branches with upstream gone.
   gbr [base]      REPORT (read-only): Active, Merged, Upstream-gone categories.
   gbd [base]      DELETE -> Pick "dead" local branches (Merged into base OR Upstream gone) via fzf (multi-select)
@@ -135,6 +136,27 @@ _gb_base() {
   fi
 
   git branch --show-current 2>/dev/null
+}
+
+# ---------- gbdiff: list files changed from HEAD~N to HEAD ----------
+# Usage:
+#   gbdiff       # == git diff --name-only HEAD~1 HEAD
+#   gbdiff 2     # == git diff --name-only HEAD~2 HEAD
+#   gbdiff 7     # == git diff --name-only HEAD~7 HEAD
+gbdiff() {
+  local n="${1:-1}"
+
+  # numeric guard
+  case "$n" in
+    ''|*[!0-9]*)
+      echo "Usage: gbdiff [number]" >&2
+      return 1
+      ;;
+  esac
+
+  git rev-parse --is-inside-work-tree >/dev/null 2>&1 || { echo "Not a git repo" >&2; return 1; }
+
+  git diff --name-only "HEAD~${n}" HEAD
 }
 
 # ---------- gbu: Checkout & Update branch from Origin ----------
