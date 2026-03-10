@@ -37,3 +37,6 @@ mouse-scroll-multiplier = 0.95
 custom-shader = shaders/cursor_warp.glsl
 # custom-shader = shaders/rectangle_boom_cursor.glsl
 custom-shader-animation = always
+
+# Fix general slowness on hyprland (https://github.com/ghostty-org/ghostty/discussions/3224)
+async-backend = epoll
