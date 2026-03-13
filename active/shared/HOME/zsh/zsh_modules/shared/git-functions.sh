@@ -111,11 +111,6 @@ gb* helpers:
     :DiffviewOpen main
     <leader>dm
 
-Categories:
-  - Active (not merged): keep
-  - Merged into base: usually safe delete (git branch -d)
-  - Upstream gone: remote branch deleted; local may be safe delete (often git branch -D)
-  - Stale (old): not necessarily safe delete; review manually
 EOF
 }
 
