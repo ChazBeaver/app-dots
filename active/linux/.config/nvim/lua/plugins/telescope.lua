@@ -25,9 +25,9 @@ return {
       vim.keymap.set("n", "<leader>gc", builtin.git_commits, { desc = "Git commits" })
       vim.keymap.set("n", "<leader>gb", builtin.git_branches, { desc = "Git branches" })
       vim.keymap.set("n", "<leader>gs", builtin.git_status, { desc = "Git status" })
-
       -- LSP / diagnostics
       vim.keymap.set("n", "<leader>pd", builtin.diagnostics, { desc = "Diagnostics" })
+      vim.keymap.set("n", "<leader>gh", builtin.git_bcommits, { desc = "Git history for current file" })
 
       -- Help
       vim.keymap.set("n", "<leader>ph", builtin.help_tags, { desc = "Help tags" })
