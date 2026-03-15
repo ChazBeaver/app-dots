@@ -11,18 +11,40 @@ return {
       -- =========================
       -- Files / navigation
       -- =========================
-      vim.keymap.set("n", "<leader>ff", builtin.find_files, { desc = "Find files" })
-      vim.keymap.set("n", "<leader>fg", builtin.git_files, { desc = "Find git files" })
+      vim.keymap.set("n", "<leader>ff", function()
+        require("telescope.builtin").find_files({
+          hidden = true,
+          no_ignore = true,
+        })
+      end, { desc = "Find ALL files in project" })
+
+      vim.keymap.set("n", "<leader>fa", function()
+        require("telescope.builtin").find_files({
+          cwd = vim.fn.expand("~"),
+          hidden = true,
+          no_ignore = true,
+        })
+      end, { desc = "Find ALL files from $HOME" })
+
+      vim.keymap.set("n", "<leader>fo", function()
+        require("telescope.builtin").find_files({
+          cwd = vim.fn.expand("~/.local/share/omarchy"),
+          hidden = true,
+          no_ignore = true,
+        })
+      end, { desc = "Find Omarchy files" })
+
+      -- vim.keymap.set("n", "<leader>fg", builtin.git_files, { desc = "Find git files" })
       vim.keymap.set("n", "<leader>fb", builtin.buffers, { desc = "Find buffers" })
       vim.keymap.set("n", "<leader>fr", builtin.oldfiles, { desc = "Recent files" })
 
       -- Optional: keep Ctrl-p if you really like it
-      vim.keymap.set("n", "<C-p>", builtin.git_files, { desc = "Find git files" })
+      -- vim.keymap.set("n", "<C-p>", builtin.git_files, { desc = "Find git files" })
 
       -- =========================
       -- Search
       -- =========================
-      vim.keymap.set("n", "<leader>sg", function()
+      vim.keymap.set("n", "<leader>sl", function()
         builtin.live_grep({
           additional_args = function()
             return { "--hidden", "--no-ignore" }
@@ -30,9 +52,28 @@ return {
         })
       end, { desc = "Deep search (includes hidden)" })
       vim.keymap.set("n", "<leader>ss", function()
-        builtin.grep_string({ search = vim.fn.input("Grep > ") })
-      end, { desc = "Search for input string" })
-      vim.keymap.set("n", "<leader>sw", builtin.grep_string, { desc = "Search word under cursor" })
+        require("telescope.builtin").grep_string({
+          search = vim.fn.input("Grep > "),
+          additional_args = function()
+            return { "--hidden", "--no-ignore" }
+          end,
+        })
+      end, { desc = "Search for input string (deep search)" })
+      vim.keymap.set("n", "<leader>sw", function()
+        require("telescope.builtin").grep_string({
+          additional_args = function()
+            return { "--hidden", "--no-ignore" }
+          end,
+        })
+      end, { desc = "Search word under cursor (deep search)" })
+      vim.keymap.set("n", "<leader>sg", function()
+        require("telescope.builtin").live_grep({
+          additional_args = function()
+            return { "--hidden" }
+          end,
+          cwd = vim.fn.systemlist("git rev-parse --show-toplevel")[1],
+        })
+      end, { desc = "Search git repo" })
 
       -- =========================
       -- Git
