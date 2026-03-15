@@ -22,7 +22,13 @@ return {
       -- =========================
       -- Search
       -- =========================
-      vim.keymap.set("n", "<leader>sg", builtin.live_grep, { desc = "Search by live grep" })
+      vim.keymap.set("n", "<leader>sg", function()
+        builtin.live_grep({
+          additional_args = function()
+            return { "--hidden", "--no-ignore" }
+          end,
+        })
+      end, { desc = "Deep search (includes hidden)" })
       vim.keymap.set("n", "<leader>ss", function()
         builtin.grep_string({ search = vim.fn.input("Grep > ") })
       end, { desc = "Search for input string" })
