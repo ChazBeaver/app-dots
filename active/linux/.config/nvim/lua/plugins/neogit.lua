@@ -15,6 +15,8 @@ return {
     local map = vim.keymap.set
     local opts = { noremap = true, silent = true }
 
+    -- TEST 1
+    -- test 2
     -- Open Neogit UI
     map("n", "<leader>gg", "<cmd>Neogit<CR>", vim.tbl_extend("force", opts, {
       desc = "Open Neogit",
@@ -25,6 +27,8 @@ return {
       desc = "Neogit commit",
     }))
 
+    -- TEST 4
+    -- this is a big test
     -- Push / pull / log
     map("n", "<leader>gP", "<cmd>Neogit push<CR>", vim.tbl_extend("force", opts, {
       desc = "Neogit push",
