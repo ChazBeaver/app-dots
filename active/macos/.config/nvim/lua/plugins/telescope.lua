@@ -67,11 +67,17 @@ return {
         })
       end, { desc = "Search word under cursor (deep search)" })
       vim.keymap.set("n", "<leader>sg", function()
+        local git_root = vim.fn.systemlist("git rev-parse --show-toplevel")[1]
+        if not git_root or git_root == "" then
+          vim.notify("Not inside a git repository", vim.log.levels.WARN)
+          return
+        end
+
         require("telescope.builtin").live_grep({
           additional_args = function()
             return { "--hidden" }
           end,
-          cwd = vim.fn.systemlist("git rev-parse --show-toplevel")[1],
+          cwd = git_root,
         })
       end, { desc = "Search git repo" })
 
