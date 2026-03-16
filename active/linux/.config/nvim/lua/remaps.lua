@@ -141,6 +141,15 @@ end, { desc = "Show highlight group under cursor" })
 
 
 -- ############################################################################
+--                         Begin of application section
+-- ############################################################################
+
+vim.keymap.set("n", "<leader>yh", function()
+  local dir = vim.b.netrw_curdir or vim.fn.expand("%:p:h")
+  vim.cmd("terminal yazi " .. dir)
+end, { desc = "Open Yazi in current directory", noremap = true, silent = true })
+
+-- ############################################################################
 --                         Begin of git section
 -- ############################################################################
  
