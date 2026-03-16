@@ -12,6 +12,7 @@ return {
 
     neogit.setup({})
 
+    -- Beginning of floating preview function
     local function find_neogit_section(bufnr, row)
       for lnum = row, 1, -1 do
         local line = vim.api.nvim_buf_get_lines(bufnr, lnum - 1, lnum, false)[1] or ""
@@ -149,16 +150,12 @@ return {
         vim.keymap.set("n", "zf", open_floating_git_preview, vim.tbl_extend("force", buf_opts, {
           desc = "Floating git preview",
         }))
-
-        -- Reuse Ctrl-x for floating preview
-        vim.keymap.set("n", "<C-x>", open_floating_git_preview, vim.tbl_extend("force", buf_opts, {
-          desc = "Floating git preview",
-        }))
       end,
     })
 
     local map = vim.keymap.set
     local opts = { noremap = true, silent = true }
+    -- End of floating preview function
 
     -- Open Neogit UI
     map("n", "<leader>gg", "<cmd>Neogit<CR>", vim.tbl_extend("force", opts, {
