@@ -34,7 +34,7 @@
     coma    =   commit --all --message
 
     uncommit = reset --soft HEAD~1
-    
+    reset = reset --hard HEAD    
     unstage = restore --staged .
 
     # discards changes made to the working directory, effectively resetting it to the last commit
