@@ -39,7 +39,7 @@ return {
     }))
 
     -- Quick commit staged changes
-    map("n", "<leader>gq", function()
+    map("n", "<leader>gm", function()
       vim.ui.input({ prompt = "Commit message: " }, function(input)
         if not input or input == "" then
           vim.notify("Commit cancelled", vim.log.levels.INFO)
