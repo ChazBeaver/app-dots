@@ -230,11 +230,21 @@ return {
       vim.wo[win].wrap = false
       vim.wo[win].cursorline = true
 
-      vim.keymap.set("n", "q", function()
+      local function close_floating_preview()
         if vim.api.nvim_win_is_valid(win) then
           vim.api.nvim_win_close(win, true)
         end
-      end, {
+      end
+
+      vim.keymap.set("n", "q", close_floating_preview, {
+        buffer = float_buf,
+        noremap = true,
+        silent = true,
+        nowait = true,
+        desc = "Close floating git preview",
+      })
+
+      vim.keymap.set("n", "<Esc>", close_floating_preview, {
         buffer = float_buf,
         noremap = true,
         silent = true,
@@ -270,7 +280,7 @@ return {
     }))
 
     map("n", "<leader>gC", "<cmd>Neogit commit<CR>", vim.tbl_extend("force", opts, {
-      desc = "Neogit commit (make) popup",
+      desc = "Neogit commit popup",
     }))
 
     map("n", "<leader>gL", "<cmd>Neogit log<CR>", vim.tbl_extend("force", opts, {
