@@ -167,6 +167,28 @@ return {
       return nil
     end
 
+    local function open_file_from_neogit_line()
+      local line = vim.api.nvim_get_current_line()
+      local filepath = extract_neogit_filepath(line)
+      if not filepath then
+        vim.notify("Cursor is not on a changed file line", vim.log.levels.WARN)
+        return
+      end
+
+      local root = resolve_git_root()
+      if not root then
+        vim.notify("Could not determine Git repository root", vim.log.levels.ERROR)
+        return
+      end
+
+      local fullpath = filepath
+      if not filepath:match("^/") then
+        fullpath = root .. "/" .. filepath
+      end
+
+      vim.cmd("edit " .. vim.fn.fnameescape(fullpath))
+    end
+
     local function open_floating_git_preview()
       local bufnr = vim.api.nvim_get_current_buf()
       local cursor = vim.api.nvim_win_get_cursor(0)
@@ -263,16 +285,70 @@ return {
     vim.api.nvim_create_autocmd("FileType", {
       pattern = "NeogitStatus",
       callback = function(args)
-        local buf_opts = {
-          buffer = args.buf,
-          noremap = true,
-          silent = true,
-          nowait = true,
-        }
+        vim.schedule(function()
+          if not vim.api.nvim_buf_is_valid(args.buf) then
+            return
+          end
 
-        vim.keymap.set("n", "zf", open_floating_git_preview, vim.tbl_extend("force", buf_opts, {
-          desc = "Floating git preview",
-        }))
+          local buf_opts = {
+            buffer = args.buf,
+            noremap = true,
+            silent = true,
+            nowait = true,
+          }
+
+          local original_cr = vim.api.nvim_buf_call(args.buf, function()
+            return vim.fn.maparg("<CR>", "n", false, true)
+          end)
+
+          -- Explicit floating preview
+          vim.keymap.set("n", "zf", open_floating_git_preview, vim.tbl_extend("force", buf_opts, {
+            desc = "Floating git preview",
+          }))
+
+          -- Edit file from changed-file lines
+          vim.keymap.set("n", "e", function()
+            local line = vim.api.nvim_get_current_line()
+            local filepath = extract_neogit_filepath(line)
+
+            if filepath then
+              open_file_from_neogit_line()
+            else
+              vim.notify("Cursor is not on a changed file line", vim.log.levels.WARN)
+            end
+          end, vim.tbl_extend("force", buf_opts, {
+            desc = "Edit file from Neogit",
+          }))
+
+          -- Enter previews changed files; otherwise preserve Neogit's original Enter behavior
+          vim.keymap.set("n", "<CR>", function()
+            local line = vim.api.nvim_get_current_line()
+            local filepath = extract_neogit_filepath(line)
+
+            if filepath then
+              open_floating_git_preview()
+              return
+            end
+
+            if original_cr and type(original_cr) == "table" then
+              if type(original_cr.callback) == "function" then
+                original_cr.callback()
+                return
+              end
+
+              if original_cr.rhs and original_cr.rhs ~= "" then
+                vim.api.nvim_feedkeys(
+                  vim.api.nvim_replace_termcodes(original_cr.rhs, true, false, true),
+                  "n",
+                  false
+                )
+                return
+              end
+            end
+          end, vim.tbl_extend("force", buf_opts, {
+            desc = "Preview file or preserve Neogit Enter",
+          }))
+        end)
       end,
     })
 
