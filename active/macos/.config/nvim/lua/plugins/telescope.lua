@@ -86,9 +86,9 @@ return {
       -- =========================
       vim.keymap.set("n", "<leader>gc", builtin.git_commits, { desc = "Git commits" })
       vim.keymap.set("n", "<leader>gb", builtin.git_branches, { desc = "Git branches" })
-      vim.keymap.set("n", "<leader>gs", builtin.git_status, { desc = "Git status" })
-      vim.keymap.set("n", "<leader>gh", builtin.git_bcommits, { desc = "Git history for current file" })
-      vim.keymap.set("v", "<leader>gh", builtin.git_bcommits_range, { desc = "Git history for selected lines" })
+      vim.keymap.set("n", "<leader>gt", builtin.git_status, { desc = "Git status" })
+      vim.keymap.set("n", "<leader>gfh", builtin.git_bcommits, { desc = "Git history for current file" })
+      vim.keymap.set("v", "<leader>gfh", builtin.git_bcommits_range, { desc = "Git history for selected lines" })
 
       -- =========================
       -- Diagnostics / help

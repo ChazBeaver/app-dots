@@ -12,37 +12,51 @@ return {
     local map = vim.keymap.set
     local opts = { noremap = true, silent = true }
 
-    -- Preview current hunk
-    map("n", "<leader>gp", gitsigns.preview_hunk, vim.tbl_extend("force", opts, {
-      desc = "Preview git hunk",
+    local function gs_call(method, ...)
+      local args = { ... }
+      return function()
+        local ok_gs, gs = pcall(require, "gitsigns")
+        if not ok_gs then
+          vim.notify("gitsigns not available", vim.log.levels.ERROR)
+          return
+        end
+
+        local fn = gs[method]
+        if type(fn) ~= "function" then
+          vim.notify("gitsigns method missing: " .. method, vim.log.levels.ERROR)
+          return
+        end
+
+        fn(unpack(args))
+      end
+    end
+
+    map("n", "<leader>ghn", gs_call("next_hunk"), vim.tbl_extend("force", opts, {
+      desc = "Git next hunk",
     }))
 
-    -- Diff current file vs HEAD
-    map("n", "<leader>gd", gitsigns.diffthis, vim.tbl_extend("force", opts, {
-      desc = "Diff current file vs HEAD",
+    map("n", "<leader>ghN", gs_call("prev_hunk"), vim.tbl_extend("force", opts, {
+      desc = "Git previous hunk",
     }))
 
-    -- Navigate hunks
-    map("n", "<leader>gn", gitsigns.next_hunk, vim.tbl_extend("force", opts, {
-      desc = "Next git hunk",
+    map("n", "<leader>ghp", gs_call("preview_hunk"), vim.tbl_extend("force", opts, {
+      desc = "Git preview hunk",
     }))
 
-    map("n", "<leader>gN", gitsigns.prev_hunk, vim.tbl_extend("force", opts, {
-      desc = "Previous git hunk",
+    map("n", "<leader>gd", gs_call("diffthis"), vim.tbl_extend("force", opts, {
+      desc = "Git diff current file vs HEAD",
     }))
 
-    -- Stage / reset hunk
-    map("n", "<leader>gS", gitsigns.stage_hunk, vim.tbl_extend("force", opts, {
-      desc = "Stage git hunk",
+    map("n", "<leader>gB", gs_call("blame_line"), vim.tbl_extend("force", opts, {
+      desc = "Git blame line",
     }))
 
-    map("n", "<leader>gR", gitsigns.reset_hunk, vim.tbl_extend("force", opts, {
-      desc = "Reset git hunk",
+    map("n", "<leader>gsh", gs_call("stage_hunk"), vim.tbl_extend("force", opts, {
+      desc = "Git stage hunk",
     }))
 
-    -- Blame current line
-    map("n", "<leader>gB", gitsigns.blame_line, vim.tbl_extend("force", opts, {
-      desc = "Blame current line",
+    map("n", "<leader>grh", gs_call("reset_hunk"), vim.tbl_extend("force", opts, {
+      desc = "Git reset hunk",
     }))
   end,
   opts = {},
