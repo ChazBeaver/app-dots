@@ -1,204 +1,152 @@
-# 🔑 Neovim Keymap Cheat Sheet
+# Neovim Keymap Cheat Sheet
+
+## Core layout
+
+- `<leader>g` → Git
+- `<leader>s` → Search
+- `<leader>f` → Files
+- `<leader>h` → Harpoon
 
 ---
 
-# 🧠 Core Philosophy
+## Telescope
 
-* `<leader>g` → **Git (everything)**
-* `<leader>s` → **Search (Telescope)**
-* `<leader>f` → **Files**
-* `<leader>h` → **Harpoon**
+### Files / navigation
+- `<leader>ff` → Find all files in project
+- `<leader>fa` → Find all files from `$HOME`
+- `<leader>fo` → Find Omarchy files
+- `<leader>fb` → Find buffers
+- `<leader>fr` → Recent files
 
----
+### Search
+- `<leader>sl` → Deep live grep (includes hidden and ignored)
+- `<leader>ss` → Search for input string
+- `<leader>sw` → Search word under cursor
+- `<leader>sg` → Search git repo from repo root
 
-# 🔍 Telescope (Search & Navigation)
+### Git (Telescope / read-oriented)
+- `<leader>gc` → Git commits
+- `<leader>gb` → Git branches
+- `<leader>gt` → Git status
+- `<leader>gfh` → Git history for current file
+- Visual `<leader>gfh` → Git history for selected lines
 
-## Files
-
-| Key          | Action                                    |
-| ------------ | ----------------------------------------- |
-| `<leader>ff` | Find all files (project, includes hidden) |
-| `<leader>fa` | Find all files from `$HOME`               |
-| `<leader>fo` | Find Omarchy files                        |
-| `<leader>fb` | Find open buffers                         |
-| `<leader>fr` | Recent files                              |
-
-## Search
-
-| Key          | Action                                   |
-| ------------ | ---------------------------------------- |
-| `<leader>sl` | Live grep (deep search, includes hidden) |
-| `<leader>ss` | Search input string                      |
-| `<leader>sw` | Search word under cursor                 |
-| `<leader>sg` | Search from git repo root                |
-
-## Git (Telescope - Read Only)
-
-| Key               | Action                     |
-| ----------------- | -------------------------- |
-| `<leader>gc`      | Git commits (history)      |
-| `<leader>gb`      | Git branches               |
-| `<leader>gt`      | Git status                 |
-| `<leader>gfh`     | File commit history        |
-| `v + <leader>gfh` | History for selected lines |
-
-## Diagnostics
-
-| Key          | Action             |
-| ------------ | ------------------ |
-| `<leader>sd` | Search diagnostics |
+### Diagnostics
+- `<leader>sd` → Search diagnostics
 
 ---
 
-# 🧰 Neogit (Git Actions / Write Operations)
+## Neogit
 
-## Repo UI
+### Main repo actions
+- `<leader>ga` → Open Neogit
+- `<leader>gC` → Neogit commit popup
+- `<leader>gL` → Neogit log popup
+- `<leader>gl` → Neogit pull popup
+- `<leader>gP` → Neogit push popup
 
-| Key          | Action      |
-| ------------ | ----------- |
-| `<leader>ga` | Open Neogit |
+### Stage / commit / push helpers
+- `<leader>gsf` → Stage current file
+- `<leader>gsa` → Stage all files
+- `<leader>gm` → Quick commit staged changes
+- `<leader>gp` → Quick push `origin HEAD`
 
-## Commit / Push / Pull
-
-| Key           | Action                        |
-| ------------- | ----------------------------- |
-| `<leader>gcm` | Commit popup                  |
-| `<leader>gm`  | Quick commit (staged changes) |
-| `<leader>gP`  | Push popup                    |
-| `<leader>gpp` | Quick push (`origin HEAD`)    |
-| `<leader>gl`  | Pull                          |
-| `<leader>gL`  | Log                           |
-
-## Staging
-
-| Key           | Action             |
-| ------------- | ------------------ |
-| `<leader>gsf` | Stage current file |
-| `<leader>gsa` | Stage all files    |
-
-## Neogit Buffer
-
-| Key  | Action                 |
-| ---- | ---------------------- |
-| `zf` | Floating diff preview  |
-| `q`  | Close floating preview |
+### Inside Neogit status buffer
+- `zf` → Floating git preview for file under cursor
+- `q` → Close floating preview
 
 ---
 
-# 🔥 Gitsigns (Hunk-Level Control)
+## Gitsigns
 
-## Navigation
+### Hunk navigation
+- `<leader>ghn` → Next hunk
+- `<leader>ghN` → Previous hunk
 
-| Key           | Action        |
-| ------------- | ------------- |
-| `<leader>ghn` | Next hunk     |
-| `<leader>ghp` | Previous hunk |
+### Hunk inspection
+- `<leader>ghp` → Preview hunk
+- `<leader>gd` → Diff current file vs HEAD
+- `<leader>gB` → Blame line
 
-## Inspection
-
-| Key          | Action            |
-| ------------ | ----------------- |
-| `<leader>gp` | Preview hunk      |
-| `<leader>gd` | Diff file vs HEAD |
-| `<leader>gB` | Blame line        |
-
-## Actions
-
-| Key           | Action     |
-| ------------- | ---------- |
-| `<leader>gsh` | Stage hunk |
-| `<leader>grh` | Reset hunk |
+### Hunk actions
+- `<leader>gsh` → Stage hunk
+- `<leader>grh` → Reset hunk
 
 ---
 
-# 🎯 Harpoon
+## Harpoon
 
-## Core
+### Core
+- `<leader>a` → Add file to Harpoon
+- `<leader>h` → Toggle Harpoon menu
 
-| Key         | Action              |
-| ----------- | ------------------- |
-| `<leader>a` | Add file to Harpoon |
-| `<leader>h` | Toggle Harpoon menu |
-
-## Quick Navigation
-
-| Key          | Action |
-| ------------ | ------ |
-| `<C-h><C-h>` | File 1 |
-| `<C-h><C-j>` | File 2 |
-| `<C-h><C-k>` | File 3 |
-| `<C-h><C-l>` | File 4 |
-| `<C-h><C-y>` | File 5 |
-| `<C-h><C-u>` | File 6 |
-| `<C-h><C-i>` | File 7 |
-| `<C-h><C-o>` | File 8 |
+### Direct jumps
+- `<C-h><C-h>` → File 1
+- `<C-h><C-j>` → File 2
+- `<C-h><C-k>` → File 3
+- `<C-h><C-l>` → File 4
+- `<C-h><C-y>` → File 5
+- `<C-h><C-u>` → File 6
+- `<C-h><C-i>` → File 7
+- `<C-h><C-o>` → File 8
 
 ---
 
-# 🚀 Common Workflows
+## Common Git workflows
 
-## Partial Commit (Hunk-Based)
+### Partial commit by hunk
+1. Edit file
+2. `:w`
+3. `<leader>ghn` to move to next hunk
+4. `<leader>ghp` to preview hunk
+5. `<leader>gsh` to stage hunk
+6. `<leader>gm` to quick commit
+7. `<leader>gP` to quick push
 
-```
-:w
-<leader>ghn   → navigate to change
-<leader>gp    → preview
-<leader>gsh   → stage hunk
-<leader>gm    → commit
-<leader>gpp   → push
-```
+### Full file commit
+1. Edit file
+2. `:w`
+3. `<leader>gsf`
+4. `<leader>gm`
+5. `<leader>gP`
 
-## Full File Commit
+### Full repo commit
+1. `<leader>gsa`
+2. `<leader>gm`
+3. `<leader>gP`
 
-```
-:w
-<leader>gsf
-<leader>gm
-<leader>gpp
-```
-
-## Full Repo Commit
-
-```
-<leader>gsa
-<leader>gm
-<leader>gpp
-```
-
-## Visual Git Review
-
-```
-<leader>ga
-zf
-q
-```
+### Review staged / unstaged in Neogit
+1. `<leader>ga`
+2. Move to file
+3. `zf`
+4. `q`
 
 ---
 
-# 🧩 Mental Model
+## Mental model
 
-```
-g → Git
+### Telescope
+- `gc` → commits
+- `gb` → branches
+- `gt` → git status
+- `gfh` → git file history
 
-gs → stage
-gh → hunk navigation
-gp → preview
-gd → diff
-gB → blame
-gr → reset
+### Neogit
+- `ga` → open Git UI
+- `gcm` → commit popup
+- `gp` → push popup
+- `gP` → quick push
+- `gl` → pull
+- `gL` → log
+- `gsf` → stage file
+- `gsa` → stage all
+- `gm` → quick commit
 
-gm → commit
-gP → push
-gpp → quick push
-```
-
----
-
-# 💡 Notes
-
-* Telescope = **read / explore**
-* Neogit = **repo actions**
-* Gitsigns = **surgical edits (hunks)**
-* Harpoon = **navigation speed**
-
----
+### Gitsigns
+- `ghn` → hunk next
+- `ghN` → hunk previous
+- `ghp` → hunk preview
+- `gsh` → stage hunk
+- `grh` → reset hunk
+- `gd` → diff
+- `gB` → blame
