@@ -1,0 +1,29 @@
+[[mgr.prepend_keymap]]
+on = ["g", "w"]
+run = "cd ~/Projects/work"
+desc = "Go to work projects"
+
+[[mgr.prepend_keymap]]
+on = ["g", "h"]
+run = "cd ~/Projects/home"
+desc = "Go to home projects"
+
+[[mgr.prepend_keymap]]
+on = ["g", "p"]
+run = "cd ~/Projects"
+desc = "Go to Projects"
+
+[[mgr.prepend_keymap]]
+on = ["g", "d"]
+run = "cd ~/Downloads"
+desc = "Downloads"
+
+[[mgr.prepend_keymap]]
+on = ["g", "c"]
+run = "cd ~/.config"
+desc = "Config directory"
+
+[[mgr.prepend_keymap]]
+on = ["c", "t"]
+run = "close"
+desc = "Close current tab"
