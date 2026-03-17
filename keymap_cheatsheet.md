@@ -91,11 +91,12 @@
 
 # 🪟 FLOATING GIT PREVIEW (NEOGIT STATUS)
 
-| Keymap  | Action                                            |
-| ------- | ------------------------------------------------- |
-| `zf`    | Open floating diff preview (inside Neogit status) |
-| `q`     | Close preview                                     |
-| `<Esc>` | Close preview                                     |
+| Keymap    | Action                                            |
+| -------   | ------------------------------------------------- |
+| `<Enter>` | Open floating diff preview (inside Neogit status) |
+| `e`       | Edit file (inside Neogit status)                  |
+| `q`       | Close preview                                     |
+| `<Esc>`   | Close preview                                     |
 
 ---
 
