@@ -12,38 +12,27 @@ return {
     local map = vim.keymap.set
     local opts = { noremap = true, silent = true }
 
-    -- Preview current hunk
+    -- Preview / inspect
     map("n", "<leader>gp", gitsigns.preview_hunk, vim.tbl_extend("force", opts, {
-      desc = "Preview git hunk",
+      desc = "Preview hunk",
     }))
 
-    -- Diff current file vs HEAD
     map("n", "<leader>gd", gitsigns.diffthis, vim.tbl_extend("force", opts, {
       desc = "Diff current file vs HEAD",
     }))
 
-    -- Navigate hunks
-    map("n", "<leader>gn", gitsigns.next_hunk, vim.tbl_extend("force", opts, {
-      desc = "Next git hunk",
+    map("n", "<leader>gb", gitsigns.blame_line, vim.tbl_extend("force", opts, {
+      desc = "Blame line",
     }))
 
-    map("n", "<leader>gN", gitsigns.prev_hunk, vim.tbl_extend("force", opts, {
-      desc = "Previous git hunk",
+    -- Stage
+    map("n", "<leader>gsh", gitsigns.stage_hunk, vim.tbl_extend("force", opts, {
+      desc = "Stage hunk",
     }))
 
-    -- Stage / reset hunk
-    map("n", "<leader>gS", gitsigns.stage_hunk, vim.tbl_extend("force", opts, {
-      desc = "Stage git hunk",
-    }))
-
-    map("n", "<leader>gR", gitsigns.reset_hunk, vim.tbl_extend("force", opts, {
-      desc = "Reset git hunk",
-    }))
-
-    -- Blame current line
-    map("n", "<leader>gB", gitsigns.blame_line, vim.tbl_extend("force", opts, {
-      desc = "Blame current line",
+    -- Reset
+    map("n", "<leader>grh", gitsigns.reset_hunk, vim.tbl_extend("force", opts, {
+      desc = "Reset hunk",
     }))
   end,
-  opts = {},
 }
