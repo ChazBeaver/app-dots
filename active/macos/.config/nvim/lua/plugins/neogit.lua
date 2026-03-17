@@ -10,7 +10,14 @@ return {
       return
     end
 
-    neogit.setup({})
+    neogit.setup({
+      popup = {
+        kind = "floating",
+      },
+      commit_view = {
+        kind = "floating",
+      },
+    })
 
     -- ============================================================
     -- Helpers
