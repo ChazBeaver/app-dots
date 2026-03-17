@@ -51,11 +51,11 @@ return {
       desc = "Git blame line",
     }))
 
-    map("n", "<leader>gsh", gs_call("stage_hunk"), vim.tbl_extend("force", opts, {
+    map("n", "<leader>ghs", gs_call("stage_hunk"), vim.tbl_extend("force", opts, {
       desc = "Git stage hunk",
     }))
 
-    map("n", "<leader>grh", gs_call("reset_hunk"), vim.tbl_extend("force", opts, {
+    map("n", "<leader>ghr", gs_call("reset_hunk"), vim.tbl_extend("force", opts, {
       desc = "Git reset hunk",
     }))
   end,
