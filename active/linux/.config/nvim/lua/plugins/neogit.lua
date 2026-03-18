@@ -519,18 +519,18 @@ return {
             desc = "Floating git preview",
           }))
 
-          vim.keymap.set("n", "e", function()
-            local line = vim.api.nvim_get_current_line()
-            local filepath = extract_neogit_filepath(line)
-
-            if filepath then
-              open_file_from_neogit_line()
-            else
-              vim.notify("Cursor is not on a changed file line", vim.log.levels.WARN)
-            end
-          end, vim.tbl_extend("force", buf_opts, {
-            desc = "Edit file from Neogit",
-          }))
+          -- vim.keymap.set("n", "e", function()
+          --   local line = vim.api.nvim_get_current_line()
+          --   local filepath = extract_neogit_filepath(line)
+          --
+          --   if filepath then
+          --     open_file_from_neogit_line()
+          --   else
+          --     vim.notify("Cursor is not on a changed file line", vim.log.levels.WARN)
+          --   end
+          -- end, vim.tbl_extend("force", buf_opts, {
+          --   desc = "Edit file from Neogit",
+          -- }))
         end)
       end,
     })
