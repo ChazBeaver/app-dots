@@ -270,6 +270,66 @@ return {
     end
 
     -- ============================================================
+    -- Floating preview helpers
+    -- ============================================================
+    local function open_centered_float(opts)
+      local buf = vim.api.nvim_create_buf(false, true)
+      vim.bo[buf].bufhidden = "wipe"
+      vim.bo[buf].modifiable = true
+
+      vim.api.nvim_buf_set_lines(buf, 0, -1, false, opts.lines or {})
+      vim.bo[buf].modifiable = false
+
+      if opts.filetype then
+        vim.bo[buf].filetype = opts.filetype
+      end
+
+      local width = opts.width or math.floor(vim.o.columns * 0.85)
+      local height = opts.height or math.floor(vim.o.lines * 0.80)
+      local col = math.floor((vim.o.columns - width) / 2)
+      local row = math.floor((vim.o.lines - height) / 2)
+
+      local win = vim.api.nvim_open_win(buf, true, {
+        relative = "editor",
+        width = width,
+        height = height,
+        col = col,
+        row = row,
+        style = "minimal",
+        border = "rounded",
+        title = opts.title or " Preview ",
+        title_pos = "center",
+      })
+
+      vim.wo[win].wrap = opts.wrap or false
+      vim.wo[win].cursorline = true
+
+      local function close_float()
+        if vim.api.nvim_win_is_valid(win) then
+          vim.api.nvim_win_close(win, true)
+        end
+      end
+
+      vim.keymap.set("n", "q", close_float, {
+        buffer = buf,
+        noremap = true,
+        silent = true,
+        nowait = true,
+        desc = "Close floating window",
+      })
+
+      vim.keymap.set("n", "<Esc>", close_float, {
+        buffer = buf,
+        noremap = true,
+        silent = true,
+        nowait = true,
+        desc = "Close floating window",
+      })
+
+      return buf, win
+    end
+
+    -- ============================================================
     -- Floating preview from Neogit status
     -- ============================================================
     local function find_neogit_section(bufnr, row)
@@ -294,6 +354,7 @@ return {
         "^%s*[>v]?%s*copied%s+(.+)$",
         "^%s*[>v]?%s*both modified%s+(.+)$",
         "^%s*[>v]?%s*added%s+(.+)$",
+        "^%s*[>v]?%s*unmerged%s+(.+)$",
       }
 
       for _, pat in ipairs(patterns) do
@@ -341,13 +402,11 @@ return {
       end
 
       local section = find_neogit_section(bufnr, row)
-      if not section then
-        vim.notify("Could not determine whether file is staged or unstaged", vim.log.levels.WARN)
-        return
-      end
-
       local cmd
-      if section == "staged" then
+
+      if line:match("^%s*[>v]?%s*unmerged%s+") then
+        cmd = { "git", "--no-pager", "diff", "--", filepath }
+      elseif section == "staged" then
         cmd = { "git", "--no-pager", "diff", "--cached", "--", filepath }
       else
         cmd = { "git", "--no-pager", "diff", "--", filepath }
@@ -363,61 +422,46 @@ return {
         output = { "No diff output for " .. filepath }
       end
 
-      local float_buf = vim.api.nvim_create_buf(false, true)
-      vim.bo[float_buf].bufhidden = "wipe"
-      vim.bo[float_buf].filetype = "diff"
-      vim.bo[float_buf].modifiable = true
-
       local header = {
         "File: " .. filepath,
-        "Section: " .. section,
+        "Section: " .. (section or "unmerged"),
         "Command: " .. table.concat(cmd, " "),
         string.rep("─", 80),
       }
 
-      vim.api.nvim_buf_set_lines(float_buf, 0, -1, false, vim.list_extend(header, output))
-      vim.bo[float_buf].modifiable = false
-
-      local width = math.floor(vim.o.columns * 0.85)
-      local height = math.floor(vim.o.lines * 0.80)
-      local col = math.floor((vim.o.columns - width) / 2)
-      local row_pos = math.floor((vim.o.lines - height) / 2)
-
-      local win = vim.api.nvim_open_win(float_buf, true, {
-        relative = "editor",
-        width = width,
-        height = height,
-        col = col,
-        row = row_pos,
-        style = "minimal",
-        border = "rounded",
+      open_centered_float({
         title = " Neogit Preview ",
-        title_pos = "center",
+        filetype = "diff",
+        lines = vim.list_extend(header, output),
+        width = math.floor(vim.o.columns * 0.85),
+        height = math.floor(vim.o.lines * 0.80),
+        wrap = false,
       })
+    end
 
-      vim.wo[win].wrap = false
-      vim.wo[win].cursorline = true
-
-      local function close_floating_preview()
-        if vim.api.nvim_win_is_valid(win) then
-          vim.api.nvim_win_close(win, true)
-        end
+    local function open_git_status_short_float()
+      local root = resolve_git_root()
+      if not root then
+        vim.notify("Could not determine Git repository root", vim.log.levels.ERROR)
+        return
       end
 
-      vim.keymap.set("n", "q", close_floating_preview, {
-        buffer = float_buf,
-        noremap = true,
-        silent = true,
-        nowait = true,
-        desc = "Close floating git preview",
-      })
+      local output = vim.fn.systemlist({ "git", "-C", root, "status", "--short" })
+      if vim.v.shell_error ~= 0 then
+        vim.notify("git status --short failed", vim.log.levels.ERROR)
+        return
+      end
 
-      vim.keymap.set("n", "<Esc>", close_floating_preview, {
-        buffer = float_buf,
-        noremap = true,
-        silent = true,
-        nowait = true,
-        desc = "Close floating git preview",
+      if not output or vim.tbl_isempty(output) then
+        output = { "Working tree clean" }
+      end
+
+      open_centered_float({
+        title = " git status --short ",
+        lines = output,
+        width = math.floor(vim.o.columns * 0.60),
+        height = math.min(#output + 2, math.floor(vim.o.lines * 0.60)),
+        wrap = false,
       })
     end
 
@@ -435,10 +479,6 @@ return {
             silent = true,
             nowait = true,
           }
-
-          local original_cr = vim.api.nvim_buf_call(args.buf, function()
-            return vim.fn.maparg("<CR>", "n", false, true)
-          end)
 
           vim.keymap.set("n", "zf", open_floating_git_preview, vim.tbl_extend("force", buf_opts, {
             desc = "Floating git preview",
@@ -463,26 +503,11 @@ return {
 
             if filepath then
               open_floating_git_preview()
-              return
-            end
-
-            if original_cr and type(original_cr) == "table" then
-              if type(original_cr.callback) == "function" then
-                original_cr.callback()
-                return
-              end
-
-              if original_cr.rhs and original_cr.rhs ~= "" then
-                vim.api.nvim_feedkeys(
-                  vim.api.nvim_replace_termcodes(original_cr.rhs, true, false, true),
-                  "n",
-                  false
-                )
-                return
-              end
+            else
+              vim.notify("Cursor is not on a changed file line", vim.log.levels.WARN)
             end
           end, vim.tbl_extend("force", buf_opts, {
-            desc = "Preview file or preserve Neogit Enter",
+            desc = "Preview file in floating window",
           }))
         end)
       end,
@@ -520,6 +545,10 @@ return {
 
     map("n", "<leader>gsa", stage_all_files, vim.tbl_extend("force", opts, {
       desc = "Git stage all",
+    }))
+
+    map("n", "<leader>gss", open_git_status_short_float, vim.tbl_extend("force", opts, {
+      desc = "Git status --short",
     }))
 
     map("n", "<leader>gp", quick_push_origin_head, vim.tbl_extend("force", opts, {
