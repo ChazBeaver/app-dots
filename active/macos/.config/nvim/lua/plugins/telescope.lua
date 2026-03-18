@@ -38,9 +38,6 @@ return {
       vim.keymap.set("n", "<leader>fb", builtin.buffers, { desc = "Find buffers" })
       vim.keymap.set("n", "<leader>fr", builtin.oldfiles, { desc = "Recent files" })
 
-      -- Optional: keep Ctrl-p if you really like it
-      -- vim.keymap.set("n", "<C-p>", builtin.git_files, { desc = "Find git files" })
-
       -- =========================
       -- Search
       -- =========================
@@ -51,6 +48,7 @@ return {
           end,
         })
       end, { desc = "Deep search (includes hidden)" })
+
       vim.keymap.set("n", "<leader>ss", function()
         require("telescope.builtin").grep_string({
           search = vim.fn.input("Grep > "),
@@ -59,6 +57,7 @@ return {
           end,
         })
       end, { desc = "Search for input string (deep search)" })
+
       vim.keymap.set("n", "<leader>sw", function()
         require("telescope.builtin").grep_string({
           additional_args = function()
@@ -66,6 +65,7 @@ return {
           end,
         })
       end, { desc = "Search word under cursor (deep search)" })
+
       vim.keymap.set("n", "<leader>sg", function()
         local git_root = vim.fn.systemlist("git rev-parse --show-toplevel")[1]
         if not git_root or git_root == "" then
@@ -84,7 +84,7 @@ return {
       -- =========================
       -- Git
       -- =========================
-      vim.keymap.set("n", "<leader>gc", builtin.git_commits, { desc = "Git commits" })
+      vim.keymap.set("n", "<leader>gcc", builtin.git_commits, { desc = "Git commits" })
       vim.keymap.set("n", "<leader>gb", builtin.git_branches, { desc = "Git branches" })
       vim.keymap.set("n", "<leader>gt", builtin.git_status, { desc = "Git status" })
       vim.keymap.set("n", "<leader>gfh", builtin.git_bcommits, { desc = "Git history for current file" })
@@ -94,7 +94,6 @@ return {
       -- Diagnostics / help
       -- =========================
       vim.keymap.set("n", "<leader>sd", builtin.diagnostics, { desc = "Search diagnostics" })
-      -- vim.keymap.set("n", "<leader>hh", builtin.help_tags, { desc = "Help tags" })
 
       require("telescope").load_extension("ui-select")
     end,
