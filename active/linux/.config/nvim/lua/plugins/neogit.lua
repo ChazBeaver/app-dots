@@ -131,6 +131,145 @@ return {
     end
 
     -- ============================================================
+    -- Telescope-powered merge helpers
+    -- ============================================================
+    local function git_current_branch(root)
+      local result = vim.fn.systemlist({ "git", "-C", root, "branch", "--show-current" })
+      if vim.v.shell_error ~= 0 or not result[1] or result[1] == "" then
+        return nil
+      end
+      return vim.trim(result[1])
+    end
+
+    local function git_local_branches(root)
+      local result = vim.fn.systemlist({
+        "git",
+        "-C",
+        root,
+        "for-each-ref",
+        "--format=%(refname:short)",
+        "refs/heads/",
+      })
+
+      if vim.v.shell_error ~= 0 then
+        return {}
+      end
+
+      local branches = {}
+      for _, branch in ipairs(result) do
+        branch = vim.trim(branch)
+        if branch ~= "" then
+          table.insert(branches, branch)
+        end
+      end
+
+      return branches
+    end
+
+    local function telescope_pick_branch(opts, on_select)
+      opts = opts or {}
+
+      local ok_picker, pickers = pcall(require, "telescope.pickers")
+      local ok_finders, finders = pcall(require, "telescope.finders")
+      local ok_conf, conf = pcall(require, "telescope.config")
+      local ok_actions, actions = pcall(require, "telescope.actions")
+      local ok_action_state, action_state = pcall(require, "telescope.actions.state")
+
+      if not (ok_picker and ok_finders and ok_conf and ok_actions and ok_action_state) then
+        vim.notify("Telescope is not available", vim.log.levels.ERROR)
+        return
+      end
+
+      local root = resolve_git_root()
+      if not root then
+        vim.notify("Could not determine Git repository root", vim.log.levels.ERROR)
+        return
+      end
+
+      local branches = git_local_branches(root)
+      if vim.tbl_isempty(branches) then
+        vim.notify("No local git branches found", vim.log.levels.WARN)
+        return
+      end
+
+      if opts.exclude and opts.exclude ~= "" then
+        branches = vim.tbl_filter(function(branch)
+          return branch ~= opts.exclude
+        end, branches)
+      end
+
+      if vim.tbl_isempty(branches) then
+        vim.notify("No valid branches available to select", vim.log.levels.WARN)
+        return
+      end
+
+      pickers.new({}, {
+        prompt_title = opts.prompt_title or "Select Git Branch",
+        finder = finders.new_table({
+          results = branches,
+        }),
+        sorter = conf.values.generic_sorter({}),
+        attach_mappings = function(prompt_bufnr, _)
+          actions.select_default:replace(function()
+            local selection = action_state.get_selected_entry()
+            actions.close(prompt_bufnr)
+
+            if not selection then
+              return
+            end
+
+            local branch = selection[1]
+            if not branch or branch == "" then
+              return
+            end
+
+            on_select(branch, root)
+          end)
+
+          return true
+        end,
+      }):find()
+    end
+
+    local function merge_two_selected_branches()
+      local root = resolve_git_root()
+      if not root then
+        vim.notify("Could not determine Git repository root", vim.log.levels.ERROR)
+        return
+      end
+
+      local current = git_current_branch(root)
+
+      telescope_pick_branch({
+        prompt_title = current and ("Merge INTO branch (current: " .. current .. ")") or "Merge INTO branch",
+      }, function(target_branch, repo_root)
+        telescope_pick_branch({
+          prompt_title = "Merge FROM branch",
+          exclude = target_branch,
+        }, function(source_branch, repo_root_2)
+          vim.notify("Switching to " .. target_branch .. "...", vim.log.levels.INFO)
+          vim.fn.system({ "git", "-C", repo_root_2, "switch", target_branch })
+
+          if vim.v.shell_error ~= 0 then
+            vim.notify("Failed to switch to " .. target_branch, vim.log.levels.ERROR)
+            return
+          end
+
+          vim.notify("Merging " .. source_branch .. " into " .. target_branch .. "...", vim.log.levels.INFO)
+          vim.fn.system({ "git", "-C", repo_root_2, "merge", "--no-ff", source_branch })
+
+          if vim.v.shell_error ~= 0 then
+            vim.notify("Merge failed or has conflicts; open Neogit to resolve", vim.log.levels.WARN)
+            vim.cmd("Neogit")
+            return
+          end
+
+          vim.notify("Merged " .. source_branch .. " into " .. target_branch, vim.log.levels.INFO)
+        end)
+      end)
+    end
+
+    -- ============================================================
     -- Floating preview from Neogit status
     -- ============================================================
     local function find_neogit_section(bufnr, row)
@@ -301,12 +440,10 @@ return {
             return vim.fn.maparg("<CR>", "n", false, true)
           end)
 
-          -- Explicit floating preview
           vim.keymap.set("n", "zf", open_floating_git_preview, vim.tbl_extend("force", buf_opts, {
             desc = "Floating git preview",
           }))
 
-          -- Edit file from changed-file lines
           vim.keymap.set("n", "e", function()
             local line = vim.api.nvim_get_current_line()
             local filepath = extract_neogit_filepath(line)
@@ -320,7 +457,6 @@ return {
             desc = "Edit file from Neogit",
           }))
 
-          -- Enter previews changed files; otherwise preserve Neogit's original Enter behavior
           vim.keymap.set("n", "<CR>", function()
             local line = vim.api.nvim_get_current_line()
             local filepath = extract_neogit_filepath(line)
@@ -390,7 +526,7 @@ return {
       desc = "Git quick push origin HEAD",
     }))
 
-    map("n", "<leader>gm", function()
+    map("n", "<leader>gmc", function()
       local root = resolve_git_root()
       if not root then
         vim.notify("Could not determine Git repository root", vim.log.levels.ERROR)
@@ -414,6 +550,10 @@ return {
       end)
     end, vim.tbl_extend("force", opts, {
       desc = "Git quick commit staged changes",
+    }))
+
+    map("n", "<leader>gmb", merge_two_selected_branches, vim.tbl_extend("force", opts, {
+      desc = "Pick target branch, then source branch, then merge",
     }))
   end,
   opts = {},
