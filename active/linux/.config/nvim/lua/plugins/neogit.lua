@@ -465,6 +465,32 @@ return {
       })
     end
 
+    local function open_git_status_long_float()
+      local root = resolve_git_root()
+      if not root then
+        vim.notify("Could not determine Git repository root", vim.log.levels.ERROR)
+        return
+      end
+
+      local output = vim.fn.systemlist({ "git", "-C", root, "status" })
+      if vim.v.shell_error ~= 0 then
+        vim.notify("git status failed", vim.log.levels.ERROR)
+        return
+      end
+
+      if not output or vim.tbl_isempty(output) then
+        output = { "No output from git status" }
+      end
+
+      open_centered_float({
+        title = " git status ",
+        lines = output,
+        width = math.floor(vim.o.columns * 0.75),
+        height = math.min(#output + 2, math.floor(vim.o.lines * 0.75)),
+        wrap = true, -- 👈 important for long lines
+      })
+    end
+
     vim.api.nvim_create_autocmd("FileType", {
       pattern = "NeogitStatus",
       callback = function(args)
@@ -549,6 +575,10 @@ return {
 
     map("n", "<leader>gss", open_git_status_short_float, vim.tbl_extend("force", opts, {
       desc = "Git status --short",
+    }))
+
+    map("n", "<leader>gsl", open_git_status_long_float, vim.tbl_extend("force", opts, {
+      desc = "Git status",
     }))
 
     map("n", "<leader>gp", quick_push_origin_head, vim.tbl_extend("force", opts, {
