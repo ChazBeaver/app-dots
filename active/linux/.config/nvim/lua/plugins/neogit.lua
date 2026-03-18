@@ -526,7 +526,7 @@ return {
       desc = "Git quick push origin HEAD",
     }))
 
-    map("n", "<leader>gmc", function()
+    map("n", "<leader>gcm", function()
       local root = resolve_git_root()
       if not root then
         vim.notify("Could not determine Git repository root", vim.log.levels.ERROR)
