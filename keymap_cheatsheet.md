@@ -18,37 +18,40 @@
 
 | Keymap       | Action                                   |
 | ------------ | ---------------------------------------- |
-| `<leader>sl` | Live grep (deep search, includes hidden) |
+| `<leader>sl` | Deep search (includes hidden)            |
 | `<leader>ss` | Search input string (deep search)        |
-| `<leader>sw` | Search word under cursor                 |
-| `<leader>sg` | Search within git repo only              |
+| `<leader>sw` | Search word under cursor (deep search)   |
+| `<leader>sg` | Search git repo                          |
 | `<leader>sd` | Search diagnostics                       |
 
 ---
 
 # 🌿 GIT — TELESCOPE (READ / EXPLORE)
 
-| Keymap                 | Action                       |
-| ---------------------- | ---------------------------- |
-| `<leader>gc`           | Git commits                  |
-| `<leader>gb`           | Git branches                 |
-| `<leader>gt`           | Git status (Telescope)       |
-| `<leader>gfh`          | Git history (current file)   |
-| `<leader>gfh` (visual) | Git history (selected lines) |
+| Keymap                 | Action                               |
+| ---------------------- | ------------------------------------ |
+| `<leader>gcc`          | Git commits                          |
+| `<leader>gb`           | Git branches                         |
+| `<leader>gt`           | Git status                           |
+| `<leader>gfh`          | Git history (current file)           |
+| `<leader>gfh` (visual) | Git history (selected lines)         |
 
 ---
 
 # 🧩 GIT — NEOGIT (WORKFLOW)
 
-| Keymap       | Action                        |
-| ------------ | ----------------------------- |
-| `<leader>ga` | Open Neogit                   |
-| `<leader>gC` | Commit popup (Neogit UI)      |
-| `<leader>gL` | Log popup                     |
-| `<leader>gl` | Pull popup                    |
-| `<leader>gP` | Push popup                    |
-| `<leader>gm` | Quick commit (inline message) |
-| `<leader>gp` | Quick push `origin HEAD`      |
+| Keymap        | Action                                      |
+| ------------- | ------------------------------------------- |
+| `<leader>ga`  | Open Neogit                                 |
+| `<leader>gC`  | Commit popup                                |
+| `<leader>gL`  | Log popup                                   |
+| `<leader>gl`  | Pull popup                                  |
+| `<leader>gP`  | Push popup                                  |
+| `<leader>gcm` | Quick commit (inline message)               |
+| `<leader>gp`  | Quick push `origin HEAD`                    |
+| `<leader>gss` | Git status `--short` (floating window)      |
+| `<leader>gsl` | Git status (floating window)                |
+| `<leader>gmb` | Merge branches (interactive picker)         |
 
 ---
 
@@ -89,18 +92,19 @@
 
 ---
 
-# 🪟 FLOATING GIT PREVIEW (NEOGIT STATUS)
+# 🪟 NEOGIT STATUS — FLOATING PREVIEW
 
 | Keymap    | Action                                            |
-| -------   | ------------------------------------------------- |
-| `<Enter>` | Open floating diff preview (inside Neogit status) |
-| `e`       | Edit file (inside Neogit status)                  |
+| --------- | ------------------------------------------------- |
+| `zf`      | Open floating diff preview                        |
+| `<Enter>` | Preview file in floating window                   |
+| `e`       | Edit file                                         |
 | `q`       | Close preview                                     |
 | `<Esc>`   | Close preview                                     |
 
 ---
 
-# ⚡ MENTAL MODEL (IMPORTANT)
+# ⚡ MENTAL MODEL
 
 ### Everything Git starts with:
 
@@ -110,21 +114,27 @@
 
 ### Then:
 
-* `s` → stage
-* `h` → hunk
-* `r` → reset
-* `d` → diff
-* `B` → blame
-* `p` → preview
-* `n/N` → next / previous
-* `a` → open app (Neogit)
-* `m` → commit
-* `P` → push
-* `l` → pull / log
+- `c` → commits / commit  
+- `b` → branches  
+- `t` → status (Telescope)  
+- `f` → file history  
+- `s` → stage / status  
+- `h` → hunk  
+- `d` → diff  
+- `B` → blame  
+- `p` → push  
+- `n/N` → next / previous hunk  
+- `a` → open Neogit  
+- `m` → commit / merge  
+- `L` → log  
+- `l` → pull  
+- `ss` → short status  
+- `sl` → long status  
+- `mb` → merge branches  
 
 ---
 
-# 🚀 BONUS (Your Git CLI equivalents)
+# 🚀 BONUS (Git CLI equivalents)
 
 | Action                          | Command                                  |
 | ------------------------------- | ---------------------------------------- |
@@ -132,4 +142,3 @@
 | Full wipe (including untracked) | `git reset --hard HEAD && git clean -fd` |
 | Unstage                         | `git restore --staged .`                 |
 | Discard changes                 | `git restore .`                          |
-
