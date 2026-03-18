@@ -241,12 +241,12 @@ return {
       local current = git_current_branch(root)
 
       telescope_pick_branch({
-        prompt_title = current and ("Merge INTO branch (current: " .. current .. ")") or "Merge INTO branch",
-      }, function(target_branch, repo_root)
+        prompt_title = current and ("Merge FROM branch (current: " .. current .. ")") or "Merge FROM branch",
+      }, function(source_branch, repo_root)
         telescope_pick_branch({
-          prompt_title = "Merge FROM branch",
-          exclude = target_branch,
-        }, function(source_branch, repo_root_2)
+          prompt_title = "Merge INTO branch",
+          exclude = source_branch,
+        }, function(target_branch, repo_root_2)
           vim.notify("Switching to " .. target_branch .. "...", vim.log.levels.INFO)
           vim.fn.system({ "git", "-C", repo_root_2, "switch", target_branch })
 
