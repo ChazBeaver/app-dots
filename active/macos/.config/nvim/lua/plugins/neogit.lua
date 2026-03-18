@@ -487,7 +487,7 @@ return {
         lines = output,
         width = math.floor(vim.o.columns * 0.75),
         height = math.min(#output + 2, math.floor(vim.o.lines * 0.75)),
-        wrap = true, -- 👈 important for long lines
+        wrap = true,
       })
     end
 
@@ -506,24 +506,7 @@ return {
             nowait = true,
           }
 
-          vim.keymap.set("n", "zf", open_floating_git_preview, vim.tbl_extend("force", buf_opts, {
-            desc = "Floating git preview",
-          }))
-
-          vim.keymap.set("n", "e", function()
-            local line = vim.api.nvim_get_current_line()
-            local filepath = extract_neogit_filepath(line)
-
-            if filepath then
-              open_file_from_neogit_line()
-            else
-              vim.notify("Cursor is not on a changed file line", vim.log.levels.WARN)
-            end
-          end, vim.tbl_extend("force", buf_opts, {
-            desc = "Edit file from Neogit",
-          }))
-
-          vim.keymap.set("n", "<CR>", function()
+          vim.keymap.set("n", "zf", function()
             local line = vim.api.nvim_get_current_line()
             local filepath = extract_neogit_filepath(line)
 
@@ -533,8 +516,21 @@ return {
               vim.notify("Cursor is not on a changed file line", vim.log.levels.WARN)
             end
           end, vim.tbl_extend("force", buf_opts, {
-            desc = "Preview file in floating window",
+            desc = "Floating git preview",
           }))
+
+          -- vim.keymap.set("n", "e", function()
+          --   local line = vim.api.nvim_get_current_line()
+          --   local filepath = extract_neogit_filepath(line)
+          --
+          --   if filepath then
+          --     open_file_from_neogit_line()
+          --   else
+          --     vim.notify("Cursor is not on a changed file line", vim.log.levels.WARN)
+          --   end
+          -- end, vim.tbl_extend("force", buf_opts, {
+          --   desc = "Edit file from Neogit",
+          -- }))
         end)
       end,
     })
