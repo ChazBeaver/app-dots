@@ -150,6 +150,14 @@ end, { desc = "Show highlight group under cursor" })
  
 -- vim.keymap.set("n", "<leader>gd", "<cmd>!git diff -- %<CR>", { desc = "Git diff current file" })
 
+-- Escape VimDiff when in VimDiff by using <Esc>
+vim.keymap.set("n", "<Esc>", function()
+  if vim.wo.diff then
+    vim.cmd("diffoff")
+    vim.cmd("only")
+  end
+end, { desc = "Exit diff mode cleanly" })
+
 -- ############################################################################
 --                         Begin of markdown section
 -- ############################################################################
