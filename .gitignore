@@ -5,11 +5,10 @@ active/linux/.config/nvim/lua/plugins/vimwiki.lua
 active/shared/.config/nvim/lua/plugins/lualine.lua
 active/shared/.config/nvim/lua/plugins/rose-pine-theme.lua
 active/shared/.config/nvim/lua/plugins/kanagawa-theme.lua
-active/shared/.config/nvim/lazy-lock.json
 active/shared/HOME/zsh/zsh_modules/macos/work.sh
 active/shared/.config/nvim/colors/active
 active/shared/.config/kitty/themes
 active/shared/.config/kitty/kitty.conf
-active/linux/.config/nvim/lazy-lock.json
-active/shared/.config/nvim/lazy-lock.json
-active/macos/.config/nvim/lazy-lock.json
+# active/linux/.config/nvim/lazy-lock.json
+# active/shared/.config/nvim/lazy-lock.json
+# active/macos/.config/nvim/lazy-lock.json
