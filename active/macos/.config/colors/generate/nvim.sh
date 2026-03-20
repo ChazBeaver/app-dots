@@ -19,9 +19,9 @@ cat > "$theme_file_path" <<EOF
 
 color01=$color01   # Keyword / Statement / Function.builtin
 color02=$color02   # String / Git Add
-color03=$color03   # Number / Constant / Type / Boolean
+color03=$color03   # Number / Constant / Type / Boolean / Git Change
 color04=$color04   # Function / Function.call / Directory / shCommandSub
-color05=$color05   # Identifier / Variable / Git Change
+color05=$color05   # Identifier / Variable
 color06=$color06   # Type / Special string paths / Executable / Symbolic links
 color07=$color07   # Code block background (rarely used directly)
 color08=$color08   # Heading 6 / subtle UI (not currently used)

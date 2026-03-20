@@ -2,9 +2,9 @@
 
 color01=#9c5a3c   # Keyword / Statement / Function.builtin
 color02=#6a825f   # String / Git Add
-color03=#c0a759   # Number / Constant / Type / Boolean
+color03=#c0a759   # Number / Constant / Type / Boolean / Git Change
 color04=#7e8686   # Function / Function.call / Directory / shCommandSub
-color05=#5f7362   # Identifier / Variable / Git Change
+color05=#5f7362   # Identifier / Variable
 color06=#cc6d00   # Type / Special string paths / Executable / Symbolic links
 color07=#2e2e2a   # Code block background (rarely used directly)
 color08=#4a4a3f   # Heading 6 / subtle UI (not currently used)
