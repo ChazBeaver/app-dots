@@ -117,12 +117,29 @@ M.apply = function(colors)
     highlight link netrwDir Directory
   ]]
 
-  --[[ ==========================================================================
-  Git Signs
+  -- --[[ ==========================================================================
+  -- Git Signs
+  -- ========================================================================== ]]
+  -- set(0, "GitSignsAdd", fg("color02"))
+  -- set(0, "GitSignsChange", fg("color05"))
+  -- set(0, "GitSignsDelete", fg("color11"))
+
+--[[ ==========================================================================
+  Diff / Neogit
   ========================================================================== ]]
-  set(0, "GitSignsAdd", fg("color02"))
-  set(0, "GitSignsChange", fg("color05"))
-  set(0, "GitSignsDelete", fg("color11"))
+  set(0, "DiffAdd", fg_bg("color14", "color02"))
+  set(0, "DiffDelete", fg_bg("color14", "color11"))
+  set(0, "DiffChange", fg_bg("color14", "color05"))
+  set(0, "DiffText", fg_bg("color10", "color03"))
+
+  set(0, "diffAdded", fg("color02"))
+  set(0, "diffRemoved", fg("color11"))
+  set(0, "diffChanged", fg("color05"))
+  set(0, "diffFile", fg("color04"))
+  set(0, "diffNewFile", fg("color02"))
+  set(0, "diffOldFile", fg("color11"))
+  set(0, "diffLine", fg("color03"))
+  set(0, "diffIndexLine", fg("color09"))
 
   --[[ ==========================================================================
   LSP
