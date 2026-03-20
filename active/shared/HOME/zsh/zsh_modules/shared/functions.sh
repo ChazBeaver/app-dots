@@ -77,16 +77,6 @@ y() {
   rm -f "$tmp"
 }
 
-# # Select Theme for Zsh, Neovim, Kitty, Starship, and Btop
-# tt() {
-#   local script="$APP_DOTS_DIR/active/shared/.config/colors/pick-theme.sh"
-#   if [[ -x "$script" ]]; then
-#     bash "$script"
-#   else
-#     echo "❌ pick-theme.sh not found or not executable at: $script"
-#   fi
-# }
-
 # Print a list of Colors for testing
 printcolors() {
   for i in {0..255}; do print -P "%F{$i}Color $i%f"; done
