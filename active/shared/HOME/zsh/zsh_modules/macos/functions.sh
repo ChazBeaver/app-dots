@@ -1,6 +1,6 @@
 # Select Theme for Zsh, Neovim, Kitty, Starship, and Btop
 tt() {
-  local script="$APP_DOTS_DIR/active/shared/.config/colors/pick-theme.sh"
+  local script="$APP_DOTS_DIR/active/macos/.config/colors/pick-theme.sh"
   if [[ -x "$script" ]]; then
     bash "$script"
   else
