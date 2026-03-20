@@ -117,29 +117,104 @@ M.apply = function(colors)
     highlight link netrwDir Directory
   ]]
 
-  -- --[[ ==========================================================================
-  -- Git Signs
-  -- ========================================================================== ]]
-  -- set(0, "GitSignsAdd", fg("color02"))
-  -- set(0, "GitSignsChange", fg("color05"))
-  -- set(0, "GitSignsDelete", fg("color11"))
+  --[[ ==========================================================================
+  Git Signs
+  ========================================================================== ]]
+  set(0, "GitSignsAdd", fg("color02"))
+  set(0, "GitSignsChange", fg("color03"))
+  set(0, "GitSignsDelete", fg("color11"))
 
---[[ ==========================================================================
+  --[[ ==========================================================================
   Diff / Neogit
   ========================================================================== ]]
-  set(0, "DiffAdd", fg_bg("color14", "color02"))
-  set(0, "DiffDelete", fg_bg("color14", "color11"))
-  set(0, "DiffChange", fg_bg("color14", "color05"))
-  set(0, "DiffText", fg_bg("color10", "color03"))
+  set(0, "DiffAdd", {
+    fg = colors["color02"],
+    bg = colors["color10"],
+    nocombine = true,
+  })
 
-  set(0, "diffAdded", fg("color02"))
-  set(0, "diffRemoved", fg("color11"))
-  set(0, "diffChanged", fg("color05"))
+  set(0, "DiffDelete", {
+    fg = colors["color11"],
+    bg = colors["color10"],
+    nocombine = true,
+  })
+
+  set(0, "DiffChange", {
+    fg = colors["color03"],
+    bg = colors["color10"],
+    nocombine = true,
+  })
+
+  set(0, "DiffText", {
+    fg = colors["color14"],
+    bg = colors["color10"],
+    nocombine = true,
+  })
+
+  set(0, "diffAdded", {
+    fg = colors["color02"],
+    bg = colors["color10"],
+    nocombine = true,
+  })
+
+  set(0, "diffRemoved", {
+    fg = colors["color11"],
+    bg = colors["color10"],
+    nocombine = true,
+  })
+
+  set(0, "diffChanged", {
+    fg = colors["color03"],
+    bg = colors["color10"],
+    nocombine = true,
+  })
+
   set(0, "diffFile", fg("color04"))
   set(0, "diffNewFile", fg("color02"))
   set(0, "diffOldFile", fg("color11"))
-  set(0, "diffLine", fg("color03"))
+  set(0, "diffLine", fg("color09"))
   set(0, "diffIndexLine", fg("color09"))
+
+  set(0, "@diff.plus", {
+    fg = colors["color02"],
+    bg = colors["color10"],
+    nocombine = true,
+  })
+
+  set(0, "@diff.minus", {
+    fg = colors["color11"],
+    bg = colors["color10"],
+    nocombine = true,
+  })
+
+  set(0, "@diff.delta", {
+    fg = colors["color03"],
+    bg = colors["color10"],
+    nocombine = true,
+  })
+
+  set(0, "Added", {
+    fg = colors["color02"],
+    bg = colors["color10"],
+    nocombine = true,
+  })
+
+  set(0, "Removed", {
+    fg = colors["color11"],
+    bg = colors["color10"],
+    nocombine = true,
+  })
+
+  set(0, "Changed", {
+    fg = colors["color03"],
+    bg = colors["color10"],
+    nocombine = true,
+  })
+
+  -- deleted shell comments are the stubborn case
+  vim.cmd("highlight! DiffDelete guifg=" .. colors["color11"] .. " guibg=" .. colors["color10"] .. " gui=nocombine")
+  vim.cmd("highlight! diffRemoved guifg=" .. colors["color11"] .. " guibg=" .. colors["color10"] .. " gui=nocombine")
+  vim.cmd("highlight! @diff.minus guifg=" .. colors["color11"] .. " guibg=" .. colors["color10"] .. " gui=nocombine")
 
   --[[ ==========================================================================
   LSP

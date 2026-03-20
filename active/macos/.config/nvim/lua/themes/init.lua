@@ -15,6 +15,15 @@ local colors = loader.parse(default_name)
 apply.apply(colors)
 vim.g.colors_name = default_name
 
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "NeogitCommitView",
+  callback = function()
+    vim.fn.matchadd("DiffAdd", [[^+.*$]])
+    vim.fn.matchadd("DiffDelete", [[^-.*$]])
+    vim.fn.matchadd("DiffChange", [[^@@.*$]])
+  end,
+})
+
 -- Define :Theme <name> command
 vim.api.nvim_create_user_command("Theme", function(opts)
   local name = opts.args

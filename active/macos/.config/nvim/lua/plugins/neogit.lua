@@ -11,9 +11,12 @@ return {
     end
 
     neogit.setup({
+      disable_context_highlighting = true,
+
       popup = {
         kind = "floating",
       },
+
       commit_view = {
         kind = "floating",
       },
