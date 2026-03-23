@@ -139,6 +139,45 @@ vim.keymap.set("n", "<leader>pt", function()
   vim.notify("Group: " .. name .. "\nTrans: " .. trans .. "\nFG: " .. hl, vim.log.levels.INFO)
 end, { desc = "Show highlight group under cursor" })
 
+-- ############################################################################
+--                         Begin of diagnostics section
+-- ############################################################################
+
+vim.keymap.set("n", "<leader>k", function()
+  local bufnr = vim.api.nvim_get_current_buf()
+  local cursor = vim.api.nvim_win_get_cursor(0)
+  local line = cursor[1] - 1
+  local found = false
+
+  print(string.format("Extmarks → buf %d line %d", bufnr, line + 1))
+
+  for name, id in pairs(vim.api.nvim_get_namespaces()) do
+    local marks = vim.api.nvim_buf_get_extmarks(
+      bufnr,
+      id,
+      { line, 0 },
+      { line + 1, 0 },
+      { details = true }
+    )
+
+    if #marks > 0 then
+      found = true
+      print(string.format("NS: %s  ID: %d", name, id))
+      vim.print(marks)
+    end
+  end
+
+  if not found then
+    print("No extmarks found on this line")
+  end
+end, { desc = "Inspect extmarks (Neogit/debug)" })
+
+-- ############################################################################
+--                         End of diagnostics section
+-- ############################################################################
+
+
+
 
 -- ############################################################################
 --                         Begin of application section
