@@ -1,0 +1,3 @@
+# Run this command in lua to see what categories apply under the cursor
+
+:lua local bufnr=vim.api.nvim_get_current_buf(); local line=vim.api.nvim_win_get_cursor(0)[1]-1; for name,id in pairs(vim.api.nvim_get_namespaces()) do local marks=vim.api.nvim_buf_get_extmarks(bufnr,id,{line,0},{line+1,0},{details=true}); if #marks>0 then print("NS:",name,"ID:",id); vim.print(marks) end end
