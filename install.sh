@@ -49,6 +49,24 @@ link_item() {
   local source="$1"
   local target="$2"
 
+  # 🚨 Safety: never replace core macOS Library roots
+  case "$target" in
+    "$HOME/Library" | \
+    "$HOME/Library/"* | \
+    "$HOME/Library/Preferences" | \
+    "$HOME/Library/Application Support")
+      case "$target" in
+        "$HOME/Library/Preferences/"* | "$HOME/Library/Application Support/"*)
+          # file-level items inside these are allowed
+          ;;
+        "$HOME/Library" | "$HOME/Library/Preferences" | "$HOME/Library/Application Support")
+          echo "❌ Refusing to modify protected path: $target"
+          return 1
+          ;;
+      esac
+      ;;
+  esac
+
   # If target exists…
   if [ -e "$target" ] || [ -L "$target" ]; then
     # If it's already the correct symlink, done.
@@ -120,10 +138,18 @@ install_macos_library_scope() {
   [ "$OS" = "macos" ] || return 0
 
   echo " Installing Library from: $lib_path"
-  find "$lib_path" -mindepth 1 -maxdepth 1 | while read -r item; do
-    local name
-    name="$(basename "$item")"
-    link_item "$item" "$HOME/Library/$name"
+
+  find "$lib_path" -mindepth 1 | while read -r item; do
+    local rel
+    rel="${item#$lib_path/}"
+    local target="$HOME/Library/$rel"
+
+    if [ -d "$item" ]; then
+      mkdir -p "$target"
+      continue
+    fi
+
+    link_item "$item" "$target"
   done
 }
 
