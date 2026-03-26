@@ -137,11 +137,28 @@ install_scope() {
   install_macos_library_scope "$scope_dir/library"
 }
 
+run_macos_scripts() {
+  [ "$OS" = "macos" ] || return 0
+
+  local macos_scripts_dir="$SCRIPT_DIR/scripts/macos"
+  [ -d "$macos_scripts_dir" ] || return 0
+
+  echo " Running macOS scripts from: $macos_scripts_dir"
+
+  find "$macos_scripts_dir" -mindepth 1 -maxdepth 1 -type f | sort | while read -r script; do
+    chmod +x "$script" 2>/dev/null || true
+    echo "▶ Running: $(basename "$script")"
+    "$script"
+  done
+}
+
 echo "🔍 Linking shared dotfiles..."
 install_scope "$ACTIVE_DIR/shared"
 
 echo "🔍 Linking $OS-specific dotfiles..."
 install_scope "$ACTIVE_DIR/$OS"
+
+run_macos_scripts
 
 if [ "$OS" = "macos" ]; then
   echo -e "\n📣 macOS post-install notice:"
