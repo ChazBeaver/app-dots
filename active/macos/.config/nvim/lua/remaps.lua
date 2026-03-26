@@ -148,7 +148,16 @@ end, { desc = "Show highlight group under cursor" })
 -- ############################################################################
 --                         Begin of github section
 -- ############################################################################
- 
+
+-- Escape VimDiff when in VimDiff by using <Esc>
+vim.keymap.set("n", "<Esc>", function()
+  if vim.wo.diff then
+    vim.cmd("diffoff")
+    vim.cmd("only")
+  end
+end, { desc = "Exit diff mode cleanly" })
+
+
 -- -- Function to get the GitHub URL of the current file
 -- local function get_github_url_of_current_file()
 --   local file_path = vim.fn.expand("%:p")
