@@ -143,7 +143,7 @@ end, { desc = "Show highlight group under cursor" })
 --                         Begin of diagnostics section
 -- ############################################################################
 
-vim.keymap.set("n", "<leader>k", function()
+vim.keymap.set("n", "<leader>ki", function()
   local bufnr = vim.api.nvim_get_current_buf()
   local cursor = vim.api.nvim_win_get_cursor(0)
   local line = cursor[1] - 1
