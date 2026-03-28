@@ -97,6 +97,7 @@ gb* helpers:
   gbd [base]      DELETE -> Pick "dead" local branches (Merged into base OR Upstream gone) via fzf (multi-select)
                     - and INSERT a delete command into your prompt (does not run).
   gbvm [base]     VIEW "branch vs main[base]" file diff (name-status) for current branch.
+  gbra [dir]      AUDIT child repos in a directory; show repo name + clean/changes status. Defaults to current dir.
   gbls            LIST STALE branches (branches whose most recent commit is older than 30 days); exclude main and HEAD
 
   --EXTRA--
@@ -355,3 +356,30 @@ gbd() {
 
   print -z -- "$cmd"
 }
+
+# ---------- gbra: Git Branch Repo Audit ----------
+# Usage:
+#   gbra        # scan child repos in current dir
+#   gbra path   # scan child repos in path
+gbra() {
+  local root="${1:-.}"
+  local green=$'\e[32m'
+  local red=$'\e[31m'
+  local reset=$'\e[0m'
+  local repo name repo_status
+
+  for repo in "$root"/*; do
+    [[ -d "$repo" ]] || continue
+    git -C "$repo" rev-parse --is-inside-work-tree >/dev/null 2>&1 || continue
+
+    name="${repo:t}"
+    repo_status="$(git -C "$repo" status --porcelain 2>/dev/null)"
+
+    if [[ -n "$repo_status" ]]; then
+      printf "%-22s %b\n" "$name" "${red}changes${reset}"
+    else
+      printf "%-22s %b\n" "$name" "${green}clean${reset}"
+    fi
+  done
+}
+
