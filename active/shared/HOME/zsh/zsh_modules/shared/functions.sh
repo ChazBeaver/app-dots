@@ -82,3 +82,15 @@ printcolors() {
   for i in {0..255}; do print -P "%F{$i}Color $i%f"; done
 }
 
+list-functions() {
+  local selected
+
+  selected=$(
+    print -l ${(k)functions} \
+      | sort \
+      | fzf --prompt='functions> ' --height=40% --layout=reverse
+  ) || return
+
+  echo
+  functions "$selected"
+}
