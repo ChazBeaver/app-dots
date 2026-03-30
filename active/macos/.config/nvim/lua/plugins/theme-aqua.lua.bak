@@ -1,0 +1,10 @@
+return {
+  {
+    "ChazBeaver/aqua.nvim",
+    name = "aqua",
+    priority = 1000,
+    config = function()
+      vim.cmd.colorscheme("aqua")
+    end,
+  },
+}
