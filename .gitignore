@@ -12,3 +12,4 @@ active/shared/.config/kitty/kitty.conf
 # active/linux/.config/nvim/lazy-lock.json
 # active/shared/.config/nvim/lazy-lock.json
 # active/macos/.config/nvim/lazy-lock.json
+active/macos/.config/nvim/theme.txt
