@@ -27,10 +27,9 @@ vim.keymap.set("n", "<leader>EH", [[:Explore ~/.<CR>]],
  
 -- FUN KEYMAPS
 
--- Theme Selector nvim/lua/themes/picker.lua
 vim.keymap.set("n", "<leader>tt", function()
-  require("themes.picker").open()
-end, { desc = "Pick a theme with preview (Telescope)" })
+  require("theme_manager").pick_theme()
+end, { desc = "Theme picker" })
  
 -- Launch Lazy Menu
 vim.keymap.set("n", "<leader>l", vim.cmd.Lazy,

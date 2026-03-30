@@ -1,7 +1,5 @@
--- Map <leader>
-vim.g.mapleader = " " -- Make sure to set `mapleader` before lazy so your mappings are correct
+vim.g.mapleader = " "
 vim.g.maplocalleader = " "
-vim.opt.winbar = "%=%f%="
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
@@ -10,16 +8,15 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
     "clone",
     "--filter=blob:none",
     "https://github.com/folke/lazy.nvim.git",
-    "--branch=stable", -- latest stable release
+    "--branch=stable",
     lazypath,
   })
 end
 vim.opt.rtp:prepend(lazypath)
 
--- Enable True Color Support
 vim.opt.termguicolors = true
 
--- require("themes")           -- loads default theme and :Colortheme
 require("lazy").setup("plugins")
 require("vim-options")
 require("remaps")
+require("theme_manager").load_saved_theme()
