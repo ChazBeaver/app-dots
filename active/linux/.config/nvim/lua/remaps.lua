@@ -171,15 +171,6 @@ vim.keymap.set("n", "<leader>ya", [[ggVG"+y]],
 vim.keymap.set("n", "<leader>va", [[ggVG]],
   { desc = "Highlight the entire file" })
 
--- Copy filepath to clipboard
-vim.keymap.set("n", "<leader>yfp",
-  function()
-    vim.fn.setreg("+", vim.fn.expand("%:p"))
-    print("📋 Copied full file path " )
-  end,
-  { desc = "Copy full file path to clipboard" }
-)
-
 -- Copy the name of the file being worked on currently
 vim.keymap.set("n", "<leader>yfn", function()
   vim.fn.setreg("+", vim.fn.expand("%:t"))
