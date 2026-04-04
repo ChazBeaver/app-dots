@@ -4,3 +4,6 @@ cava() {
   command cava -p "$config" "$@"
 }
 
+cam() {
+  webcam-launch "${1:-overlay}"
+}

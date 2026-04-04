@@ -178,6 +178,15 @@ run_macos_scripts() {
   done
 }
 
+run_system_bin_sync() {
+  local sync_script="$SCRIPT_DIR/scripts/install/sync-system-bin.sh"
+  [ -f "$sync_script" ] || return 0
+
+  chmod +x "$sync_script" 2>/dev/null || true
+  echo "🔧 Syncing system scripts into ~/.local/bin..."
+  "$sync_script"
+}
+
 echo "🔍 Linking shared dotfiles..."
 install_scope "$ACTIVE_DIR/shared"
 
@@ -185,6 +194,7 @@ echo "🔍 Linking $OS-specific dotfiles..."
 install_scope "$ACTIVE_DIR/$OS"
 
 run_macos_scripts
+run_system_bin_sync
 
 if [ "$OS" = "macos" ]; then
   echo -e "\n📣 macOS post-install notice:"
