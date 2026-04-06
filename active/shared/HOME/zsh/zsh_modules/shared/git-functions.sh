@@ -96,7 +96,7 @@ gb* helpers:
   gbr [base]      REPORT (read-only): Active, Merged, Upstream-gone categories.
   gbd [base]      DELETE -> Pick "dead" local branches (Merged into base OR Upstream gone) via fzf (multi-select)
                     - and INSERT a delete command into your prompt (does not run).
-  gbvm [base]     VIEW "branch vs main[base]" file diff (name-status) for current branch.
+  gbdm [base]     VIEW "branch vs main[base]" file diff (name-status) for current branch.
   gbra [dir]      AUDIT child repos in a directory; show repo name + clean/changes status. Defaults to current dir.
   gbls            LIST STALE branches (branches whose most recent commit is older than 30 days); exclude main and HEAD
 
@@ -242,10 +242,10 @@ gbs() {
   print -z -- "$cmd"
 }
 
-# ---------- gbvm: branch vs main (renamed from branchvsmain) ----------
+# ---------- gbdm: branch vs main (renamed from branchvsmain) ----------
 # Compare changes made in current branch to base (defaults to main/master)
 # Shows which files differ (name + status) between base..HEAD, using origin/<base> if present.
-gbvm() {
+gbdm() {
   local base base_ref
   git rev-parse --is-inside-work-tree >/dev/null 2>&1 || { echo "Not a git repo" >&2; return 1; }
 
