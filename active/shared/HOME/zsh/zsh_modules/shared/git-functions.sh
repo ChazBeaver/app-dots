@@ -1,3 +1,27 @@
+# Git Add All; Git Commit; Git Push
+# ALL REPOS IN DIRECTORY
+gcmdir() {
+  local msg="$*"
+
+  if [[ -z "$msg" ]]; then
+    echo "❌ Usage: gcmdir \"commit message\""
+    return 1
+  fi
+
+  for d in */; do
+    (
+      cd "$d" || exit
+
+      if [[ -d .git ]]; then
+        echo "🚀 [$d] committing..."
+        git aa && git com "$msg" && gpush
+      else
+        echo "⏭️ [$d] skipped (not a git repo)"
+      fi
+    )
+  done
+}
+
 # Git stash current work, pull updates, stash pop work back in place
 stashpull() {
   local message="stashing to pull latest"
@@ -99,6 +123,9 @@ gb* helpers:
   gbdm [base]     VIEW "branch vs main[base]" file diff (name-status) for current branch.
   gbra [dir]      AUDIT child repos in a directory; show repo name + clean/changes status. Defaults to current dir.
   gbls            LIST STALE branches (branches whose most recent commit is older than 30 days); exclude main and HEAD
+  
+  gcmdir ["commit message"]  !!USE WITH CAUTION!!  ->  ALL REPOS IN DIRECTORY; Git Add All; Git Commit -m; Git Push
+
 
   --EXTRA--
 
