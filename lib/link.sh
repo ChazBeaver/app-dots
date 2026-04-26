@@ -101,8 +101,8 @@ install_macos_library_scope() {
 }
 
 # install_bin_scope BIN_DIR OS
-# Symlinks bin/*    -> ~/.local/bin/<name>       (cross-platform)
-#          bin/<OS>/* -> ~/.local/bin/<name>    (OS-specific)
+# Symlinks bin/shared/* -> ~/.local/bin/<n>   (cross-platform)
+#          bin/<OS>/*   -> ~/.local/bin/<n>   (OS-specific)
 # Strips trailing .sh from the link name so scripts run as bare commands.
 install_bin_scope() {
   local bin_dir="$1"
@@ -113,16 +113,19 @@ install_bin_scope() {
   log_sync "Syncing bin into ~/.local/bin"
 
   local -a dirs=()
-  # Cross-platform scripts directly under bin/
-  while IFS= read -r f; do
-    dirs+=("$f")
-  done < <(find "$bin_dir" -mindepth 1 -maxdepth 1 -type f)
+
+  # Cross-platform scripts under bin/shared/
+  if [ -d "$bin_dir/shared" ]; then
+    while IFS= read -r f; do
+      dirs+=("$f")
+    done < <(find "$bin_dir/shared" -mindepth 1 -maxdepth 1 -type f | sort)
+  fi
 
   # OS-specific scripts under bin/<os>/
   if [ -d "$bin_dir/$os" ]; then
     while IFS= read -r f; do
       dirs+=("$f")
-    done < <(find "$bin_dir/$os" -mindepth 1 -maxdepth 1 -type f)
+    done < <(find "$bin_dir/$os" -mindepth 1 -maxdepth 1 -type f | sort)
   fi
 
   for src in "${dirs[@]}"; do
