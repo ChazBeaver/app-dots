@@ -1,98 +1,173 @@
-# App-Dots
+# Appdots
 
-A simple, modular dotfiles system for managing application configurations across Linux and macOS.
+A modular dotfiles system for managing application configurations across Linux and macOS.
 
-App-Dots uses a pure Bash install script to symlink configs cleanly into your `$HOME` or `$HOME/.config` directory.  
-No dependencies, no extra tools — just fast, clean installs.
+Pure Bash — no dependencies, no extra tools. Symlinks configs cleanly into `$HOME` and `~/.config/`, installs OS-appropriate packages, and keeps everything verifiable with a built-in doctor.
 
 ---
 
 ## 📦 What's Inside
 
-| App / Tool | Config |
-|:-----------|:-------|
-| Bash       | `.bashrc`, `.bash_profile` |
-| Git        | `.gitconfig` |
-| Neovim     | `.config/nvim/` |
-| Starship   | `starship.toml` |
-| Yazi       | `.config/yazi/` |
-| Zsh        | `.zshrc` |
+| Scope | Platform | What it manages |
+|:------|:---------|:----------------|
+| `active/shared/` | Both | Ghostty, Starship, Yazi, Zsh, Bash, Git |
+| `active/linux/` | Linux | Neovim (Linux), xdg-terminals |
+| `active/macos/` | macOS | Neovim (macOS), Rectangle preferences |
 
 ---
 
-## 📦 Backup Before Install
+## 🚀 Quick Start
 
-Before running the `install.sh` script, it's **highly recommended** to run the `backup.sh` script.
+### Fresh machine (first time)
 
-This will:
+```bash
+git clone <repo-url> ~/appdots
+cd ~/appdots
+./bootstrap.sh
+```
 
- - Backup existing files in your `$HOME` or `$HOME/.config/` that would otherwise be overwritten by symlinks.
- - Rename any conflicting files or directories by appending `.bak` (e.g., `.zshrc` → `.zshrc.bak`).
- - Ensure a clean environment for `install.sh` to safely symlink files from the `active/` directory.
+`bootstrap.sh` runs in order:
+1. **Backup** — renames any conflicting real files to `.bak`
+2. **Packages** — installs declared packages via `pacman`/`yay` (Linux) or `brew` (macOS)
+3. **System tweaks** — applies OS-level settings from `system/<os>/`
+4. **Sync** — symlinks all configs into place
 
-This extra step keeps your previous configs safe and avoids symlink issues during installation.
+### After a git pull
 
-Run it with:
+```bash
+./sync.sh
+```
+
+Idempotent — safe to run as many times as you like.
+
+---
+
+## 🗂 Backup Before Sync
 
 ```bash
 ./backup.sh
 ```
 
-Then proceed with:
+Renames any real (non-symlink) files that sync would replace, appending `.bak`. Run this manually before your first sync on a machine with existing configs.
+
+---
+
+## 🔍 Diagnostics
 
 ```bash
-./install.sh
+./doctor.sh
+```
+
+Runs two checks:
+
+- **`doctor/symlinks.sh`** — verifies every symlink exists and points correctly
+- **`doctor/packages.sh`** — compares installed packages against `packages/<os>/core.sh`, filtering out Omarchy base packages and sibling repo (hyprdots) declarations to avoid false positives
+
+Exit code is non-zero if drift is detected. Run `./sync.sh` to fix symlink drift.
+
+---
+
+## 🔧 How It Works
+
+### Scopes
+
+Each `active/<scope>/` directory mirrors into your home using three sub-structures:
+
+| Sub-path | What happens |
+|:---------|:-------------|
+| `active/<scope>/HOME/<bucket>/<file>` | Symlinked to `~/<file>` |
+| `active/<scope>/.config/<entry>` | Symlinked to `~/.config/<entry>` |
+| `active/<scope>/library/<path>` | Symlinked to `~/Library/<path>` (macOS only) |
+
+`sync.sh` processes `shared/` first, then the OS-specific scope. Later entries win on conflict.
+
+### bin/
+
+Scripts in `bin/` are symlinked into `~/.local/bin/` with `.sh` stripped from the name, making them available as bare commands:
+
+| Path | Symlinked as |
+|:-----|:------------|
+| `bin/shared/<script>.sh` | `~/.local/bin/<script>` |
+| `bin/linux/<script>.sh` | `~/.local/bin/<script>` (Linux only) |
+| `bin/macos/<script>.sh` | `~/.local/bin/<script>` (macOS only) |
+
+### system/
+
+One-time OS mutation scripts run by `bootstrap.sh` in alphabetical order. Never touched by `sync.sh`. Safe to re-run (idempotent), but only necessary on a fresh machine.
+
+| Path | Purpose |
+|:-----|:--------|
+| `system/linux/10-default-shell.sh` | Set zsh as default login shell |
+| `system/macos/10-apply-defaults.sh` | Apply macOS system defaults |
+| `system/macos/20-apply-symbolic-hotkeys.sh` | Configure keyboard shortcuts |
+| `system/macos/30-dock.sh` | Dock layout and behavior |
+| `system/macos/40-login-items.sh` | Login items |
+| `system/macos/50-browser.sh` | Default browser |
+
+---
+
+## 🔧 Environment
+
+`sync.sh` writes `APP_DOTS_DIR` and an `alias appdots` to `~/.dotfiles-env.sh`. This file is shared with hyprdots so both repos can filter each other's package declarations from drift reports.
+
+Make sure it's sourced in your shell rc:
+
+```bash
+# ~/.zshrc or ~/.bashrc
+[ -f ~/.dotfiles-env.sh ] && source ~/.dotfiles-env.sh
+```
+
+The `appdots` alias drops you into the repo directory from anywhere.
+
+---
+
+## 🔄 Auto Git Pull
+
+Zsh loads `active/shared/HOME/zsh/zsh_modules/shared/personal-repos-pull.sh` on every new terminal session, which runs `git pull --rebase` on both appdots and hyprdots automatically.
+
+To disable, rename that file to `.sh.bak` and re-run `./sync.sh`.
+
+---
+
+## 📁 Repo Layout
+
+```
+appdots/
+├── active/
+│   ├── shared/          # Configs for all platforms
+│   ├── linux/           # Linux-specific configs
+│   └── macos/           # macOS-specific configs
+├── bin/
+│   ├── shared/          # Cross-platform scripts → ~/.local/bin/
+│   ├── linux/           # Linux scripts          → ~/.local/bin/
+│   └── macos/           # macOS scripts          → ~/.local/bin/
+├── doctor/
+│   ├── packages.sh      # Package drift check
+│   └── symlinks.sh      # Symlink drift check
+├── lib/
+│   ├── backup.sh        # Backup helpers
+│   ├── detect.sh        # OS detection
+│   ├── link.sh          # Symlink creation logic
+│   └── log.sh           # Emoji logging helpers
+├── packages/
+│   ├── linux/core.sh    # Declared pacman / AUR packages
+│   └── macos/core.sh    # Declared Homebrew formulae and casks
+├── system/
+│   ├── linux/           # One-time Linux setup scripts
+│   └── macos/           # One-time macOS setup scripts
+├── backup.sh            # Back up before sync
+├── bootstrap.sh         # Cold-boot: backup + packages + system + sync
+├── doctor.sh            # Run all diagnostics
+└── sync.sh              # Symlink sync (run after git pull)
 ```
 
 ---
 
-## 🚀 Install
+## 🔄 Relationship with Hyprdots
 
-The install script will:
+`appdots` and `hyprdots` are sibling repos. Both write their install path to `~/.dotfiles-env.sh` so each repo's `doctor/packages.sh` can filter out the other's declared packages from drift reports, preventing false positives.
 
-- Set the `APP_DOTS_DIR` environment variable (saved in `~/.dotfiles-env.sh`).
-- Create an alias `appdots` to `cd` you to wherever you installed the appdots project
-- Symlink configs from `active/` into `$HOME` or `$HOME/.config/` based on structure.
-- Skip anything already correctly linked.
-
----
-
-## 🛠 How It Works
-
-- **active/** — Configs you want linked into your system.
-- **inactive/** — Configs stored for later, but not installed.
-
-Move files between `active/` and `inactive/` as needed, then re-run `install.sh`.
-
-The script only links top-level files and folders — no deep recursion, no surprises.
-
----
-
-## 🔄 Automatic Git Pull Behavior
-
-This system includes a `appdots-pull.sh` and a `hyprdots-pull.sh` helper script that automatically runs `git pull --rebase` on your appdots and hypr-dots repos every time a new terminal session starts. Continue reading to find out how to disable this feature.
-
-This behavior is **enabled by default** by sourcing the script inside `.zshrc`.
-
-### 🧘 Disable Auto Git Pull
-
-If you **don't want Git pulling every time you open your terminal**, you can:
-
-- **Remove or comment out** (rename the filetype to .sh.bak) the following:
-
- - `appdots-pull.sh` script from the active/shared/HOME/zsh/zsh_modules/shared folder:
- - `hyprdots-pull.sh` script from the active/shared/HOME/zsh/zsh_modules/linux folder:
-
-I have this enabled for myself as I develop between systems
-
----
-
-## ✨ Coming Soon
-
- - Colorscheme selector to match multiple apps to the same colorscheme
- - Additional fzf selection for common use cases i.e. colorscheme selection, latest files, project dirs, etc.
- - Brewfile and more content for MacOS installs
- - Custom Spellcheck System for Neovim with on/off toggle
+Both repos share the same `lib/` architecture and shell conventions.
 
 ---
 
