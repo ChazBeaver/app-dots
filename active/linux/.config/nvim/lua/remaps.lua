@@ -155,6 +155,11 @@ vim.keymap.set("n", "<leader>l", vim.cmd.Lazy,
 vim.keymap.set("n", "<leader>nh", vim.cmd.noh, -- short for nohlsearch
   { desc = "[P] No Highlight - Clear Highlight Search" })
  
+-- Toggle Relative Numbers
+vim.keymap.set("n", "<leader>rnu", function()
+  vim.cmd("set rnu!")
+end, { desc = "[P] Toggle Relative Line Numbers" })
+
 -- Delete All Marks
 vim.keymap.set("n", "<leader>mD", [[:delmarks!<CR>]],
 { desc = "Delete All Marks" })
