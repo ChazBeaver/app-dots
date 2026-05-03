@@ -11,7 +11,7 @@ vim.g.mapleader = " " -- Make sure to set `mapleader` before lazy so your mappin
  
 -- Editor Options
 o.number = true
-o.relativenumber = false
+o.relativenumber = true
 o.clipboard = "unnamedplus"
 o.syntax = "on"
 o.autoindent = true
