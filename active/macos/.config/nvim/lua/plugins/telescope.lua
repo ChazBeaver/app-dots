@@ -81,6 +81,110 @@ return {
         })
       end, { desc = "Search git repo" })
 
+      vim.keymap.set("n", "<leader>gcb", function()
+        local filepath = vim.fn.expand("%:p")
+        if filepath == "" then
+          vim.notify("No file in current buffer", vim.log.levels.WARN)
+          return
+        end
+
+        local file_dir = vim.fn.fnamemodify(filepath, ":h")
+        local root = vim.fn.systemlist({ "git", "-C", file_dir, "rev-parse", "--show-toplevel" })[1]
+        if vim.v.shell_error ~= 0 or not root or root == "" then
+          vim.notify("Current file is not in a git repository", vim.log.levels.ERROR)
+          return
+        end
+
+        local rel_path = filepath:sub(#root + 2)
+
+        -- Collect local + remote branches (skip HEAD aliases)
+        local raw = vim.fn.systemlist({
+          "git", "-C", root, "for-each-ref",
+          "--format=%(refname:short)",
+          "refs/heads/", "refs/remotes/",
+        })
+        local branches = {}
+        for _, b in ipairs(raw) do
+          b = vim.trim(b)
+          if b ~= "" and not b:match("/HEAD$") then
+            table.insert(branches, b)
+          end
+        end
+
+        if vim.tbl_isempty(branches) then
+          vim.notify("No git branches found", vim.log.levels.WARN)
+          return
+        end
+
+        local pickers      = require("telescope.pickers")
+        local finders      = require("telescope.finders")
+        local conf         = require("telescope.config").values
+        local actions      = require("telescope.actions")
+        local action_state = require("telescope.actions.state")
+
+        pickers.new({}, {
+          prompt_title = "Compare " .. rel_path .. " against branch",
+          finder = finders.new_table({ results = branches }),
+          sorter = conf.generic_sorter({}),
+          attach_mappings = function(prompt_bufnr, _)
+            actions.select_default:replace(function()
+              local selection = action_state.get_selected_entry()
+              actions.close(prompt_bufnr)
+              if not selection then return end
+              local branch = selection[1]
+
+              local diff = vim.fn.systemlist({
+                "git", "-C", root, "--no-pager", "diff", branch, "--", filepath,
+              })
+              if vim.v.shell_error ~= 0 then
+                vim.notify("git diff failed for " .. branch, vim.log.levels.ERROR)
+                return
+              end
+              if not diff or vim.tbl_isempty(diff) then
+                diff = { "No differences between current file and " .. branch }
+              end
+
+              local buf = vim.api.nvim_create_buf(false, true)
+              vim.bo[buf].bufhidden = "wipe"
+              local header = {
+                "File:   " .. rel_path,
+                "Branch: " .. branch,
+                "Cmd:    git diff " .. branch .. " -- " .. rel_path,
+                string.rep("─", 80),
+              }
+              vim.api.nvim_buf_set_lines(buf, 0, -1, false, vim.list_extend(header, diff))
+              vim.bo[buf].modifiable = false
+              vim.bo[buf].filetype = "diff"
+
+              local width  = math.floor(vim.o.columns * 0.85)
+              local height = math.floor(vim.o.lines * 0.80)
+              local win = vim.api.nvim_open_win(buf, true, {
+                relative   = "editor",
+                width      = width,
+                height     = height,
+                col        = math.floor((vim.o.columns - width) / 2),
+                row        = math.floor((vim.o.lines - height) / 2),
+                style      = "minimal",
+                border     = "rounded",
+                title      = " Compare against " .. branch .. " ",
+                title_pos  = "center",
+              })
+              vim.wo[win].wrap = false
+              vim.wo[win].cursorline = true
+
+              local function close()
+                if vim.api.nvim_win_is_valid(win) then
+                  vim.api.nvim_win_close(win, true)
+                end
+              end
+              vim.keymap.set("n", "q", close, { buffer = buf, nowait = true, silent = true })
+              vim.keymap.set("n", "<Esc>", close, { buffer = buf, nowait = true, silent = true })
+            end)
+            return true
+          end,
+        }):find()
+      end, { desc = "Compare current file against a branch (Telescope)" })
+
       -- =========================
       -- Git
       -- =========================
