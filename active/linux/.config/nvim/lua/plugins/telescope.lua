@@ -81,7 +81,7 @@ return {
         })
       end, { desc = "Search git repo" })
 
-      vim.keymap.set("n", "<leader>gcb", function()
+      vim.keymap.set("n", "<leader>gfd", function()
         local filepath = vim.fn.expand("%:p")
         if filepath == "" then
           vim.notify("No file in current buffer", vim.log.levels.WARN)
