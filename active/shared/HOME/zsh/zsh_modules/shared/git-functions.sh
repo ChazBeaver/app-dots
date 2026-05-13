@@ -22,6 +22,92 @@ gcmdir() {
   done
 }
 
+# Git Rebase
+# ALL REPOS IN DIRECTORY
+grdir() {
+  emulate -L zsh
+  setopt local_options null_glob
+
+  local parent="${1:-$PWD}"
+  local dir name branch
+  local -i ok=0 fail=0 skip=0
+
+  for dir in "$parent"/*(N/); do
+    name="${dir:t}"
+    if [[ ! -d "$dir/.git" ]] && ! git -C "$dir" rev-parse --git-dir &>/dev/null; then
+      print -P "%F{yellow}⊘ $name%f (not a git repo)"
+      (( skip++ ))
+      continue
+    fi
+
+    print -P "%F{cyan}▶ $name%f"
+    branch=$(git -C "$dir" symbolic-ref --short HEAD 2>/dev/null)
+
+    if [[ -z "$branch" ]]; then
+      print -P "  %F{yellow}detached HEAD, fetching only%f"
+      if git -C "$dir" fetch --all --prune --tags; then
+        (( ok++ ))
+      else
+        (( fail++ ))
+      fi
+      continue
+    fi
+
+    if git -C "$dir" fetch --prune --tags origin && \
+       git -C "$dir" pull --rebase --autostash origin "$branch"; then
+      (( ok++ ))
+    else
+      print -P "  %F{red}✗ rebase failed (conflicts or other error — check repo state)%f"
+      (( fail++ ))
+    fi
+  done
+
+  print -P "\n%F{green}✓ $ok%f rebased  %F{red}✗ $fail%f failed  %F{yellow}⊘ $skip%f skipped"
+}
+
+# Git Pull
+# ALL REPOS IN DIRECTORY
+gpulldir() {
+  emulate -L zsh
+  setopt local_options null_glob
+
+  local parent="${1:-$PWD}"
+  local dir name branch
+  local -i ok=0 fail=0 skip=0
+
+  for dir in "$parent"/*(N/); do
+    name="${dir:t}"
+    if [[ ! -d "$dir/.git" ]] && ! git -C "$dir" rev-parse --git-dir &>/dev/null; then
+      print -P "%F{yellow}⊘ $name%f (not a git repo)"
+      (( skip++ ))
+      continue
+    fi
+
+    print -P "%F{cyan}▶ $name%f"
+    branch=$(git -C "$dir" symbolic-ref --short HEAD 2>/dev/null)
+
+    if [[ -z "$branch" ]]; then
+      print -P "  %F{yellow}detached HEAD, fetching only%f"
+      if git -C "$dir" fetch --all --prune --tags; then
+        (( ok++ ))
+      else
+        (( fail++ ))
+      fi
+      continue
+    fi
+
+    if git -C "$dir" fetch --prune --tags origin && \
+       git -C "$dir" pull --ff-only --no-rebase origin "$branch"; then
+      (( ok++ ))
+    else
+      print -P "  %F{red}✗ pull failed (uncommitted changes, conflicts, or non-ff)%f"
+      (( fail++ ))
+    fi
+  done
+
+  print -P "\n%F{green}✓ $ok%f updated  %F{red}✗ $fail%f failed  %F{yellow}⊘ $skip%f skipped"
+}
+
 # Git stash current work, pull updates, stash pop work back in place
 stashpull() {
   local message="stashing to pull latest"
