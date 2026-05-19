@@ -30,4 +30,3 @@ alias tree='tree -C'
 alias k='kubectl'
 # Personal
 alias rr='reporoot'
-alias no='notes'
