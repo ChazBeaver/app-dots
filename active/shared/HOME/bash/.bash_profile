@@ -4,3 +4,5 @@
 # include .bashrc if it exists
 [[ -f ~/.bashrc ]] && . ~/.bashrc
 
+
+. "$HOME/.local/share/../bin/env"

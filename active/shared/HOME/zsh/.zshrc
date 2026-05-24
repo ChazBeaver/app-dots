@@ -39,3 +39,5 @@ if [ "$OS_NAME" = "macos" ] && [ -d "$HOME/Projects/work/zsh" ]; then
     [ -r "$file" ] && source "$file"
   done
 fi
+
+. "$HOME/.local/share/../bin/env"
