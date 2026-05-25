@@ -1,6 +1,6 @@
 # Git Add All; Git Commit; Git Push
 # ALL REPOS IN DIRECTORY
-gcmdir() {
+dirgcm() {
   local msg="$*"
 
   if [[ -z "$msg" ]]; then
@@ -24,7 +24,7 @@ gcmdir() {
 
 # Git Rebase
 # ALL REPOS IN DIRECTORY
-grdir() {
+dirgpullr() {
   emulate -L zsh
   setopt local_options null_glob
 
@@ -67,7 +67,7 @@ grdir() {
 
 # Git Pull
 # ALL REPOS IN DIRECTORY
-gpulldir() {
+dirgpull() {
   emulate -L zsh
   setopt local_options null_glob
 
