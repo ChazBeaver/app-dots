@@ -100,7 +100,7 @@ return {
     }))
 
     map("n", "<leader>gdf", gs_call("diffthis"), vim.tbl_extend("force", opts, {
-      desc = "Git diff this file vs HEAD/default",
+      desc = "file vs HEAD/default",
     }))
 
     map("n", "<leader>gdm", diff_vs_primary_branch, vim.tbl_extend("force", opts, {
