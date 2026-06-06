@@ -40,4 +40,5 @@ if [ "$OS_NAME" = "macos" ] && [ -d "$HOME/Projects/work/zsh" ]; then
   done
 fi
 
-. "$HOME/.local/share/../bin/env"
+LOCAL_ENV="$HOME/.local/bin/env"
+[ -r "$LOCAL_ENV" ] && source "$LOCAL_ENV"
