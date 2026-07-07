@@ -5,20 +5,25 @@ return {
     lazy = false,
     build = ":TSUpdate",
     config = function()
-      require("nvim-treesitter").setup()
+      -- If the plugin isn't fully cloned yet (e.g. first launch after a wipe),
+      -- skip quietly. Run :Lazy sync, then restart.
+      local ok_main, nts = pcall(require, "nvim-treesitter")
+      local ok_cfg, ts_config = pcall(require, "nvim-treesitter.config")
+      if not (ok_main and ok_cfg) then
+        return
+      end
 
-      -- Parsers you want installed
+      nts.setup()
+
       local ensure_installed = { "lua", "bash", "c", "javascript", "go" }
-
-      local installed = require("nvim-treesitter.config").get_installed()
+      local installed = ts_config.get_installed()
       local missing = vim.tbl_filter(function(lang)
         return not vim.tbl_contains(installed, lang)
       end, ensure_installed)
       if #missing > 0 then
-        require("nvim-treesitter").install(missing)
+        nts.install(missing)
       end
 
-      -- Enable highlighting + indentation per buffer
       vim.api.nvim_create_autocmd("FileType", {
         callback = function(ev)
           if pcall(vim.treesitter.start, ev.buf) then
