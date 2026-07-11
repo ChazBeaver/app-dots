@@ -1,0 +1,27 @@
+#!/usr/bin/env zsh
+# ~/.config/git/hooks/pre-commit — runs on EVERY repo via global core.hooksPath
+
+patterns_file="${HOME}/.config/git/secret-patterns.txt"
+staged=$(git diff --cached --name-only --diff-filter=ACM)
+[[ -z "$staged" ]] && exit 0
+
+patterns=("${(@f)$(grep -vE '^[[:space:]]*(#|$)' "$patterns_file")}")
+
+fail=0
+for f in ${(f)staged}; do
+  content=$(git show ":$f" 2>/dev/null) || continue
+  for p in $patterns; do
+    if print -r -- "$content" | grep -Eq -- "$p"; then
+      echo "❌ Blocked: '$f' matches secret pattern  /$p/"
+      fail=1
+    fi
+  done
+done
+
+if (( fail )); then
+  echo ""
+  echo "Commit aborted — secrets belong in your out-of-git env file, not the repo."
+  echo "False positive? Fix the pattern, or bypass just this once with: git commit --no-verify"
+  exit 1
+fi
+exit 0
