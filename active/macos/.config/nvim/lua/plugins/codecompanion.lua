@@ -32,7 +32,7 @@ return {
       cli = {
         agent = "codex",
         agents = {
-          codex = { cmd = "codex", args = {}, description = "OpenAI Codex CLI" },
+          codex = { cmd = "codex", args = { "--model", "gpt-5.1"}, description = "OpenAI Codex CLI" },
         },
       },
     },
