@@ -22,6 +22,33 @@ home() {
   cd "$base/$choice" || return 1
 }
 
+# work() {
+#   local base="$HOME/Projects/work"
+#   local choice
+#
+#   [[ -d "$base" ]] || { echo "❌ Missing: $base"; return 1; }
+#
+#   # Collect directories one and two levels below $base
+#   choice="$(
+#     {
+#       # level 1: immediate children
+#       find "$base" -mindepth 1 -maxdepth 1 -type d 2>/dev/null
+#       # level 2: children of immediate children
+#       find "$base" -mindepth 2 -maxdepth 2 -type d 2>/dev/null
+#     } \
+#       | sed "s|^$base/||" \
+#       | sort \
+#       | fzf \
+#           --height 60% \
+#           --reverse \
+#           --prompt='work> ' \
+#           --preview 'ls -la --color=always "$HOME/Projects/work/{}" | sed -n "1,120p"'
+#   )" || return 0
+#
+#   cd "$base/$choice" || return 1
+# }
+#
+
 reporoot() {
   local dir="$PWD"
   dir="${dir%/}"
