@@ -7,3 +7,10 @@ cava() {
 cam() {
   webcam-launch "${1:-overlay}"
 }
+
+# launch Yazi in the notes directory
+notes() {
+    local notes_dir="$HOME/Documents/notes"
+    [[ -d "$notes_dir" ]] || mkdir -p "$notes_dir"
+    yazi "$notes_dir"
+}

@@ -104,13 +104,6 @@ y() {
   rm -f "$tmp"
 }
 
-# launch Yazi in the notes directory
-notes() {
-    local notes_dir="$HOME/Documents/notes"
-    [[ -d "$notes_dir" ]] || mkdir -p "$notes_dir"
-    yazi "$notes_dir"
-}
-
 # Print a list of Colors for testing
 printcolors() {
   for i in {0..255}; do print -P "%F{$i}Color $i%f"; done
