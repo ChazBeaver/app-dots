@@ -11,6 +11,7 @@
   autocrlf = input
   editor = nvim
 	hooksPath = ~/.config/git/hooks
+  excludesfile = ~/.gitignore_example
 [diff]
   tool = nvimdiff
 [difftool "nvimdiff"]
