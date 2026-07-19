@@ -1,16 +1,16 @@
 # ---------- home: fzf jump into ~/Projects/home (names only) ----------
-home() {
+home () {
   local base="$HOME/Projects/home"
   local choice
+  [[ -d "$base" ]] || {
+    echo "❌ Missing: $base"
+    return 1
+  }
 
-  [[ -d "$base" ]] || { echo "❌ Missing: $base"; return 1; }
-
-  # List directory *names* only
   choice="$(
-    ls -1 "$base" 2>/dev/null \
-      | while read -r d; do
-          [[ -d "$base/$d" ]] && echo "$d"
-        done \
+    for d in "$base"/*; do
+      [[ -d "$d" ]] && basename "$d"
+    done \
       | sort \
       | fzf \
           --height 60% \
