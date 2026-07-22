@@ -198,16 +198,16 @@ gbh() {
 gb* helpers:
 
   gbh             Show this help.
-  gbl [repo]      LIST local + origin/* branches for a repo.
-  gbs [repo]      SWITCH to branch for a repo (fzf; inserts command).
+  gbl   [repo]      LIST local + origin/* branches for a repo.
+  gbs   [repo]      SWITCH to branch for a repo (fzf; inserts command).
   gbu <branch>    UPDATE branch -> ex: gbu main
   gbdiff [n]      LIST files changed from HEAD~n to HEAD (default n=1). ex: gbdiff 2
   gbp             PRUNE remote-tracking refs (after Fetch); show local branches with upstream gone.
-  gbr [base]      REPORT (read-only): Active, Merged, Upstream-gone categories.
-  gbd [base]      DELETE -> Pick "dead" local branches (Merged into base OR Upstream gone) via fzf (multi-select)
+  gbr   [base]      REPORT (read-only): Active, Merged, Upstream-gone categories.
+  gbd   [base]      DELETE -> Pick "dead" local branches (Merged into base OR Upstream gone) via fzf (multi-select)
                     - and INSERT a delete command into your prompt (does not run).
-  gbdm [base]     VIEW "branch vs main[base]" file diff (name-status) for current branch.
-  gbra [dir]      AUDIT child repos in a directory; show repo name + clean/changes status. Defaults to current dir.
+  gbcvm [base]     VIEW "branch(current) vs main[base]" file diff (name-status) for current branch.
+  gbra  [dir]      AUDIT child repos in a directory; show repo name + clean/changes status. Defaults to current dir.
   gbls            LIST STALE branches (branches whose most recent commit is older than 30 days); exclude main and HEAD
   
   gcmdir ["commit message"]  !!USE WITH CAUTION!!  ->  ALL REPOS IN DIRECTORY; Git Add All; Git Commit -m; Git Push
@@ -355,10 +355,10 @@ gbs() {
   print -z -- "$cmd"
 }
 
-# ---------- gbdm: branch vs main (renamed from branchvsmain) ----------
+# ---------- gbcvm: branch vs main (renamed from branchvsmain) ----------
 # Compare changes made in current branch to base (defaults to main/master)
 # Shows which files differ (name + status) between base..HEAD, using origin/<base> if present.
-gbdm() {
+gbcvm() {
   local base base_ref
   git rev-parse --is-inside-work-tree >/dev/null 2>&1 || { echo "Not a git repo" >&2; return 1; }
 
