@@ -13,6 +13,7 @@ PACMAN_PKGS=(
   yazi
   yq
   python-virtualenv
+  tuicr-bin
 
   # --- Fonts ---
   ttf-firacode-nerd
