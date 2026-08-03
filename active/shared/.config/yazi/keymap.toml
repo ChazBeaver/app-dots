@@ -29,6 +29,11 @@ run = "cd ~/Projects/work/notes"
 desc = "Config directory"
 
 [[mgr.prepend_keymap]]
+on = ["g", "t"]
+run = "cd ~/Projects/work/transcripts"
+desc = "Config directory"
+
+[[mgr.prepend_keymap]]
 on = ["c", "t"]
 run = "close"
 desc = "Close current tab"
