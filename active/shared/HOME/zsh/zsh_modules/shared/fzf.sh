@@ -15,7 +15,7 @@ export FZF_DEFAULT_OPTS="
 --bind 'ctrl-v:execute(code {+})'
 "
 
-# FZF Directory with Tree Preview and jump to it # manually added; fixthis; TODO
+# Find system directories
 fd() {
   local root="${1:-$HOME}"
   [[ "$1" == "--all" ]] && root="/"
@@ -33,8 +33,15 @@ fd() {
 
   cd -- "$dir"
 }
-# FZF file with preview; jump to edit
+
+# Find a file to edit
 fe() {
     local file
     file=$(find ${1:-.} -type f 2> /dev/null | fzf --preview 'bat --style=numbers --color=always {} || cat {}' +m) && [ -n "$file" ] && nvim "$file"
+}
+
+# Find relative directories
+fcd() {
+  local dir
+  dir=$(find "${1:-.}" -type d -not -path '*/.*' 2>/dev/null | fzf +m) && cd "$dir"
 }
