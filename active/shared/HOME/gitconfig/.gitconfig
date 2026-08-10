@@ -11,8 +11,9 @@
   autocrlf = input
   editor = nvim
 	hooksPath = ~/.config/git/hooks
-  # excludesfile = ~/.gitignore_home  <-- Add this file beside .gitconfig_home, it doesn't get called here
-  # excludesfile = ~/.gitignore_work  <-- Add this file beside .gitconfig_work, it doesn't get called here
+  # excludesfile = ~/.gitignore_home  <-- Define the ingore file to be referenced
+  # excludesfile = ~/.gitignore_work  <-- Define the ingore file to be referenced
+  # Place these files here for global or in the .gitconfig_<work||home> to be directory specific
 [diff]
   tool = nvimdiff
 [difftool "nvimdiff"]
