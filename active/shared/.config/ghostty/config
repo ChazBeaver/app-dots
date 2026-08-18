@@ -1,6 +1,9 @@
 # Dynamic theme colors
 config-file = ?"~/.config/omarchy/current/theme/ghostty.conf"
 
+# Always start Zsh through the appdots-managed availability check.
+command = ghostty-shell
+
 # Font
 font-family = "FiraCode Nerd Font"
 font-style = Regular
