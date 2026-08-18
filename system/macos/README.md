@@ -10,7 +10,9 @@ Move these here **as-is** from `scripts/macos/`:
 - `40-login-items.sh`
 - `50-browser.sh`
 
-Add a `00-default-shell.sh` here if you want to set zsh as default on macOS (the Linux equivalent lives in `system/linux/10-default-shell.sh`).
+`00-default-shell.sh` sets zsh as the account login shell. Ghostty also uses
+the appdots-managed `ghostty-shell` command, so new terminals consistently
+start zsh even before the user logs out after bootstrap.
 
 ## Why numbered?
 

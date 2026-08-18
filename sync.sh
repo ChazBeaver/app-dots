@@ -49,4 +49,4 @@ install_bin_scope "$BIN_DIR" "$OS"
 
 echo
 log_ok "Sync complete."
-log_info "You may want to source ~/.zshrc if it was updated."
+log_info "Open a new terminal session to use the synced shell config."

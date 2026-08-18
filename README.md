@@ -58,12 +58,14 @@ Renames any real (non-symlink) files that sync would replace, appending `.bak`. 
 ./doctor.sh
 ```
 
-Runs two checks:
+Runs three checks:
 
+- **`doctor/default-shell.sh`** — verifies the account login shell is the installed zsh and directs shell drift to `./bootstrap.sh`
 - **`doctor/symlinks.sh`** — verifies every symlink exists and points correctly
 - **`doctor/packages.sh`** — compares installed packages against `packages/<os>/core.sh`, filtering out Omarchy base packages and sibling repo (hyprdots) declarations to avoid false positives
 
-Exit code is non-zero if drift is detected. Run `./sync.sh` to fix symlink drift.
+Exit code is non-zero if drift is detected. Run `./sync.sh` to fix symlink
+drift; run `./bootstrap.sh` to fix login-shell drift.
 
 ---
 
@@ -81,6 +83,12 @@ Each `active/<scope>/` directory mirrors into your home using three sub-structur
 
 `sync.sh` processes `shared/` first, then the OS-specific scope. Later entries win on conflict.
 
+Ghostty explicitly launches the appdots-managed `ghostty-shell` helper. As a
+defensive fallback, the managed interactive Bash configuration immediately
+hands off to zsh if a terminal starts Bash before its launch configuration has
+converged. An already-running shell process must be restarted once; all later
+interactive sessions enter zsh automatically.
+
 ### bin/
 
 Scripts in `bin/` are symlinked into `~/.local/bin/` with `.sh` stripped from the name, making them available as bare commands:
@@ -93,11 +101,14 @@ Scripts in `bin/` are symlinked into `~/.local/bin/` with `.sh` stripped from th
 
 ### system/
 
-One-time OS mutation scripts run by `bootstrap.sh` in alphabetical order. Never touched by `sync.sh`. Safe to re-run (idempotent), but only necessary on a fresh machine.
+One-time OS mutation scripts run by `bootstrap.sh` in alphabetical order.
+They are never run by `sync.sh`. The scripts are idempotent and safe to
+re-run, but are only necessary when bootstrapping a machine.
 
 | Path | Purpose |
 |:-----|:--------|
 | `system/linux/10-default-shell.sh` | Set zsh as default login shell |
+| `system/macos/00-default-shell.sh` | Set zsh as default login shell |
 | `system/macos/10-apply-defaults.sh` | Apply macOS system defaults |
 | `system/macos/20-apply-symbolic-hotkeys.sh` | Configure keyboard shortcuts |
 | `system/macos/30-dock.sh` | Dock layout and behavior |
@@ -145,6 +156,7 @@ appdots/
 │   ├── linux/           # Linux scripts          → ~/.local/bin/
 │   └── macos/           # macOS scripts          → ~/.local/bin/
 ├── doctor/
+│   ├── default-shell.sh  # Login-shell drift check
 │   ├── packages.sh      # Package drift check
 │   └── symlinks.sh      # Symlink drift check
 ├── lib/

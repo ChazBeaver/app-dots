@@ -3,6 +3,14 @@
 # Commands that should be applied only for interactive shells.
 [[ $- == *i* ]] || return
 
+# Zsh is the appdots-managed interactive shell. This is a defensive handoff
+# for terminals that were launched with Bash before the login-shell or
+# terminal-specific configuration converged.
+if command -v zsh >/dev/null 2>&1; then
+  export SHELL="$(command -v zsh)"
+  exec "$SHELL"
+fi
+
 HISTFILESIZE=100000
 HISTSIZE=10000
 
