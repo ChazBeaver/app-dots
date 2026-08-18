@@ -3,6 +3,9 @@
 
 # include .bashrc if it exists
 [[ -f ~/.bashrc ]] && . ~/.bashrc
+case ":$PATH:" in
+  *":$HOME/.local/bin:"*) ;;
+  *) export PATH="$HOME/.local/bin:$PATH" ;;
+esac
 
-
-. "$HOME/.local/share/../bin/env"
+[[ -r "$HOME/.dotfiles-env.sh" ]] && source "$HOME/.dotfiles-env.sh"

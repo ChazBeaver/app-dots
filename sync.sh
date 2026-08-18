@@ -8,8 +8,6 @@ IFS=$'\n\t'
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]:-${(%):-%N}}")" &>/dev/null && pwd)"
 ACTIVE_DIR="$SCRIPT_DIR/active"
 BIN_DIR="$SCRIPT_DIR/bin"
-ENV_FILE="$HOME/.dotfiles-env.sh"
-VAR_NAME="APP_DOTS_DIR"
 
 # shellcheck source=lib/log.sh
 source "$SCRIPT_DIR/lib/log.sh"
@@ -17,6 +15,8 @@ source "$SCRIPT_DIR/lib/log.sh"
 source "$SCRIPT_DIR/lib/detect.sh"
 # shellcheck source=lib/link.sh
 source "$SCRIPT_DIR/lib/link.sh"
+# shellcheck source=lib/env.sh
+source "$SCRIPT_DIR/lib/env.sh"
 
 OS="$(detect_os)"
 
@@ -34,22 +34,8 @@ cat <<'EOF'
 EOF
 
 # ---- Persist APP_DOTS_DIR + alias ----
-if [ -z "${APP_DOTS_DIR:-}" ]; then
-  if [[ "$SCRIPT_DIR" == "$HOME"* ]]; then
-    export APP_DOTS_DIR="$SCRIPT_DIR"
-    log_info "Set APP_DOTS_DIR to $SCRIPT_DIR"
-  else
-    log_warn "appdots not inside home directory. Set APP_DOTS_DIR manually."
-  fi
-fi
-
-mkdir -p "$(dirname "$ENV_FILE")"
-grep -q "$VAR_NAME=" "$ENV_FILE" 2>/dev/null \
-  || echo "export $VAR_NAME=\"$SCRIPT_DIR\"" >> "$ENV_FILE"
-grep -q 'alias appdots=' "$ENV_FILE" 2>/dev/null \
-  || echo 'alias appdots="cd \$APP_DOTS_DIR"' >> "$ENV_FILE"
-# shellcheck disable=SC1090
-source "$ENV_FILE" || true
+ensure_appdots_env "$SCRIPT_DIR"
+log_info "APP_DOTS_DIR: $APP_DOTS_DIR"
 
 # ---- Symlink sync ----
 log_step "Linking shared dotfiles..."

@@ -108,7 +108,10 @@ One-time OS mutation scripts run by `bootstrap.sh` in alphabetical order. Never 
 
 ## 🔧 Environment
 
-`sync.sh` writes `APP_DOTS_DIR` and an `alias appdots` to `~/.dotfiles-env.sh`. This file is shared with hyprdots so both repos can filter each other's package declarations from drift reports.
+`bootstrap.sh` creates or repairs `APP_DOTS_DIR` and the `appdots` alias in
+`~/.dotfiles-env.sh` before any bootstrap stage runs. `sync.sh` converges the
+same file on later runs. This file is shared with hyprdots so both repos can
+filter each other's package declarations from drift reports.
 
 Make sure it's sourced in your shell rc:
 

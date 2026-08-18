@@ -36,7 +36,15 @@ backup_config_scope() {
 
   log_config "Scanning .config: $cfg"
   find "$cfg" -mindepth 1 -maxdepth 1 | while read -r entry; do
-    backup_item "$HOME/.config/$(basename "$entry")"
+    local name
+    name="$(basename "$entry")"
+    if [ -d "$entry" ] && [ -f "$entry/.appdots-link-contents" ]; then
+      find "$entry" -mindepth 1 -maxdepth 1 ! -name .appdots-link-contents | while read -r child; do
+        backup_item "$HOME/.config/$name/$(basename "$child")"
+      done
+    else
+      backup_item "$HOME/.config/$name"
+    fi
   done
 }
 

@@ -3,7 +3,10 @@ set -euo pipefail
 # appdots/system/linux/10-default-shell.sh
 # Set zsh as the default login shell.
 
-if [[ "$SHELL" == */zsh ]]; then
+account_user="${USER:-$(id -un)}"
+current_shell="$(getent passwd "$account_user" | cut -d: -f7)"
+
+if [[ "$current_shell" == */zsh ]]; then
   echo "✓ zsh is already the default shell"
   exit 0
 fi
@@ -22,4 +25,11 @@ fi
 
 echo "==> Changing default shell to $zsh_path"
 chsh -s "$zsh_path"
+
+current_shell="$(getent passwd "$account_user" | cut -d: -f7)"
+if [[ "$current_shell" != "$zsh_path" ]]; then
+  echo "✗ Login shell is still $current_shell; expected $zsh_path" >&2
+  exit 1
+fi
+
 echo "✓ Log out and back in for the change to take effect."

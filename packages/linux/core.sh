@@ -6,6 +6,7 @@ set -euo pipefail
 
 PACMAN_PKGS=(
   # --- Shell / CLI ---
+  starship
   zsh
   zsh-autosuggestions
   zsh-autocomplete
@@ -13,7 +14,7 @@ PACMAN_PKGS=(
   yazi
   yq
   python-virtualenv
-  tuicr-bin
+  tuicr
 
   # --- Fonts ---
   ttf-firacode-nerd
@@ -30,6 +31,7 @@ PACMAN_PKGS=(
   # --- Terminals ---
   kitty
   ghostty
+  herdr
 )
 
 AUR_PKGS=(
@@ -37,6 +39,8 @@ AUR_PKGS=(
   discordo-git
   opencode
 )
+
+failures=()
 
 is_installed() {
   pacman -Q "$1" >/dev/null 2>&1
@@ -66,7 +70,10 @@ for pkg in "${PACMAN_PKGS[@]}"; do
     echo "  ✓ Already installed: $pkg"
   else
     echo "  + Installing: $pkg"
-    sudo pacman -S --needed --noconfirm "$pkg" || echo "  ✗ Failed: $pkg"
+    if ! sudo pacman -S --needed --noconfirm "$pkg"; then
+      echo "  ✗ Failed: $pkg"
+      failures+=("$pkg")
+    fi
   fi
 done
 
@@ -81,9 +88,16 @@ for pkg in "${AUR_PKGS[@]}"; do
     echo "  ✓ Already installed: $pkg"
   else
     echo "  + Installing (AUR): $pkg"
-    yay -S --needed --noconfirm "$pkg" || echo "  ✗ Failed: $pkg"
+    if ! yay -S --needed --noconfirm "$pkg"; then
+      echo "  ✗ Failed: $pkg"
+      failures+=("$pkg")
+    fi
   fi
 done
 
 echo
+if (( ${#failures[@]} )); then
+  printf 'Package installation failed: %s\n' "${failures[*]}" >&2
+  exit 1
+fi
 echo "🎉 Linux packages done."

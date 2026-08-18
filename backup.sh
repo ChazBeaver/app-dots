@@ -35,8 +35,8 @@ echo
 log_info "Backing up dotfiles before sync..."
 echo
 
-backup_scope "$ACTIVE_DIR/shared"
-backup_scope "$ACTIVE_DIR/$OS"
+backup_layer "$ACTIVE_DIR/shared"
+backup_layer "$ACTIVE_DIR/$OS"
 
 echo
 log_ok "Backup complete. You're ready to run ./sync.sh"

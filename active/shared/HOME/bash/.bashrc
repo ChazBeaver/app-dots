@@ -47,5 +47,3 @@ alias rmd='/bin/rm  --recursive --force --verbose '
 alias v='nvim .'
 alias vim='nvim'
 alias vimdiff='nvim -d'
-
-. "$HOME/.local/share/../bin/env"

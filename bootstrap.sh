@@ -14,8 +14,25 @@ SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]:-${(%):-%N}}")" &>/dev/null 
 source "$SCRIPT_DIR/lib/log.sh"
 # shellcheck source=lib/detect.sh
 source "$SCRIPT_DIR/lib/detect.sh"
+# shellcheck source=lib/env.sh
+source "$SCRIPT_DIR/lib/env.sh"
 
 OS="$(detect_os)"
+ensure_appdots_env "$SCRIPT_DIR"
+
+# Execute a stable copy so a git pull or edit cannot change a script while
+# Bash is still reading it.
+run_snapshot() {
+  local script="$1"
+  local snapshot status=0
+
+  snapshot="$(mktemp)"
+  cp -- "$script" "$snapshot"
+  chmod 700 "$snapshot"
+  bash "$snapshot" || status=$?
+  rm -f -- "$snapshot"
+  return "$status"
+}
 
 cat <<'EOF'
 
@@ -30,6 +47,7 @@ cat <<'EOF'
 EOF
 
 log_info "OS: $OS"
+log_info "APP_DOTS_DIR: $APP_DOTS_DIR"
 echo
 
 # ---- 1. Backup ----
@@ -39,9 +57,9 @@ echo
 
 # ---- 2. Packages ----
 pkg_script="$SCRIPT_DIR/packages/$OS/core.sh"
-if [ -x "$pkg_script" ]; then
+if [ -f "$pkg_script" ]; then
   log_step "Step 2/4: Install packages ($OS)"
-  "$pkg_script"
+  run_snapshot "$pkg_script"
 else
   log_warn "Step 2/4: No package script for $OS — skipping"
 fi
@@ -52,9 +70,8 @@ sys_dir="$SCRIPT_DIR/system/$OS"
 if [ -d "$sys_dir" ]; then
   log_step "Step 3/4: Apply system tweaks ($OS)"
   find "$sys_dir" -mindepth 1 -maxdepth 1 -type f -name '*.sh' | sort | while read -r script; do
-    chmod +x "$script" 2>/dev/null || true
     echo "  ▶ $(basename "$script")"
-    "$script"
+    run_snapshot "$script"
   done
 else
   log_warn "Step 3/4: No system/ dir for $OS — skipping"

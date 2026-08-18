@@ -89,7 +89,15 @@ check_config_scope() {
   local cfg="$1"
   [ -d "$cfg" ] || return 0
   find "$cfg" -mindepth 1 -maxdepth 1 | while read -r item; do
-    check_link "$item" "$HOME/.config/$(basename "$item")"
+    local name
+    name="$(basename "$item")"
+    if [ -d "$item" ] && [ -f "$item/.appdots-link-contents" ]; then
+      find "$item" -mindepth 1 -maxdepth 1 ! -name .appdots-link-contents | while read -r child; do
+        check_link "$child" "$HOME/.config/$name/$(basename "$child")"
+      done
+    else
+      check_link "$item" "$HOME/.config/$name"
+    fi
   done
 }
 

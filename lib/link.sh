@@ -75,7 +75,14 @@ install_config_scope() {
   find "$config_path" -mindepth 1 -maxdepth 1 | while read -r item; do
     local name
     name="$(basename "$item")"
-    link_item "$item" "$HOME/.config/$name"
+    if [ -d "$item" ] && [ -f "$item/.appdots-link-contents" ]; then
+      mkdir -p "$HOME/.config/$name"
+      find "$item" -mindepth 1 -maxdepth 1 ! -name .appdots-link-contents | while read -r child; do
+        link_item "$child" "$HOME/.config/$name/$(basename "$child")"
+      done
+    else
+      link_item "$item" "$HOME/.config/$name"
+    fi
   done
 }
 
