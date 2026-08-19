@@ -49,6 +49,12 @@ home () {
 # }
 #
 
+cx() {
+  local prev=$PWD
+  cd ~/.codex && codex
+  cd "$prev"
+}
+
 reporoot() {
   local dir="$PWD"
   dir="${dir%/}"
