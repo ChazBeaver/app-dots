@@ -20,7 +20,7 @@ return {
               chat_url = "/v1/chat/completions",
               models_endpoint = "/v1/models",
             },
-            schema = { model = { default = vim.env.LITELLM_MODEL or "gpt-5.1" } },
+            schema = { model = { default = vim.env.LITELLM_MODEL or "gpt-5.4" } },
           })
         end,
       },
@@ -32,7 +32,7 @@ return {
       cli = {
         agent = "codex",
         agents = {
-          codex = { cmd = "codex", args = { "--model", "gpt-5.1"}, description = "OpenAI Codex CLI" },
+          codex = { cmd = "codex", args = { "--model", "gpt-5.4"}, description = "OpenAI Codex CLI" },
         },
       },
     },
