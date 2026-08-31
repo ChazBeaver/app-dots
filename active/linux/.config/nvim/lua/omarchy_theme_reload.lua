@@ -1,7 +1,7 @@
 local M = {}
 
 local uv = vim.uv or vim.loop
-local theme_file = vim.fn.expand("~/.config/omarchy/current/theme/neovim.lua")
+local theme_file = vim.fn.expand("~/.local/state/omarchy/current/theme/neovim.lua")
 local last_mtime = 0
 
 local function get_mtime(path)

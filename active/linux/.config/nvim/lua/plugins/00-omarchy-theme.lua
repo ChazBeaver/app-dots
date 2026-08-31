@@ -1,4 +1,4 @@
-local theme_file = vim.fn.expand("~/.config/omarchy/current/theme/neovim.lua")
+local theme_file = vim.fn.expand("~/.local/state/omarchy/current/theme/neovim.lua")
 
 local function load_omarchy_plugins()
   local ok, spec = pcall(dofile, theme_file)
