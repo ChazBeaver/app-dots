@@ -1,3 +1,17 @@
+## ADD THIS TO ENABLE GHOSTTY TO WORK ON MAC
+## LOCATION: "/Users/<USERNAME>/Library/Application Support/com.mitchellh.ghostty/config"
+## Font
+#font-family = "FiraCode Nerd Font"
+#font-style = Regular
+#font-size = 24
+#
+## Background
+#background = 101214
+#background-opacity = 1
+#
+## Local macOS override while ghostty-shell is unavailable
+#command = /bin/zsh
+
 # Dynamic theme colors
 config-file = ?"~/.local/state/omarchy/current/theme/ghostty.conf"
 
