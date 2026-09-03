@@ -28,6 +28,7 @@ alias vimdiff='nvim -d'
 alias tree='tree -C'
 # alias fzf='fzf --layout=reverse --height=80%'
 alias k='kubectl'
+alias hr='herdr'
 alias tr='tuicr'
 # Personal
 alias rr='reporoot'
